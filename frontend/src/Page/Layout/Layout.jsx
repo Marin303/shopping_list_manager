@@ -7,7 +7,7 @@ import CreateMenu from "../../Components/CreateMenu/CreateMenu";
 import NewShoppingList from "../../Components/NewShoppingList/NewShoppingList";
 
 const Layout = () => {
-  const [createMenuVisible, setCreateMenuVisible] = useState(true);
+  const [createMenuVisible, setCreateMenuVisible] = useState(false);
   const [shoppingListName, setShoppingListName] = useState([]);
   const [editingIndex, setEditingIndex] = useState(null);
   const [newName, setNewName] = useState("");
@@ -26,6 +26,11 @@ const Layout = () => {
     setNewName(shoppingListName[index]);
   };
 
+  const handleCancelEdit = () => {
+    setEditingIndex(null);
+    setNewName("");
+  };
+
   const handleSaveEdit = (index) => {
     setShoppingListName((prevNames) => {
       const updatedNames = [...prevNames];
@@ -33,11 +38,6 @@ const Layout = () => {
       return updatedNames;
     });
     setEditingIndex(null);
-  };
-
-  const handleCancelEdit = () => {
-    setEditingIndex(null);
-    setNewName("");
   };
 
   const handleDeleteShoppingList = (index) => {
@@ -97,6 +97,7 @@ const Layout = () => {
         <CreateMenu
           shoppingListName={shoppingListName}
           onCreateShoppingList={handleCreateShoppingList}
+          toggleCreateMenu={toggleCreateMenu}
         />
       )}
       <Routes>

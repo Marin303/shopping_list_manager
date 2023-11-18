@@ -4,7 +4,6 @@ import "./menu.scss";
 const CreateMenu = ({ onCreateShoppingList, toggleCreateMenu }) => {
   const [showError, setShowError] = useState();
 
-  
   const handleSubmit = (e) => {
     e.preventDefault();
     const shoppingListName = e.target.name.value;
@@ -17,7 +16,7 @@ const CreateMenu = ({ onCreateShoppingList, toggleCreateMenu }) => {
 
   // when user start typing error message disappear
   const handleValueChange = () => {
-    setShowError(false); 
+    setShowError(false);
   };
 
   return (
@@ -30,9 +29,11 @@ const CreateMenu = ({ onCreateShoppingList, toggleCreateMenu }) => {
       <form action="" onSubmit={handleSubmit}>
         <div className="title">
           <label htmlFor="name">Enter name:</label>
-          <button onClick={toggleCreateMenu}>X</button>
+          <button onClick={toggleCreateMenu} type="button">
+            X
+          </button>
         </div>
-        <input type="text" id="name" name="name" onChange={handleValueChange}/>
+        <input type="text" id="name" name="name" onChange={handleValueChange} />
         <button type="submit">Submit</button>
       </form>
     </div>
