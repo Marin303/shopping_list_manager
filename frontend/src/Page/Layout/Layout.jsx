@@ -109,7 +109,7 @@ const Layout = () => {
             element={<NewShoppingList listName={name} />}
           />
         ))}
-        <Route path="/shopping-list" element={<ShoppingList />} />
+        <Route path="/shopping-list//*" element={<ShoppingList />} />
         <Route path="/analytics" element={<Analytics />} />
       </Routes>
     </div>
