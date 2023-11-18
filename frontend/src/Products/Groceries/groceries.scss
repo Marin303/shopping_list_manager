@@ -1,36 +1,4 @@
 .groceries_container {
     width: 100%;
-    padding: 10px;
-    position: relative;
-    height: 90vh;
-
-    .wrapper-label {
-        margin-top: 20px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .list-item-input {
-        border: none;
-        border-bottom: 1px solid black;
-    }
-    .inputNum{
-        margin-left:5px;
-        width: 50px;
-    }
-    .inputMoneyCount{
-        width: 70px;
-    }
-    .items-change-wrapper {
-       // margin-top: 10px;
-        display: flex;
-        gap: 2px;
-    }
-
-    .sum {
-        position: absolute;
-        bottom: 0;
-        right: 10px;
-    }
+  
 }

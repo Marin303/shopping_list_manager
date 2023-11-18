@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ShoppingList from "../../Components/ShoppingList/ShoppingList";
 import Analytics from "../../Components/Analytics/Analytics";
 import "./layout.scss";
-import { Route, Routes, Navigate, Link } from "react-router-dom";
+import { Route, Routes, Navigate, Link, NavLink } from "react-router-dom";
 import CreateMenu from "../../Components/CreateMenu/CreateMenu";
 import NewShoppingList from "../../Components/NewShoppingList/NewShoppingList";
 
@@ -54,7 +54,7 @@ const Layout = () => {
         <nav>
           <ul>
             <li>
-              <Link to="/shopping-list">Default Shopping List</Link>
+              <NavLink to="/shopping-list" activeclassname="active">Default Shopping List</NavLink>
             </li>
           </ul>
           <button onClick={toggleCreateMenu}>Create New Shopping List</button>
@@ -88,7 +88,7 @@ const Layout = () => {
           ))}
           <ul>
             <li className="analytics">
-              <Link to="/analytics">Analytics</Link>
+              <NavLink to="/analytics" activeclassname="active">Analytics</NavLink>
             </li>
           </ul>
         </nav>

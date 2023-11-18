@@ -1,6 +1,6 @@
 import React from "react";
 import "./shopping.scss";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, NavLink } from "react-router-dom";
 import Groceries from "../../Products/Groceries/Groceries";
 import HouseholdItems from "../../Products/Household/Household";
 import Technique from "../../Products/Technique/Technique";
@@ -14,35 +14,49 @@ const ShoppingList = () => {
       <nav>
         <ul>
           <li>
-            <Link to="/shopping-list/groceries">Groceries</Link>
+            <NavLink to="/shopping-list/groceries" activeclassname="active">
+              Groceries
+            </NavLink>
           </li>
           <li>
-            <Link to="/shopping-list/household-items">Household items</Link>
+            <NavLink
+              to="/shopping-list/household-items"
+              activeclassname="active"
+            >
+              Household items
+            </NavLink>
           </li>
           <li>
-            <Link to="/shopping-list/technique">Technique</Link>
+            <NavLink to="/shopping-list/technique" activeclassname="active">
+              Technique
+            </NavLink>
           </li>
           <li>
-            <Link to="/shopping-list/apparel">Apparel</Link>
+            <NavLink to="/shopping-list/apparel" activeclassname="active">
+              Apparel
+            </NavLink>
           </li>
           <li>
-            <Link to="/shopping-list/footwear">Footwear</Link>
+            <NavLink to="/shopping-list/footwear" activeclassname="active">
+              Footwear
+            </NavLink>
           </li>
           <li>
-            <Link to="/shopping-list/other">Other</Link>
+            <NavLink to="/shopping-list/other" activeclassname="active">
+              Other
+            </NavLink>
           </li>
         </ul>
       </nav>
-     
-        <Routes>
-          <Route path="groceries" element={<Groceries />} />
-          <Route path="household-items" element={<HouseholdItems />} />
-          <Route path="technique" element={<Technique />} />
-          <Route path="apparel" element={<Apparel />} />
-          <Route path="footwear" element={<Footwear />} />
-          <Route path="other" element={<Other />} />
-        </Routes>
-      
+
+      <Routes>
+        <Route path="groceries" element={<Groceries />} />
+        <Route path="household-items" element={<HouseholdItems />} />
+        <Route path="technique" element={<Technique />} />
+        <Route path="apparel" element={<Apparel />} />
+        <Route path="footwear" element={<Footwear />} />
+        <Route path="other" element={<Other />} />
+      </Routes>
     </div>
   );
 };

@@ -33,6 +33,10 @@
                     &:hover {
                         background-color: darken($header, 10%);
                     }
+                    
+                    &.active {
+                        background-color: darken($header, 20%);
+                    }
                 }
             }
         }
