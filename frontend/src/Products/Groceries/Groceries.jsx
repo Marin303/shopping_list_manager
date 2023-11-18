@@ -2,55 +2,104 @@ import React, { useState } from "react";
 import "./groceries.scss";
 
 const Groceries = () => {
-  const [items, setItems] = useState([{ name: "", checked: false, quantity: 1, price: 0 }]);
+  const [dateTime, setDateTime] = useState(null);
+  const [items, setItems] = useState([
+    {
+      name: "",
+      checked: false,
+      quantity: 1,
+      price: 0,
+    },
+  ]);
 
+// Add a new item with default values
   const handleAddItem = () => {
-    setItems([...items, { name: "", checked: false, quantity: 1, price: 0 }]);
+    setItems([
+      ...items,
+      {
+        name: "",
+        checked: false,
+        quantity: 1,
+        price: 0,
+      },
+    ]);
   };
 
+  // Remove an item at the specified index
   const handleDeleteItem = (index) => {
     const updatedItems = [...items];
     updatedItems.splice(index, 1);
     setItems(updatedItems);
   };
 
+  //Lock input fields
   const handleToggleCheckbox = (index) => {
     const updatedItems = [...items];
     updatedItems[index].checked = !updatedItems[index].checked;
     setItems(updatedItems);
   };
-
-  const handleInputChange = (index, event) => {
+  
+  //Handle changes in the product name input
+  const handleInputChange = (index, e) => {
     const updatedItems = [...items];
-    updatedItems[index].name = event.target.value;
+    updatedItems[index].name = e.target.value;
     setItems(updatedItems);
   };
 
-  const handleQuantityChange = (index, event) => {
+ //Handle changes in the quantity input
+  const handleQuantityChange = (index, e) => {
     const updatedItems = [...items];
-    updatedItems[index].quantity = parseInt(event.target.value) || 1;
+    updatedItems[index].quantity = parseInt(e.target.value) || 1;
     setItems(updatedItems);
   };
 
-  const handlePriceChange = (index, event) => {
+ //Handle changes in the price input
+  /* const handlePriceChange = (index, e) => {
     const updatedItems = [...items];
-    updatedItems[index].price = parseFloat(event.target.value) || 0;
+    updatedItems[index].price = parseFloat(e.target.value) || 0;
+    setItems(updatedItems);
+  }; */
+  const handlePriceChange = (index, e) => {
+    const updatedItems = [...items];
+    const newValue = e.target.value.replace(/[^0-9.]/g, "");
+    updatedItems[index].price = newValue;
     setItems(updatedItems);
   };
 
+ //Calculate the total number of items in the chart
   const calculateSum = () => {
-    return items.reduce((sum, item) => (item.checked ? sum + item.quantity : sum), 0);
+    return items.reduce(
+      (sum, item) => (item.checked ? sum + item.quantity : sum),
+      0
+    );
   };
 
+  //Calculate the total cost of items in the chart
   const calculateSumMoney = () => {
-    return items.reduce((sum, item) => (item.checked ? sum + item.price * item.quantity : sum), 0);
+    return items.reduce(
+      (sum, item) => (item.checked ? sum + item.price * item.quantity : sum),
+      0
+    );
+  };
+
+  const handleDateTime = () => {
+    const currentDateTime = new Date();
+    const formattedDateTime = `
+    ${currentDateTime.toLocaleDateString()} 
+    ${currentDateTime.toLocaleTimeString()}
+    `;
+    setDateTime(formattedDateTime);
   };
 
   return (
     <div className="groceries_container">
       <h4>Groceries</h4>
       {items.map((item, index) => (
-        <label htmlFor={`list-item-${index}`} key={index} className="wrapper-label">
+        <label
+          htmlFor={`list-item-${index}`}
+          key={index}
+          className="wrapper-label"
+        >
           <input
             type="text"
             name={`list-item-${index}`}
@@ -76,7 +125,7 @@ const Groceries = () => {
             disabled={item.checked}
           />
           <input
-            type="number"
+            type="text"
             name={`price-${index}`}
             className="inputMoneyCount"
             placeholder="price"
@@ -92,9 +141,12 @@ const Groceries = () => {
         </label>
       ))}
       <div className="sum">
-        <button type="submit">DONE</button>
         <p>ITEMS IN CHART: {calculateSum()}</p>
         <p>SUM {calculateSumMoney()}€</p>
+        <p>DATE: {dateTime} </p>
+        <button type="submit" onClick={handleDateTime}>
+          DONE
+        </button>
       </div>
     </div>
   );
