@@ -1,4 +1,30 @@
+@import "./Assets/colors/colors.scss";
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+
 * {
     margin: 0;
     box-sizing: border-box;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+h4{
+    text-align: center;
+}
+
+button{
+    background-color: $button-background;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+input:focus-visible{
+    border: 1px solid $button-background;
+    border-radius: 2px;
+    outline: 1px solid $button-background;
 }

@@ -1,0 +1,32 @@
+@import "../../Assets/colors/colors.scss";
+.create_menu_container {
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%,-50%);
+    z-index: 100;
+
+    form {
+        border-radius: 5px;
+        background-color: $header;
+        //width: 100%;
+        height: 40vh;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    .title{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .errorMsg{
+        display: flex;
+        justify-content:center;
+        background-color: red;
+        padding: 5px;
+        margin-bottom: 5px;
+        border-radius: 5px;
+    }
+}

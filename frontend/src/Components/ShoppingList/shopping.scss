@@ -1,0 +1,32 @@
+@import "../../Assets/colors/colors.scss";
+
+.shopping_list_container{
+    width: 70%;
+    .active {
+        background-color: darken($header, 20%);
+    }
+    //background-color: red;
+    nav { 
+        ul {
+            width: 100%;
+            color: white;
+            border-left: 1px solid black;
+            padding: 20px 10px;
+            list-style: none;
+            display: flex;
+            text-align: center;
+            justify-content: space-between;
+            background-color: $header;
+        }                      
+            a {
+                //width: 100%;
+                text-decoration: none;
+                color: white;
+                padding: 10px;
+                &:hover {
+                    background-color: darken($header, 10%);
+                }
+            }
+        
+    }
+}
