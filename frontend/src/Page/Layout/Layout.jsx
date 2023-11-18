@@ -7,15 +7,15 @@ import CreateMenu from "../../Components/CreateMenu/CreateMenu";
 import NewShoppingList from "../../Components/NewShoppingList/NewShoppingList";
 
 const Layout = () => {
-  const [createMenuVisible, setCreateMenuVisible] = useState(true);
-  const [shoppingListName, setShoppingListName] = useState("");
+  const [createMenuVisible, setCreateMenuVisible] = useState(false);
+  const [shoppingListName, setShoppingListName] = useState([]);
 
   const toggleCreateMenu = () => {
     setCreateMenuVisible((prev) => !prev);
   };
 
   const handleCreateShoppingList = (name) => {
-    setShoppingListName(name);
+    setShoppingListName((prevNames) => [...prevNames, name]);
     toggleCreateMenu();
   };
 
@@ -29,11 +29,14 @@ const Layout = () => {
             </li>
           </ul>
           <button onClick={toggleCreateMenu}>Create New Shopping List</button>
-          <ul>
-            <li>
-              <Link to="/new-shopping-list">{shoppingListName}</Link>
-            </li>
-          </ul>
+
+          {shoppingListName.map((shoppingListName, index) => (
+            <ul key={index}>
+              <li>
+                <Link to="/new-shopping-list">{shoppingListName}</Link>
+              </li>
+            </ul>
+          ))}
           <ul>
             <li className="analytics">
               <Link to="/analytics">Analytics</Link>
@@ -49,7 +52,7 @@ const Layout = () => {
       )}
       <Routes>
         <Route path="/" element={<Navigate to="/" />} />
-        <Route path="/new-shopping-list" element={<NewShoppingList/>}/>
+        <Route path="/new-shopping-list" element={<NewShoppingList />} />
         <Route path="/shopping-list" element={<ShoppingList />} />
         <Route path="/analytics" element={<Analytics />} />
       </Routes>
