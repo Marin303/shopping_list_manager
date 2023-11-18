@@ -3,7 +3,9 @@ import "./analytics.scss"
 
 const Analytics = () => {
   return (
-    <div className='analytics_container'/>
+    <div className='analytics_container'>
+      analytics
+    </div>
   )
 }
 

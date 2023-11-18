@@ -3,7 +3,9 @@ import "./shopping.scss"
 
 const ShoppingList = () => {
   return (
-    <div className='shoping-list_container'/>
+    <div className='shopping-list_container'>
+      some
+    </div>
   )
 }
 
