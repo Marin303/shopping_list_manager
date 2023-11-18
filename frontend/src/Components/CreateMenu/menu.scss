@@ -1,0 +1,18 @@
+@import "../../Assets/colors/colors.scss";
+.create_menu_container {
+    width: 70%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+    form {
+        border-radius: 5px;
+        background-color: $header;
+        width: 50%;
+        height: 40vh;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+}
