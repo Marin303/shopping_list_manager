@@ -33,4 +33,10 @@
         bottom: 0;
         right: 10px;
     }
+    .list-item-input:focus-visible{
+        border-bottom: 0;
+    }
+    .list-item-input::placeholder{
+        padding-left: 10px;
+    }
 }

@@ -23,7 +23,7 @@ const ShoppingList = () => {
               to="/shopping-list/household-items"
               activeclassname="active"
             >
-              Household items
+              Household
             </NavLink>
           </li>
           <li>
