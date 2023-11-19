@@ -3,7 +3,6 @@ import "./api.scss";
 import axios from "axios";
 
 const Api = ({ category }) => {
-  //console.log(category)
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -11,7 +10,7 @@ const Api = ({ category }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:3001/api/products");
-        setProducts(response.data);
+        setProducts(response.data[category]); // Access products based on the category
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -19,7 +18,7 @@ const Api = ({ category }) => {
     };
 
     fetchData();
-  }, []);
+  }, [category]); // Fetch data when the category changes
 
   if (loading) {
     return <p>Loading...</p>;
@@ -27,17 +26,12 @@ const Api = ({ category }) => {
 
   // Check if products is an array before mapping
   if (!Array.isArray(products)) {
-    return <p>No products available.</p>;
+    return <p>No products available for this category.</p>;
   }
-
-  // Filter products by category
-  const filteredProducts = category
-    ? products.filter((product) => product.category === category)
-    : products;
 
   return (
     <ul className="products_container">
-      {filteredProducts.map((product) => (
+      {products.map((product) => (
         <li key={product.name}>
           <img
             src={`http://localhost:3001/${product.img}`}

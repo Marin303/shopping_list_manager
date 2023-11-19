@@ -12,15 +12,25 @@ const Layout = () => {
   const [editingIndex, setEditingIndex] = useState(null);
   const [newName, setNewName] = useState("");
 
+  window.onload = () => {
+    const storedShoppingList =
+      JSON.parse(localStorage.getItem("shoppingListName")) || [];
+    setShoppingListName(storedShoppingList);
+  };
+
   const toggleCreateMenu = () => {
     setCreateMenuVisible((prev) => !prev);
   };
 
   const handleCreateShoppingList = (name) => {
-    setShoppingListName((prevNames) => [...prevNames, name]);
+    setShoppingListName((prevNames) => {
+      const updatedNames = [...prevNames, name];
+      localStorage.setItem("shoppingListName", JSON.stringify(updatedNames));
+      return updatedNames;
+    });
     toggleCreateMenu();
   };
-
+  
   const handleEditShoppingList = (index) => {
     setEditingIndex(index);
     setNewName(shoppingListName[index]);
@@ -35,26 +45,30 @@ const Layout = () => {
     setShoppingListName((prevNames) => {
       const updatedNames = [...prevNames];
       updatedNames[index] = newName;
+      localStorage.setItem("shoppingListName", JSON.stringify(updatedNames));
       return updatedNames;
     });
     setEditingIndex(null);
   };
+  
 
   const handleDeleteShoppingList = (index) => {
     setShoppingListName((prevNames) => {
       const updatedNames = [...prevNames];
       updatedNames.splice(index, 1);
+      localStorage.setItem("shoppingListName", JSON.stringify(updatedNames));
       return updatedNames;
     });
   };
-
   return (
     <div className="layout_container">
       <header className="layout_container_header">
         <nav>
           <ul>
             <li>
-              <NavLink to="/shopping-list" activeclassname="active">Default Shopping List</NavLink>
+              <NavLink to="/shopping-list" activeclassname="active">
+                Default Shopping List
+              </NavLink>
             </li>
           </ul>
           <button onClick={toggleCreateMenu}>Create New Shopping List</button>
@@ -74,7 +88,7 @@ const Layout = () => {
                   </>
                 ) : (
                   <>
-                    <Link to={`/new-shopping-list-${index}`}>{name}</Link>
+                    <Link to={`/new-shopping-list-${name}`}>{name}</Link>
                     <button onClick={() => handleEditShoppingList(index)}>
                       Edit
                     </button>
@@ -88,7 +102,9 @@ const Layout = () => {
           ))}
           <ul>
             <li className="analytics">
-              <NavLink to="/analytics" activeclassname="active">Analytics</NavLink>
+              <NavLink to="/analytics" activeclassname="active">
+                Analytics
+              </NavLink>
             </li>
           </ul>
         </nav>
@@ -105,7 +121,7 @@ const Layout = () => {
         {shoppingListName.map((name, index) => (
           <Route
             key={index}
-            path={`/new-shopping-list-${index}`}
+            path={`/new-shopping-list-${name}`}
             element={<NewShoppingList listName={name} />}
           />
         ))}
