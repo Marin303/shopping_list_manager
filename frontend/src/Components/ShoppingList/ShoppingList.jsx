@@ -13,17 +13,23 @@ import ShoppingNavDropdown from "../ShoppingNavDropdown/ShoppingNavDropdown";
 const ShoppingList = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const clickTimeoutRef = useRef(null);
 
   const toggleMenu = () => {
+    clearTimeout(clickTimeoutRef.current);
     setMenuOpen((prev) => !prev);
   };
 
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+  const handleClickOutside = (e) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+      // Small delay to allow for a second click close dropdown
+      clickTimeoutRef.current = setTimeout(() => {
         setMenuOpen(false);
-      }
-    };
+      }, 100);
+    }
+  };
+
+  useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -38,7 +44,7 @@ const ShoppingList = () => {
 
       <ShoppingNavbar />
 
-      <div className={`dropdown-menu ${menuOpen ? "visible" : "hidden"}`} ref={dropdownRef}>
+      <div className={`dropdown-menu ${menuOpen ? "" : "hidden"}`} ref={dropdownRef}>
         <ShoppingNavDropdown />
       </div>
 

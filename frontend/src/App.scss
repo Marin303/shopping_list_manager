@@ -28,3 +28,9 @@ input:focus-visible{
     border-radius: 2px;
     outline: 1px solid $button-background;
 }
+
+@media screen and (max-width: 400px) {
+    button{
+        padding: 5px;
+    }
+}
