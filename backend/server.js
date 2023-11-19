@@ -1,36 +1,36 @@
-const express = require("express");
-const axios = require("axios");
+const express = require('express');
+const bodyParser = require('body-parser');
+const fs = require('fs');
+const cors = require('cors');
+
 const app = express();
-const dotenv = require("dotenv");
-dotenv.config();
+const PORT = process.env.PORT || 3001;
 
-const PORT = 3001;
+app.use(cors());
+app.use(bodyParser.json());
+app.use('/images', express.static(__dirname + '/images')); // Serve static images
 
-app.get("/", async (req, res) => {
-  const options = {
-    method: "GET",
-    url: "https://axesso-walmart-data-service.p.rapidapi.com/wlm/walmart-lookup-product",
-    params: {
-      url: "https://www.walmart.com/ip/Media-Remote-for-PlayStation-5/381848762",
-    },
-    headers: {
-      "X-RapidAPI-Key": process.env.RAPID_API_KEY,
-      "X-RapidAPI-Host": process.env.X_RAPID_API_HOST,
-    },
-  };
+// Read initial data
+let data = require('./data/products.json');
 
-  try {
-    const response = await axios.request(options);
-    console.log(response.data);
-    res.json(response.data); // Response back to the client
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
+// Endpoints
+app.get('/api/products', (req, res) => {
+  res.json(data.products);
 });
 
-(
-  async () => {
-  await app.listen(PORT);
+app.post('/api/products', (req, res) => {
+  const { name, price, description } = req.body;
+
+  // New product to data
+  const newProduct = { name, price, description };
+  data.products.push(newProduct);
+
+  // Save updated data
+  fs.writeFileSync('./data/products.json', JSON.stringify(data, null, 2), 'utf8');
+
+  res.status(201).json(newProduct);
+});
+
+app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-})();
+});
