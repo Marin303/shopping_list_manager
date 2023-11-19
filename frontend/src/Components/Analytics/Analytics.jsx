@@ -17,6 +17,7 @@ const Analytics = () => {
 
   return (
     <div className="analytics_container">
+      <h4 className="header_title">Analytics</h4>
       <button onClick={() => handleShowAnalytics("month")}>
         Show Analitics
       </button>

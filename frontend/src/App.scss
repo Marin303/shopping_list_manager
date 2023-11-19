@@ -35,6 +35,17 @@ input:focus-visible {
     width: 100px;
     height: 100px;
 }
+// h4 el
+.header_title{
+    width: 100%;
+    color: white;
+    border-left: 1px solid black;
+    padding: 20px 10px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    background-color: $header;
+  }
 
 @media screen and (max-width: 400px) {
     button {

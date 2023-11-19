@@ -1,0 +1,46 @@
+@import "../../Assets/colors/colors.scss";
+@import "../../Assets/fixed-properties/properties.scss";
+
+.new_list_container {
+  width: $navbar-width;
+  position: relative;
+  height: 90vh;
+
+  .wrapper-label {
+    padding: 10px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .list-item-input {
+    border: none;
+    border-bottom: 1px solid black;
+  }
+  .inputNum {
+    margin-left: 5px;
+    width: 50px;
+  }
+  .inputMoneyCount {
+    width: 70px;
+  }
+  .items-change-wrapper {
+    // margin-top: 10px;
+    display: flex;
+    gap: 2px;
+  }
+
+  .sum {
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+  }
+  .list-item-input:focus-visible {
+    border-bottom: 0;
+  }
+  .list-item-input::placeholder {
+    padding-left: 10px;
+  }
+}
