@@ -1,32 +1,28 @@
 @import "../../Assets/colors/colors.scss";
 
-.shopping_list_container{
+.shopping_list_container {
     width: 70%;
+
     .active {
         background-color: darken($header, 20%);
     }
-    //background-color: red;
-    nav { 
-        ul {
-            width: 100%;
-            color: white;
-            border-left: 1px solid black;
-            padding: 20px 10px;
-            list-style: none;
-            display: flex;
-            text-align: center;
-            justify-content: space-between;
-            background-color: $header;
-        }                      
-            a {
-                //width: 100%;
-                text-decoration: none;
-                color: white;
-                padding: 10px;
-                &:hover {
-                    background-color: darken($header, 10%);
-                }
-            }
-        
+
+}
+.dropdown-menu.hidden{
+    display: none;
+}
+/* .dropdown-menu.visible{
+    display: block;
+} */
+.menu_button {
+    display: none;
+    position: absolute;
+    right: 0;
+    z-index: 10;
+}
+
+@media screen and (max-width: 764px) {
+    .menu_button {
+        display: block;
     }
 }

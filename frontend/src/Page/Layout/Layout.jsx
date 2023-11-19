@@ -101,7 +101,7 @@ const Layout = () => {
         />
       )}
       <Routes>
-        <Route path="/" element={<Navigate to="/" />} />
+        <Route path="/" element={<Navigate to="/shopping-list" />} />
         {shoppingListName.map((name, index) => (
           <Route
             key={index}

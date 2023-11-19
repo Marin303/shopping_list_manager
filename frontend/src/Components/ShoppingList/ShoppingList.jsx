@@ -1,53 +1,52 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./shopping.scss";
-import { Routes, Route, NavLink } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Groceries from "../../Products/Groceries/Groceries";
 import HouseholdItems from "../../Products/Household/Household";
 import Technique from "../../Products/Technique/Technique";
 import Apparel from "../../Products/Apparel/Apparel";
 import Footwear from "../../Products/Footwear/Footwear";
 import Other from "../../Products/Other/Other";
+import ShoppingNavbar from "../ShoppingNavbar/ShoppingNavbar";
+import ShoppingNavDropdown from "../ShoppingNavDropdown/ShoppingNavDropdown";
 
 const ShoppingList = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const clickTimeoutRef = useRef(null);
+
+  const toggleMenu = () => {
+    clearTimeout(clickTimeoutRef.current);
+    setMenuOpen((prev) => !prev);
+  };
+
+  const handleClickOutside = (e) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+      // Small delay to allow for a second click close dropdown
+      clickTimeoutRef.current = setTimeout(() => {
+        setMenuOpen(false);
+      }, 100);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="shopping_list_container">
-      <nav>
-        <ul>
-          <li>
-            <NavLink to="/shopping-list/groceries" activeclassname="active">
-              Groceries
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/shopping-list/household-items"
-              activeclassname="active"
-            >
-              Household
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/shopping-list/technique" activeclassname="active">
-              Technique
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/shopping-list/apparel" activeclassname="active">
-              Apparel
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/shopping-list/footwear" activeclassname="active">
-              Footwear
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/shopping-list/other" activeclassname="active">
-              Other
-            </NavLink>
-          </li>
-        </ul>
-      </nav>
+      <button className="menu_button" onClick={toggleMenu}>
+        Menu
+      </button>
+
+      <ShoppingNavbar />
+
+      <div className={`dropdown-menu ${menuOpen ? "" : "hidden"}`} ref={dropdownRef}>
+        <ShoppingNavDropdown />
+      </div>
 
       <Routes>
         <Route path="groceries" element={<Groceries />} />

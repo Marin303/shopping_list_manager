@@ -42,3 +42,10 @@
         }
     }
 }
+
+@media screen and (max-width: 400px) {
+    .layout_container_header nav li a {
+    padding: 5px;
+    font-size: smaller;
+    }
+}
