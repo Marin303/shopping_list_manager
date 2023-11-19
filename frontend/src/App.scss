@@ -8,14 +8,14 @@
 }
 
 body {
-  font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }
 
-h4{
+h4 {
     text-align: center;
 }
 
-button{
+button {
     background-color: $button-background;
     color: white;
     padding: 10px 20px;
@@ -23,14 +23,21 @@ button{
     border-radius: 5px;
     cursor: pointer;
 }
-input:focus-visible{
+
+input:focus-visible {
     border: 1px solid $button-background;
     border-radius: 2px;
     outline: 1px solid $button-background;
 }
 
+//img el
+.products {
+    width: 100px;
+    height: 100px;
+}
+
 @media screen and (max-width: 400px) {
-    button{
+    button {
         padding: 5px;
     }
 }
