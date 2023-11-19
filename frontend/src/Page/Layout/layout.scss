@@ -14,7 +14,7 @@
     }
 
     .shopping-list {
-        padding: 5px;
+        //padding: 5px;
         display: flex;
         flex-wrap: wrap;
 
@@ -79,8 +79,19 @@
         }
     }
 }
-
+@media screen and (max-width: 540px) {
+    .layout_container .delete-btn{
+        margin-left: 0;
+    }
+}
 @media screen and (max-width: 400px) {
+    .menu_button{
+        position: relative;
+        left: 100%;
+    }
+    .layout_container_header{
+        width: 50%;
+    }
     .layout_container_header nav li a {
         padding: 5px;
         font-size: smaller;
