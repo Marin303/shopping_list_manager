@@ -4,6 +4,39 @@
     width: 100%;
     height: 100vh;
     display: flex;
+
+    .create-shopping-list {
+        margin-bottom: 10px;
+    }
+
+    .delete-btn {
+        margin-left: 5px;
+    }
+
+    .shopping-list {
+        //padding: 5px;
+        display: flex;
+        flex-wrap: wrap;
+
+        // flex-wrap won't trigger without inline-block 
+        li {
+            //display: inline-block;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .save-edit-wrapper {
+
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            //justify-content: center;
+            //align-items: center;
+        }
+    }
+
     &_header {
         background-color: $header;
         width: 30%;
@@ -17,35 +50,50 @@
                 flex-direction: column;
                 background-color: $header;
             }
-             .analytics{
+
+            .analytics {
                 margin-top: 100px;
-            } 
-            li {               
+            }
+
+            li {
                 display: flex;
                 align-items: center;
+                gap: 5px;
 
                 a {
                     width: 100%;
                     text-decoration: none;
-                    color: white;
+                    color: $text-color;
                     padding: 10px;
+                    margin-right: 5px;
 
                     &:hover {
-                        background-color: darken($header, 10%);
+                        background-color: $hover;
                     }
-                    
+
                     &.active {
-                        background-color: darken($header, 20%);
+                        background-color: $active;
                     }
                 }
             }
         }
     }
 }
-
+@media screen and (max-width: 540px) {
+    .layout_container .delete-btn{
+        margin-left: 0;
+    }
+}
 @media screen and (max-width: 400px) {
+    .menu_button{
+        position: relative;
+        left: 100%;
+    }
+    .layout_container_header{
+        width: 50%;
+    }
     .layout_container_header nav li a {
-    padding: 5px;
-    font-size: smaller;
+        padding: 5px;
+        font-size: smaller;
     }
 }

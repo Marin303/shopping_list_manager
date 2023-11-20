@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ShoppingList from "../../Components/ShoppingList/ShoppingList";
 import Analytics from "../../Components/Analytics/Analytics";
 import "./layout.scss";
-import { Route, Routes, Navigate, Link, NavLink } from "react-router-dom";
+import { Route, Routes, Navigate, NavLink } from "react-router-dom";
 import CreateMenu from "../../Components/CreateMenu/CreateMenu";
 import NewShoppingList from "../../Components/NewShoppingList/NewShoppingList";
 
@@ -12,12 +12,43 @@ const Layout = () => {
   const [editingIndex, setEditingIndex] = useState(null);
   const [newName, setNewName] = useState("");
 
+  const [newShoppingLists, setNewShoppingLists] = useState({});
+
+  // fetch localStorage array -- keeping track of new created list
+  window.onload = () => {
+    const storedShoppingList =
+      JSON.parse(localStorage.getItem("shoppingListName")) || [];
+    setShoppingListName(storedShoppingList);
+  }; 
+  /* useEffect(() => {
+    const storedShoppingList =
+      JSON.parse(localStorage.getItem("shoppingListName")) || [];
+    setShoppingListName(storedShoppingList);
+  }, []); */
+
   const toggleCreateMenu = () => {
     setCreateMenuVisible((prev) => !prev);
   };
 
   const handleCreateShoppingList = (name) => {
-    setShoppingListName((prevNames) => [...prevNames, name]);
+    setShoppingListName((prevNames) => {
+      const updatedNames = [...prevNames, name];
+      localStorage.setItem("shoppingListName", JSON.stringify(updatedNames));
+      return updatedNames;
+    });
+
+    setNewShoppingLists((prevLists) => ({
+      ...prevLists,
+      [name]: [
+        {
+          name: "",
+          checked: false,
+          quantity: 1,
+          price: 0,
+        },
+      ],
+    }));
+
     toggleCreateMenu();
   };
 
@@ -35,6 +66,7 @@ const Layout = () => {
     setShoppingListName((prevNames) => {
       const updatedNames = [...prevNames];
       updatedNames[index] = newName;
+      localStorage.setItem("shoppingListName", JSON.stringify(updatedNames));
       return updatedNames;
     });
     setEditingIndex(null);
@@ -44,23 +76,27 @@ const Layout = () => {
     setShoppingListName((prevNames) => {
       const updatedNames = [...prevNames];
       updatedNames.splice(index, 1);
+      localStorage.setItem("shoppingListName", JSON.stringify(updatedNames));
       return updatedNames;
     });
   };
-
   return (
     <div className="layout_container">
       <header className="layout_container_header">
         <nav>
           <ul>
             <li>
-              <NavLink to="/shopping-list" activeclassname="active">Default Shopping List</NavLink>
+              <NavLink to="/shopping-list/groceries" activeclassname="active">
+                Default Shopping List
+              </NavLink>
             </li>
           </ul>
-          <button onClick={toggleCreateMenu}>Create New Shopping List</button>
+          <button onClick={toggleCreateMenu} className="create-shopping-list">
+            Create New Shopping List
+          </button>
 
           {shoppingListName.map((name, index) => (
-            <ul key={index}>
+            <ul key={index} className="shopping-list">
               <li>
                 {editingIndex === index ? (
                   <>
@@ -69,18 +105,24 @@ const Layout = () => {
                       value={newName}
                       onChange={(e) => setNewName(e.target.value)}
                     />
+
                     <button onClick={() => handleSaveEdit(index)}>Save</button>
                     <button onClick={handleCancelEdit}>Cancel</button>
                   </>
                 ) : (
                   <>
-                    <Link to={`/new-shopping-list-${index}`}>{name}</Link>
-                    <button onClick={() => handleEditShoppingList(index)}>
-                      Edit
-                    </button>
-                    <button onClick={() => handleDeleteShoppingList(index)}>
-                      Delete
-                    </button>
+                    <NavLink to={`/new-shopping-list-${name}`}>{name}</NavLink>
+                    <div className="save-edit-wrapper">
+                      <button onClick={() => handleEditShoppingList(index)}>
+                        Edit
+                      </button>
+                      <button
+                        className="delete-btn"
+                        onClick={() => handleDeleteShoppingList(index)}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </>
                 )}
               </li>
@@ -88,7 +130,9 @@ const Layout = () => {
           ))}
           <ul>
             <li className="analytics">
-              <NavLink to="/analytics" activeclassname="active">Analytics</NavLink>
+              <NavLink to="/analytics" activeclassname="active">
+                Analytics
+              </NavLink>
             </li>
           </ul>
         </nav>
@@ -101,12 +145,23 @@ const Layout = () => {
         />
       )}
       <Routes>
-        <Route path="/" element={<Navigate to="/shopping-list" />} />
+        <Route path="/" element={<Navigate to="/shopping-list/groceries" />} />
         {shoppingListName.map((name, index) => (
           <Route
             key={index}
-            path={`/new-shopping-list-${index}`}
-            element={<NewShoppingList listName={name} />}
+            path={`/new-shopping-list-${name}`}
+            element={
+              <NewShoppingList
+                listName={name}
+                items={newShoppingLists[name]}
+                setItems={(items) =>
+                  setNewShoppingLists((prevLists) => ({
+                    ...prevLists,
+                    [name]: items,
+                  }))
+                }
+              />
+            }
           />
         ))}
         <Route path="/shopping-list//*" element={<ShoppingList />} />

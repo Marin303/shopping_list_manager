@@ -26,14 +26,20 @@ const CreateMenu = ({ onCreateShoppingList, toggleCreateMenu }) => {
           <p>Name cannot be empty</p>
         </div>
       )}
-      <form action="" onSubmit={handleSubmit}>
+      <form action="" onSubmit={handleSubmit} id="createMenuForm">
         <div className="title">
-          <label htmlFor="name">Enter name:</label>
+          <label htmlFor="nameInput">Enter name:</label>
           <button onClick={toggleCreateMenu} type="button">
             X
           </button>
         </div>
-        <input type="text" id="name" name="name" onChange={handleValueChange} />
+        <input
+          type="text"
+          id="nameInput"
+          name="name"
+          onChange={handleValueChange}
+          autoComplete="off"
+        />
         <button type="submit">Submit</button>
       </form>
     </div>

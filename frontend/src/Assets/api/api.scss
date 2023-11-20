@@ -1,0 +1,13 @@
+.products_container {
+    margin-top: 50px;
+    display: flex;
+    text-align: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    li{
+        list-style-type: none;
+    }
+    .product-amount, .product-category{
+        font-size: small;
+    }
+}
