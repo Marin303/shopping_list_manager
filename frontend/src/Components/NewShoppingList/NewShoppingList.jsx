@@ -1,18 +1,9 @@
 import React, { useState } from "react";
 import "./newshoppinglist.scss";
 
-const NewShoppingList = () => {
+const NewShoppingList = ({listName, items, setItems}) => {
   const [dateTime, setDateTime] = useState(null);
-  const [items, setItems] = useState([
-    {
-      name: "",
-      checked: false,
-      quantity: 1,
-      price: 0,
-    },
-  ]);
 
-  // Add a new item with default values
   const handleAddItem = () => {
     setItems([
       ...items,
@@ -63,7 +54,7 @@ const NewShoppingList = () => {
 
   //Calculate the total number of items in the chart
   const calculateSum = () => {
-    return items.reduce(
+    return items?.reduce(
       (sum, item) => (item.checked ? sum + item.quantity : sum),
       0
     );
@@ -71,7 +62,7 @@ const NewShoppingList = () => {
 
   //Calculate the total cost of items in the chart
   const calculateSumMoney = () => {
-    return items.reduce(
+    return items?.reduce(
       (sum, item) => (item.checked ? sum + item.price * item.quantity : sum),
       0
     );
@@ -88,8 +79,8 @@ const NewShoppingList = () => {
 
   return (
     <div className="new_list_container">
-      <h4 className="header_title">Create shopping list</h4>
-      {items.map((item, index) => (
+      <h4 className="header_title">Create shopping list - {listName}</h4>
+      {items && items.map((item, index) => (
         <label
           htmlFor={`list-item-${index}`}
           key={index}

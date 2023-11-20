@@ -12,12 +12,19 @@ const Layout = () => {
   const [editingIndex, setEditingIndex] = useState(null);
   const [newName, setNewName] = useState("");
 
+  const [newShoppingLists, setNewShoppingLists] = useState({});
+
   // fetch localStorage array -- keeping track of new created list
   window.onload = () => {
     const storedShoppingList =
       JSON.parse(localStorage.getItem("shoppingListName")) || [];
     setShoppingListName(storedShoppingList);
-  };
+  }; 
+  /* useEffect(() => {
+    const storedShoppingList =
+      JSON.parse(localStorage.getItem("shoppingListName")) || [];
+    setShoppingListName(storedShoppingList);
+  }, []); */
 
   const toggleCreateMenu = () => {
     setCreateMenuVisible((prev) => !prev);
@@ -29,6 +36,19 @@ const Layout = () => {
       localStorage.setItem("shoppingListName", JSON.stringify(updatedNames));
       return updatedNames;
     });
+
+    setNewShoppingLists((prevLists) => ({
+      ...prevLists,
+      [name]: [
+        {
+          name: "",
+          checked: false,
+          quantity: 1,
+          price: 0,
+        },
+      ],
+    }));
+
     toggleCreateMenu();
   };
 
@@ -125,12 +145,23 @@ const Layout = () => {
         />
       )}
       <Routes>
-        <Route path="/" element={<Navigate to="/shopping-list/groceries" />} /> 
+        <Route path="/" element={<Navigate to="/shopping-list/groceries" />} />
         {shoppingListName.map((name, index) => (
           <Route
             key={index}
             path={`/new-shopping-list-${name}`}
-            element={<NewShoppingList listName={name} />}
+            element={
+              <NewShoppingList
+                listName={name}
+                items={newShoppingLists[name]}
+                setItems={(items) =>
+                  setNewShoppingLists((prevLists) => ({
+                    ...prevLists,
+                    [name]: items,
+                  }))
+                }
+              />
+            }
           />
         ))}
         <Route path="/shopping-list//*" element={<ShoppingList />} />
