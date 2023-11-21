@@ -17,8 +17,10 @@ const NewShoppingList = ({ listName, items, setItems }) => {
   };
 
   // Remove an item at the specified index
+  
+  /* items.length - throw error */
   const handleDeleteItem = (index) => {
-    if (items.length > 1) {
+    if (items >= 1) {
       const updatedItems = [...items];
       updatedItems.splice(index, 1);
       setItems(updatedItems);
@@ -82,8 +84,8 @@ const NewShoppingList = ({ listName, items, setItems }) => {
   return (
     <div className="new_list_container">
       <h4 className="header_title">Create shopping list - {listName}</h4>
-      {items &&
-        items.map((item, index) => (
+      {
+        items?.map((item, index) => (
           <label
             htmlFor={`list-item-${index}`}
             key={index}
