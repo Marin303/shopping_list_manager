@@ -11,8 +11,7 @@ const Layout = () => {
   const [shoppingListName, setShoppingListName] = useState([]);
   const [editingIndex, setEditingIndex] = useState(null);
   const [newName, setNewName] = useState("");
-
-  const [newShoppingLists, setNewShoppingLists] = useState({});
+  
   const navigate = useNavigate()
   // fetch localStorage array -- keeping track of new created list
   window.onload = () => {
@@ -20,11 +19,6 @@ const Layout = () => {
       JSON.parse(localStorage.getItem("shoppingListName")) || [];
     setShoppingListName(storedShoppingList);
   }; 
-  /* useEffect(() => {
-    const storedShoppingList =
-      JSON.parse(localStorage.getItem("shoppingListName")) || [];
-    setShoppingListName(storedShoppingList);
-  }, []); */
 
   const toggleCreateMenu = () => {
     setCreateMenuVisible((prev) => !prev);
@@ -36,7 +30,7 @@ const Layout = () => {
       localStorage.setItem("shoppingListName", JSON.stringify(updatedNames));
       return updatedNames;
     });
-
+/* 
     setNewShoppingLists((prevLists) => ({
       ...prevLists,
       [name]: [
@@ -49,7 +43,7 @@ const Layout = () => {
       ],
     }));
 
-    toggleCreateMenu();
+    toggleCreateMenu(); */
   };
 
   const handleEditShoppingList = (index) => {
@@ -154,19 +148,13 @@ const Layout = () => {
             element={
               <NewShoppingList
                 listName={name}
-                items={newShoppingLists[name]}
-                setItems={(items) =>
-                  setNewShoppingLists((prevLists) => ({
-                    ...prevLists,
-                    [name]: items,
-                  }))
-                }
               />
             }
           />
         ))}
         <Route path="/shopping-list//*" element={<ShoppingList />} />
         <Route path="/analytics" element={<Analytics />} />
+        {/* <Route path="/new-shopping-list//*" element={<NewShoppingList />} /> -- No routes matched location "new-shopping-lits-NAME"*/}
       </Routes>
     </div>
   );
