@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./newshoppinglist.scss";
 
-const NewShoppingList = ({listName, items, setItems}) => {
+const NewShoppingList = ({ listName, items, setItems }) => {
   const [dateTime, setDateTime] = useState(null);
 
   const handleAddItem = () => {
@@ -17,10 +17,14 @@ const NewShoppingList = ({listName, items, setItems}) => {
   };
 
   // Remove an item at the specified index
+  
+  /* items.length - throw error */
   const handleDeleteItem = (index) => {
-    const updatedItems = [...items];
-    updatedItems.splice(index, 1);
-    setItems(updatedItems);
+    if (items >= 1) {
+      const updatedItems = [...items];
+      updatedItems.splice(index, 1);
+      setItems(updatedItems);
+    }
   };
 
   //Lock input fields
@@ -80,52 +84,53 @@ const NewShoppingList = ({listName, items, setItems}) => {
   return (
     <div className="new_list_container">
       <h4 className="header_title">Create shopping list - {listName}</h4>
-      {items && items.map((item, index) => (
-        <label
-          htmlFor={`list-item-${index}`}
-          key={index}
-          className="wrapper-label"
-        >
-          <input
-            type="text"
-            name={`list-item-${index}`}
-            id={`list-item-${index}`}
-            className="list-item-input"
-            placeholder="enter product name"
-            value={item.name}
-            onChange={(e) => handleInputChange(index, e)}
-            disabled={item.checked}
-          />
-          <input
-            type="checkbox"
-            className="list-item-checkbox"
-            checked={item.checked}
-            onChange={() => handleToggleCheckbox(index)}
-          />
-          <input
-            type="number"
-            name={`quantity-${index}`}
-            className="inputNum"
-            value={item.quantity}
-            onChange={(e) => handleQuantityChange(index, e)}
-            disabled={item.checked}
-          />
-          <input
-            type="text"
-            name={`price-${index}`}
-            className="inputMoneyCount"
-            placeholder="price"
-            value={item.price}
-            onChange={(e) => handlePriceChange(index, e)}
-            disabled={item.checked}
-            step="0.01"
-          />
-          <div className="items-change-wrapper">
-            <button onClick={() => handleAddItem()}>ADD</button>
-            <button onClick={() => handleDeleteItem(index)}>DELETE</button>
-          </div>
-        </label>
-      ))}
+      {
+        items?.map((item, index) => (
+          <label
+            htmlFor={`list-item-${index}`}
+            key={index}
+            className="wrapper-label"
+          >
+            <input
+              type="text"
+              name={`list-item-${index}`}
+              id={`list-item-${index}`}
+              className="list-item-input"
+              placeholder="enter product name"
+              value={item.name}
+              onChange={(e) => handleInputChange(index, e)}
+              disabled={item.checked}
+            />
+            <input
+              type="checkbox"
+              className="list-item-checkbox"
+              checked={item.checked}
+              onChange={() => handleToggleCheckbox(index)}
+            />
+            <input
+              type="number"
+              name={`quantity-${index}`}
+              className="inputNum"
+              value={item.quantity}
+              onChange={(e) => handleQuantityChange(index, e)}
+              disabled={item.checked}
+            />
+            <input
+              type="text"
+              name={`price-${index}`}
+              className="inputMoneyCount"
+              placeholder="price"
+              value={item.price}
+              onChange={(e) => handlePriceChange(index, e)}
+              disabled={item.checked}
+              step="0.01"
+            />
+            <div className="items-change-wrapper">
+              <button onClick={() => handleAddItem()}>ADD</button>
+              <button onClick={() => handleDeleteItem(index)}>DELETE</button>
+            </div>
+          </label>
+        ))}
       <div className="sum">
         <p>ITEMS IN CHART: {calculateSum()}</p>
         <p>SUM {calculateSumMoney()}€</p>

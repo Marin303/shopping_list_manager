@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ShoppingList from "../../Components/ShoppingList/ShoppingList";
 import Analytics from "../../Components/Analytics/Analytics";
 import "./layout.scss";
-import { Route, Routes, Navigate, NavLink } from "react-router-dom";
+import { Route, Routes, Navigate, NavLink, useNavigate } from "react-router-dom";
 import CreateMenu from "../../Components/CreateMenu/CreateMenu";
 import NewShoppingList from "../../Components/NewShoppingList/NewShoppingList";
 
@@ -13,7 +13,7 @@ const Layout = () => {
   const [newName, setNewName] = useState("");
 
   const [newShoppingLists, setNewShoppingLists] = useState({});
-
+  const navigate = useNavigate()
   // fetch localStorage array -- keeping track of new created list
   window.onload = () => {
     const storedShoppingList =
@@ -77,6 +77,7 @@ const Layout = () => {
       const updatedNames = [...prevNames];
       updatedNames.splice(index, 1);
       localStorage.setItem("shoppingListName", JSON.stringify(updatedNames));
+      navigate("/")
       return updatedNames;
     });
   };
