@@ -25,8 +25,8 @@ const Analytics = () => {
       {showAnalytics && (
         <div className="analytics_modal">
           <h3>Analytics for {selectedMonth}</h3>
-
-          <button onClick={handleCloseAnalytics}>Zatvori</button>
+          <p>How much we spent based on category and on specific Month</p>
+          <button onClick={handleCloseAnalytics}>Close</button>
         </div>
       )}
     </div>

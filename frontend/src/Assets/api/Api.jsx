@@ -42,6 +42,7 @@ const Api = ({ category }) => {
           <p className="product-category">{product.category}</p>
           <p className="product-amount">amount: {product.amount}</p>
           <p className="product-price">{product.price}</p>
+          <p className="product-date">{product.date}</p>
         </li>
       ))}
     </ul>
