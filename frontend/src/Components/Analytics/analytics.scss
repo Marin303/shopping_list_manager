@@ -3,4 +3,14 @@
 
 .analytics_container{
     width: $navbar-width;
+   .analytics_wrapper{
+    padding: $padding-elements;
+   }
+    .total-sum{
+        margin-top: 50px;
+        color: $sum;
+    }
+    .chart{
+        width: 80%;
+    }
 }
