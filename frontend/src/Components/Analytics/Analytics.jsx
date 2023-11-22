@@ -4,7 +4,7 @@ import "./analytics.scss";
 
 const Analytics = () => {
   const [products, setProducts] = useState([]);
-  //const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
@@ -22,20 +22,40 @@ const Analytics = () => {
     
   }, []);
 
-  /* const handleMonthChange = (e) => {
+   const handleMonthChange = (e) => {
     setSelectedMonth(e.target.value);
-  }; */
+  }; 
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
   };
  // console.log(products);
-  console.log("apparel", products['Apparel']);
+ // console.log("apparel", products['Apparel']);
+  const convertDateToMonth = (dateString) => {
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
 
+    const dateParts = dateString.split("/");
+    const monthIndex = parseInt(dateParts[0], 10) - 1; // 0-based is Months
+
+    return months[monthIndex];
+  };
   return (
     <div className="analytics_container">
       <h4 className="header_title">Analytics</h4>
-    {/*   <select name="month" id="month" onChange={handleMonthChange}>
+       <select name="month" id="month" onChange={handleMonthChange}>
         <option value="january">January</option>
         <option value="february">February</option>
         <option value="march">March</option>
@@ -48,7 +68,7 @@ const Analytics = () => {
         <option value="october">October</option>
         <option value="november">November</option>
         <option value="december">December</option>
-      </select> */}
+      </select> 
       <select
         name="product-category"
         id="product-category"
@@ -68,7 +88,7 @@ const Analytics = () => {
             <div key={index}>
               <p>Name: {product.name}</p>
               <p>Price: {product.price}</p>
-              <p>Date: {product.date}</p>
+              <p>Date: {convertDateToMonth(product.date)}</p>
             </div>
           ))
         )}
