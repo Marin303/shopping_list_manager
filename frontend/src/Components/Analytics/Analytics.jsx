@@ -59,6 +59,13 @@ const Analytics = () => {
         )
       : [];
 
+  // total sum of product prices
+  const totalSum = filteredProducts.reduce(
+    (sum, product) =>
+      sum + parseFloat(product.price.replace("€", "").replace(",", ".")),
+    0
+  );
+
   return (
     <div className="analytics_container">
       <h4 className="header_title">Analytics</h4>
@@ -93,10 +100,11 @@ const Analytics = () => {
         {filteredProducts.map((product, index) => (
           <div key={index}>
             <p>Name: {product.name}</p>
-            <p>Price: {product.price}</p>
+            <p>Price: {product.price}€</p>
             <p>Date: {convertDateToMonth(product.date)}</p>
           </div>
         ))}
+        <p>Total sum: {totalSum.toFixed(2)}€</p>
       </div>
     </div>
   );
