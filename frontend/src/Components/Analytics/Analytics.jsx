@@ -4,34 +4,38 @@ import "./analytics.scss";
 
 const Analytics = () => {
   const [products, setProducts] = useState([]);
-  const [selectedMonth, setSelectedMonth] = useState("");
+  //const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:3001/api/products");
-        setProducts(response.data.products);
+        setProducts(response.data);
+        //console.log(response);
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchData();
+    
   }, []);
 
-  const handleMonthChange = (e) => {
+  /* const handleMonthChange = (e) => {
     setSelectedMonth(e.target.value);
-  };
+  }; */
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
   };
+ // console.log(products);
+  console.log("apparel", products['Apparel']);
 
   return (
     <div className="analytics_container">
       <h4 className="header_title">Analytics</h4>
-      <select name="month" id="month" onChange={handleMonthChange}>
+    {/*   <select name="month" id="month" onChange={handleMonthChange}>
         <option value="january">January</option>
         <option value="february">February</option>
         <option value="march">March</option>
@@ -44,29 +48,30 @@ const Analytics = () => {
         <option value="october">October</option>
         <option value="november">November</option>
         <option value="december">December</option>
-      </select>
+      </select> */}
       <select
         name="product-category"
         id="product-category"
         onChange={handleCategoryChange}
       >
-        <option value="apparel">Apparel</option>
-        <option value="footwear">Footwear</option>
-        <option value="groceries">Groceries</option>
-        <option value="household">Household</option>
-        <option value="technique">Technique</option>
-        <option value="other">Other</option>
+        <option value="Apparel">Apparel</option>
+        <option value="Footwear">Footwear</option>
+        <option value="Groceries">Groceries</option>
+        <option value="Household">Household</option>
+        <option value="Technique">Technique</option>
+        <option value="Other">Other</option>
       </select>
 
       <div>
-        {selectedCategory &&
+      {selectedCategory && products[selectedCategory] && (
           products[selectedCategory].map((product, index) => (
             <div key={index}>
               <p>Name: {product.name}</p>
               <p>Price: {product.price}</p>
               <p>Date: {product.date}</p>
             </div>
-          ))}
+          ))
+        )}
       </div>
     </div>
   );
