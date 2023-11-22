@@ -12,8 +12,8 @@ const NewShoppingList = ({ listName }) => {
       {
         name: "",
         checked: false,
-        quantity: 1,
-        price: 0,
+        quantity: "",
+        price: "",
         category: "category",
       },
     ]);
@@ -80,7 +80,7 @@ const NewShoppingList = ({ listName }) => {
   const handleDateTime = () => {
     // Check if all items are checked
     const allChecked = items.every((item) => item.checked);
-  
+
     if (allChecked) {
       const currentDateTime = new Date();
       const formattedDateTime = `
@@ -93,7 +93,6 @@ const NewShoppingList = ({ listName }) => {
       setErrorMsg(true); // Set error message if not all items are checked
     }
   };
-  
 
   return (
     <div className="new_list_container">
@@ -125,20 +124,25 @@ const NewShoppingList = ({ listName }) => {
             type="number"
             name={`quantity-${index}`}
             className="inputNum"
+            placeholder="amount"
             value={item.quantity}
             onChange={(e) => handleQuantityChange(index, e)}
             disabled={item.checked}
           />
-          <input
-            type="text"
-            name={`price-${index}`}
-            className="inputMoneyCount"
-            placeholder="price"
-            value={item.price}
-            onChange={(e) => handlePriceChange(index, e)}
-            disabled={item.checked}
-            step="0.01"
-          />
+          <div className="input-with-euro">
+            <input
+              type="text"
+              name={`price-${index}`}
+              className="inputMoneyCount"
+              placeholder="price"
+              value={item.price}
+              onChange={(e) => handlePriceChange(index, e)}
+              disabled={item.checked}
+              step="0.01"
+            />
+            <span className="euro-symbol">€</span>
+          </div>
+
           <select name="category" id="category" defaultValue="category">
             <option value="category" disabled hidden>
               Select a category
@@ -156,7 +160,7 @@ const NewShoppingList = ({ listName }) => {
             </button>
             <button onClick={() => handleDeleteItem(index)} type="button">
               DELETE
-            </button>           
+            </button>
           </div>
         </form>
       ))}
