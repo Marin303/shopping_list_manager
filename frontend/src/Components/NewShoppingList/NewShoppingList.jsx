@@ -4,6 +4,7 @@ import "./newshoppinglist.scss";
 const NewShoppingList = ({ listName }) => {
   const [dateTime, setDateTime] = useState(null);
   const [items, setItems] = useState([]);
+  const [errorMsg, setErrorMsg] = useState(false);
 
   const handleAddItem = () => {
     setItems([
@@ -13,6 +14,7 @@ const NewShoppingList = ({ listName }) => {
         checked: false,
         quantity: 1,
         price: 0,
+        category: "category",
       },
     ]);
   };
@@ -76,13 +78,22 @@ const NewShoppingList = ({ listName }) => {
   };
 
   const handleDateTime = () => {
-    const currentDateTime = new Date();
-    const formattedDateTime = `
-    ${currentDateTime.toLocaleDateString()} 
-    ${currentDateTime.toLocaleTimeString()}
-    `;
-    setDateTime(formattedDateTime);
+    // Check if all items are checked
+    const allChecked = items.every((item) => item.checked);
+  
+    if (allChecked) {
+      const currentDateTime = new Date();
+      const formattedDateTime = `
+      ${currentDateTime.toLocaleDateString()} 
+      ${currentDateTime.toLocaleTimeString()}
+      `;
+      setDateTime(formattedDateTime);
+      setErrorMsg(false);
+    } else {
+      setErrorMsg(true); // Set error message if not all items are checked
+    }
   };
+  
 
   return (
     <div className="new_list_container">
@@ -128,7 +139,10 @@ const NewShoppingList = ({ listName }) => {
             disabled={item.checked}
             step="0.01"
           />
-          <select name="category" id="category">
+          <select name="category" id="category" defaultValue="category">
+            <option value="category" disabled hidden>
+              Select a category
+            </option>
             <option value="footwear">Footwear</option>
             <option value="apparel">Apparel</option>
             <option value="groceries">Groceries</option>
@@ -136,13 +150,17 @@ const NewShoppingList = ({ listName }) => {
             <option value="technique">Technique</option>
             <option value="other">Other</option>
           </select>
-
           <div className="items-change-wrapper">
-            <button onClick={() => handleAddItem()} type="button">ADD</button>
-            <button onClick={() => handleDeleteItem(index)} type="button">DELETE</button>
+            <button onClick={() => handleAddItem()} type="button">
+              ADD
+            </button>
+            <button onClick={() => handleDeleteItem(index)} type="button">
+              DELETE
+            </button>           
           </div>
         </form>
       ))}
+      {errorMsg && <p>Please mark checked or delete items</p>}
       <div className="sum">
         <p>ITEMS IN CHART: {calculateSum()}</p>
         <p>SUM {calculateSumMoney()}€</p>
