@@ -138,8 +138,8 @@ const NewShoppingList = ({ listName }) => {
           </select>
 
           <div className="items-change-wrapper">
-            <button onClick={() => handleAddItem()}>ADD</button>
-            <button onClick={() => handleDeleteItem(index)}>DELETE</button>
+            <button onClick={() => handleAddItem()} type="button">ADD</button>
+            <button onClick={() => handleDeleteItem(index)} type="button">DELETE</button>
           </div>
         </form>
       ))}
