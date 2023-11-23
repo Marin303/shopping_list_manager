@@ -6,35 +6,35 @@
         "amount": 1,
         "price": "0,79",
         "img": "images/lemon.jpg",
-        "date":"03/22/2023"
+        "date": "03/22/2023"
       },
       {
         "name": "Onion",
         "amount": 1,
         "price": "1,08",
         "img": "images/onion.jpg",
-        "date":"04/22/2023"
+        "date": "04/22/2023"
       },
- 	{
+      {
         "name": "Bread",
         "amount": 1,
         "price": "1,50",
         "img": "images/bread.jpg",
-        "date":"06/22/2023"
+        "date": "06/22/2023"
       },
-	{
+      {
         "name": "Milk",
         "amount": 1,
         "price": "1,80",
         "img": "images/milk.jpg",
-        "date":"10/22/2023"
+        "date": "10/22/2023"
       },
-	{
+      {
         "name": "Eggs",
         "amount": 1,
         "price": "2,10",
         "img": "images/eggs.jpg",
-        "date":"11/22/2023"
+        "date": "11/22/2023"
       }
     ],
     "Footwear": [
@@ -43,36 +43,36 @@
         "amount": 1,
         "price": "119,00",
         "img": "images/nike.jpg",
-        "date":"05/22/2023"
+        "date": "05/22/2023"
       },
       {
         "name": "Timberland Boots",
         "amount": 1,
         "price": "215,00",
         "img": "images/timberland.jpg",
-        "date":"04/22/2023"
+        "date": "04/22/2023"
       },
       {
         "name": "Dr. Martens Sandals",
         "amount": 1,
         "price": "149,00",
         "img": "images/dr.martens.jpg",
-        "date":"03/22/2023"
+        "date": "03/22/2023"
       },
       {
         "name": "Crocs Pink",
         "amount": 1,
         "price": "45,00",
         "img": "images/crocs.jpg",
-        "date":"02/22/2023"
+        "date": "02/22/2023"
       },
       {
         "name": "Converse Black",
         "amount": 1,
         "price": "99,90",
         "img": "images/converse.jpg",
-        "date":"01/22/2023"
-      }    
+        "date": "01/22/2023"
+      }
     ],
     "Household": [
       {
@@ -80,35 +80,35 @@
         "amount": 1,
         "price": "1,99",
         "img": "images/dish-soap.jpg",
-        "date":"02/22/2023"
+        "date": "02/22/2023"
       },
-	{
+      {
         "name": "Dishwasher tablets",
         "amount": 1,
         "price": "16,73",
         "img": "images/Dishwasher-tablets.jpg",
-        "date":"02/22/2023"
+        "date": "02/22/2023"
       },
-	{
+      {
         "name": "Fabric softener",
         "amount": 1,
         "price": "1,99",
         "img": "images/fabric-softener.jpg",
-        "date":"04/22/2023"
+        "date": "04/22/2023"
       },
-	{
+      {
         "name": "Household Cleaning Spray",
         "amount": 1,
         "price": "2,79",
         "img": "images/Household-cleaning-spray.jpg",
-        "date":"05/22/2023"
+        "date": "05/22/2023"
       },
       {
         "name": "All purpose wipes",
         "amount": 1,
         "price": "1,99",
         "img": "images/wipes.jpg",
-        "date":"03/22/2023"
+        "date": "03/22/2023"
       }
     ],
     "Apparel": [
@@ -117,35 +117,35 @@
         "amount": 1,
         "price": "129,00",
         "img": "images/Nike-Jacket.jpg",
-        "date":"01/22/2023"
+        "date": "01/22/2023"
       },
-	{
+      {
         "name": "Men's T-shirt Tommy Hilfiger",
         "amount": 1,
         "price": "69,00",
         "img": "images/Tommy-Hilfiger.jpg",
-        "date":"12/22/2023"
+        "date": "12/22/2023"
       },
-	{
+      {
         "name": "Hugo Boss Jenno shirt ",
         "amount": 1,
         "price": "70,00",
         "img": "images/Hugo-Boss-shirt.jpg",
-        "date":"12/22/2023"
+        "date": "12/22/2023"
       },
-	{
+      {
         "name": "Puma Kids Tracksuits",
         "amount": 1,
         "price": "37,90",
         "img": "images/Puma-Tracksuits.jpg",
-        "date":"01/22/2023"
+        "date": "01/22/2023"
       },
-	{
+      {
         "name": "Levi's Men's Jeans",
         "amount": 1,
         "price": "109,00",
         "img": "images/Levis-Mens-Jeans.jpg",
-        "date":"02/22/2023"
+        "date": "02/22/2023"
       }
     ],
     "Technique": [
@@ -154,35 +154,35 @@
         "amount": 1,
         "price": "575,00",
         "img": "images/Apple-Iphone-11.jpg",
-        "date":"03/22/2023"
+        "date": "03/22/2023"
       },
       {
         "name": "Hisense 50A6K, UHD, 4K, Smart TV",
         "amount": 1,
         "price": "449,00",
         "img": "images/Hisense-50A6K.jpg",
-        "date":"04/22/2023"
+        "date": "04/22/2023"
       },
       {
         "name": "Apple Watch Series 8",
         "amount": 1,
         "price": "573,23",
         "img": "images/Apple-Watch-Series-8.jpg",
-        "date":"05/22/2023"
+        "date": "05/22/2023"
       },
       {
         "name": "Laptop HP Victus",
         "amount": 1,
         "price": "899,00",
         "img": "images/HP-Victus.jpg",
-        "date":"06/22/2023"
+        "date": "06/22/2023"
       },
       {
         "name": "Garmin GPS Navigation",
         "amount": 1,
         "price": "250,00",
         "img": "images/GPS-navigation.jpg",
-        "date":"07/22/2023"
+        "date": "07/22/2023"
       }
     ],
     "Other": [
@@ -191,35 +191,44 @@
         "amount": 1,
         "price": "10,00",
         "img": "images/Clock.jpg",
-        "date":"08/22/2023"
+        "date": "08/22/2023"
       },
-     {
+      {
         "name": "Guess EDT Spray",
         "amount": 1,
         "price": "20,00",
         "img": "images/Guess-EDT.jpg",
-        "date":"09/22/2023"
+        "date": "09/22/2023"
       },
-     {
+      {
         "name": "Yankee Candle",
         "amount": 1,
         "price": "7,00",
         "img": "images/Yankee-Candle.jpg",
-        "date":"11/22/2023"
+        "date": "11/22/2023"
       },
-     {
+      {
         "name": "Mirror Black",
         "amount": 1,
         "price": "21,22",
         "img": "images/Mirror.jpg",
-        "date":"10/22/2023"
+        "date": "10/22/2023"
       },
-     {
+      {
         "name": "Photo Album Pink",
         "amount": 1,
         "price": "8,99",
         "img": "images/Photo-Album.jpg",
-        "date":"11/22/2023"
+        "date": "11/22/2023"
+      }
+    ],
+    "qwe": [
+      {
+        "name": "some",
+        "amount": 1,
+        "price": "2",
+        "img": "images/default.jpg",
+        "date": "\n        11/23/2023 \n        6:09:04 PM\n      "
       }
     ]
   }

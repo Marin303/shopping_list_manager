@@ -3,14 +3,13 @@ const bodyParser = require("body-parser");
 const fs = require("fs");
 const cors = require("cors");
 require("dotenv").config();
-const { MongoClient, ServerApiVersion } = require("mongodb");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use("/images", express.static(__dirname + "/images")); // Serve static images
+app.use("/images", express.static(__dirname + "/images"));
 
 // Read initial data
 let data = require("./data/products.json");
@@ -21,26 +20,43 @@ app.get("/api/products", (req, res) => {
 });
 
 app.post("/api/products", (req, res) => {
-  const { name, price, description } = req.body;
+  const { listName, items, dateTime } = req.body;
 
-  // New product to data
-  const newProduct = { name, price, description };
-  data.products.push(newProduct);
+  try {
+    const newItems = items.map((item) => ({
+      name: item.name,
+      amount: item.quantity,
+      price: item.price,
+      /* img: "images/default.jpg", */
+      date: dateTime,
+    }));
 
-  // Save updated data
-  fs.writeFileSync(
-    "./data/products.json",
-    JSON.stringify(data, null, 2),
-    "utf8"
-  );
+   
+    if (data.products[listName]) { // if the category already exists    
+      data.products[listName] = data.products[listName].concat(newItems); // Append new items to the existing category
+    } else {     
+      data.products[listName] = newItems;// Create a new category with the items
+    }
 
-  res.status(201).json(newProduct);
+    // Save updated data
+    fs.writeFileSync(
+      "./data/products.json",
+      JSON.stringify(data, null, 2),
+      "utf8"
+    );
+
+    res.status(201).json({ success: true });
+  } catch (error) {
+    console.error("Error processing the request:", error);
+    res.status(500).json({ success: false, error: "Internal Server Error" });
+  }
 });
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
+/* 
 const uri = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@cluster-shopping.6zrs9li.mongodb.net/?retryWrites=true&w=majority`;
 
 
@@ -68,3 +84,4 @@ async function run() {
   }
 }
 run().catch(console.dir);
+ */
