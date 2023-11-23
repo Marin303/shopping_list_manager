@@ -39,11 +39,19 @@ npm start
 #### Analytics - Chart - fetching product.json
 #### Create Menu - Menu to create NewShoppingList component
 #### NewShoppingList - Form for creating custom shopping list content
-####                 - It appears everytime when user creates new shopping list
+####                 - It appears every time when a user creates new shopping list
 #### ShoppingList - header contains all shopping categories
-####              - for mobile version contains dropdown category menu
+####              - for mobile version contains a dropdown category menu
 #### ShoppingNavBar - routing to category
 
 
 ### Products
-#### contains all categories separeted - connection to API component
+#### contains all categories separated - connection to API component
+
+
+
+##### Have to fix:
+##### no routes matched location
+##### forms name
+##### add localstorage to shopping list name
+##### responsive menu mobile - on smaller screen looks big
