@@ -40,7 +40,7 @@
     &_header {
         background-color: $header;
         width: 30%;
-        height: 100vh;
+        //height: 100%;
 
         nav {
             ul {
@@ -91,6 +91,7 @@
     }
     .layout_container_header{
         width: 50%;
+        
     }
     .layout_container_header nav li a {
         padding: 5px;

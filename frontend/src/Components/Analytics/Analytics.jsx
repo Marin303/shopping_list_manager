@@ -55,10 +55,12 @@ const Analytics = () => {
     if (!selectedMonth) return null;
 
     const categorySums = {};
-    Object.keys(products).forEach((category) => {   // Object, product.json misstake - should be array
+    Object.keys(products).forEach((category) => {   // Object, product.json mistake - should be array
       const categoryProducts = products[category];
       const categorySum = categoryProducts
-        .filter((product) => convertDateToMonth(product.date) === selectedMonth)
+        .filter((product) => 
+              convertDateToMonth(product.date) === selectedMonth
+               )
         .reduce(
           (sum, product) =>
             sum +

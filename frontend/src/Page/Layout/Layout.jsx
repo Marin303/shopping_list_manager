@@ -30,20 +30,6 @@ const Layout = () => {
       localStorage.setItem("shoppingListName", JSON.stringify(updatedNames));
       return updatedNames;
     });
-/* 
-    setNewShoppingLists((prevLists) => ({
-      ...prevLists,
-      [name]: [
-        {
-          name: "",
-          checked: false,
-          quantity: 1,
-          price: 0,
-        },
-      ],
-    }));
-
-    toggleCreateMenu(); */
   };
 
   const handleEditShoppingList = (index) => {

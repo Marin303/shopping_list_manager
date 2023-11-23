@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./newshoppinglist.scss";
+import axios from "axios";
 
 const NewShoppingList = ({ listName }) => {
   const [dateTime, setDateTime] = useState(null);
@@ -69,7 +70,7 @@ const NewShoppingList = ({ listName }) => {
     );
   };
 
-  //Calculate the total cost of items in the chart
+  // Calculate the total cost of items in the chart
   const calculateSumMoney = () => {
     return items?.reduce(
       (sum, item) => (item.checked ? sum + item.price * item.quantity : sum),
@@ -77,20 +78,37 @@ const NewShoppingList = ({ listName }) => {
     );
   };
 
-  const handleDateTime = () => {
-    // Check if all items are checked
+  const handleDateTime = async () => {
     const allChecked = items.every((item) => item.checked);
 
     if (allChecked) {
       const currentDateTime = new Date();
       const formattedDateTime = `
-      ${currentDateTime.toLocaleDateString()} 
-      ${currentDateTime.toLocaleTimeString()}
+        ${currentDateTime.toLocaleDateString()} 
+        ${currentDateTime.toLocaleTimeString()}
       `;
       setDateTime(formattedDateTime);
       setErrorMsg(false);
+
+      // send to the backend
+      const dataToSend = {
+        listName,
+        items,
+        dateTime: formattedDateTime,
+      };
+
+      try {
+        const response = await axios.post("http://localhost:3001/api/products", dataToSend);
+        if (response.status === 201) {
+          console.log("Data sent successfully");
+        } else {
+          console.error("Failed to send data");
+        }
+      } catch (error) {
+        console.error("Error sending data:", error);
+      }
     } else {
-      setErrorMsg(true); // Set error message if not all items are checked
+      setErrorMsg(true);
     }
   };
 
