@@ -37,12 +37,13 @@ app.post("/api/products", (req, res) => {
         amount: item.quantity,
         price: item.price,
         date: dateTime,
-        category: item.category,
+        /* category: item.category, */
+        img: "images/image-not-available.png",
       });
       return acc;
     }, {});
 
-    // Merge items into data.products
+    // Merge items into products.json
     Object.keys(itemsByCategory).forEach((category) => {
       if (data.products[category]) {
         data.products[category] = data.products[category].concat(
@@ -66,8 +67,6 @@ app.post("/api/products", (req, res) => {
     res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 });
-
-
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
