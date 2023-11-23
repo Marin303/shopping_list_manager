@@ -12,6 +12,7 @@ const CreateMenu = ({ onCreateShoppingList, toggleCreateMenu }) => {
       return;
     }
     onCreateShoppingList(shoppingListName);
+    toggleCreateMenu()
   };
 
   // when user start typing error message disappear

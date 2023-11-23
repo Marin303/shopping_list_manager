@@ -1,34 +1,71 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const fs = require('fs');
-const cors = require('cors');
+const express = require("express");
+const bodyParser = require("body-parser");
+const fs = require("fs");
+const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use('/images', express.static(__dirname + '/images')); // Serve static images
+app.use("/images", express.static(__dirname + "/images"));
 
-// Read initial data
-let data = require('./data/products.json');
+let data = require("./data/products.json");
 
-// Endpoints
-app.get('/api/products', (req, res) => {
+app.get("/api/products", (req, res) => {
   res.json(data.products);
 });
 
-app.post('/api/products', (req, res) => {
-  const { name, price, description } = req.body;
+app.post("/api/products", (req, res) => {
+  const { items, dateTime } = req.body;
 
-  // New product to data
-  const newProduct = { name, price, description };
-  data.products.push(newProduct);
+  try {
+    // Ensure data.products is an object
+    if (!data.products || typeof data.products !== "object") {
+      data.products = {};
+    }
 
-  // Save updated data
-  fs.writeFileSync('./data/products.json', JSON.stringify(data, null, 2), 'utf8');
+    // Group items by category
+    const itemsByCategory = items.reduce((acc, item) => {
+      const category = item.category;
+      if (!acc[category]) {
+        acc[category] = [];
+      }
+      acc[category].push({
+        name: item.name,
+        amount: item.quantity,
+        price: item.price,
+        date: dateTime,
+        /* category: item.category, */
+        img: "images/image-not-available.png",
+      });
+      return acc;
+    }, {});
 
-  res.status(201).json(newProduct);
+    // Merge items into products.json
+    Object.keys(itemsByCategory).forEach((category) => {
+      if (data.products[category]) {
+        data.products[category] = data.products[category].concat(
+          itemsByCategory[category]
+        );
+      } else {
+        data.products[category] = itemsByCategory[category];
+      }
+    });
+
+    // Save updated data
+    fs.writeFileSync(
+      "./data/products.json",
+      JSON.stringify(data, null, 2),
+      "utf8"
+    );
+
+    res.status(201).json({ success: true });
+  } catch (error) {
+    console.error("Error processing the request:", error);
+    res.status(500).json({ success: false, error: "Internal Server Error" });
+  }
 });
 
 app.listen(PORT, () => {
