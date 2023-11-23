@@ -26,6 +26,17 @@ npm install
 ```
 npm start
 ```
+# Docker
+### path shopping_list_manager
+```
+docker build -t frontend-image ./frontend
+docker build -t backend-image ./backend
+```
+#### Ensure DockerDesktop is Running
+```
+docker run -p 3001:3001 backend-image
+docker run -p 3000:3000 frontend-image
+```
 
 ## Frontend
 #### custom made product.json - inside backend folder
