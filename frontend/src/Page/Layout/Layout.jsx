@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import ShoppingList from "../../Components/ShoppingList/ShoppingList";
 import Analytics from "../../Components/Analytics/Analytics";
 import "./layout.scss";
-import { Route, Routes, Navigate, NavLink, useNavigate } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  Navigate,
+  NavLink,
+  useNavigate,
+} from "react-router-dom";
 import CreateMenu from "../../Components/CreateMenu/CreateMenu";
 import NewShoppingList from "../../Components/NewShoppingList/NewShoppingList";
 
@@ -11,14 +17,14 @@ const Layout = () => {
   const [shoppingListName, setShoppingListName] = useState([]);
   const [editingIndex, setEditingIndex] = useState(null);
   const [newName, setNewName] = useState("");
-  
-  const navigate = useNavigate()
+
+  const navigate = useNavigate();
   // fetch localStorage array -- keeping track of new created list
   window.onload = () => {
     const storedShoppingList =
       JSON.parse(localStorage.getItem("shoppingListName")) || [];
     setShoppingListName(storedShoppingList);
-  }; 
+  };
 
   const toggleCreateMenu = () => {
     setCreateMenuVisible((prev) => !prev);
@@ -57,7 +63,7 @@ const Layout = () => {
       const updatedNames = [...prevNames];
       updatedNames.splice(index, 1);
       localStorage.setItem("shoppingListName", JSON.stringify(updatedNames));
-      navigate("/")
+      navigate("/");
       return updatedNames;
     });
   };
@@ -68,7 +74,7 @@ const Layout = () => {
           <ul>
             <li>
               <NavLink to="/shopping-list/groceries" activeclassname="active">
-                Default Shopping List
+                My Shopping
               </NavLink>
             </li>
           </ul>
@@ -131,11 +137,7 @@ const Layout = () => {
           <Route
             key={index}
             path={`/new-shopping-list-${name}`}
-            element={
-              <NewShoppingList
-                listName={name}
-              />
-            }
+            element={<NewShoppingList listName={name} />}
           />
         ))}
         <Route path="/shopping-list//*" element={<ShoppingList />} />

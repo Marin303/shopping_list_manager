@@ -6,7 +6,7 @@ const NewShoppingList = ({ listName }) => {
   const [dateTime, setDateTime] = useState(null);
   const [items, setItems] = useState([]);
   const [errorMsg, setErrorMsg] = useState(false);
-
+  const [category] = useState("")
   const handleAddItem = () => {
     setItems([
       ...items,
@@ -15,7 +15,7 @@ const NewShoppingList = ({ listName }) => {
         checked: false,
         quantity: "",
         price: "",
-        category: "category",
+        category: "",
       },
     ]);
   };
@@ -83,22 +83,22 @@ const NewShoppingList = ({ listName }) => {
 
     if (allChecked) {
       const currentDateTime = new Date();
-      const formattedDateTime = `
-        ${currentDateTime.toLocaleDateString()} 
-        ${currentDateTime.toLocaleTimeString()}
-      `;
+      const formattedDateTime = `${currentDateTime.toLocaleDateString()}`;
       setDateTime(formattedDateTime);
       setErrorMsg(false);
 
       // send to the backend
       const dataToSend = {
-        listName,
+        category,
         items,
         dateTime: formattedDateTime,
       };
 
       try {
-        const response = await axios.post("http://localhost:3001/api/products", dataToSend);
+        const response = await axios.post(
+          "http://localhost:3001/api/products",
+          dataToSend
+        );
         if (response.status === 201) {
           console.log("Data sent successfully");
         } else {
@@ -112,6 +112,11 @@ const NewShoppingList = ({ listName }) => {
     }
   };
 
+  const handleCategoryChange = (index, e) => {
+    const updatedItems = [...items];
+    updatedItems[index].category = e.target.value;
+    setItems(updatedItems);
+  };
   return (
     <div className="new_list_container">
       <h4 className="header_title">Create shopping list - {listName}</h4>
@@ -161,16 +166,21 @@ const NewShoppingList = ({ listName }) => {
             <span className="euro-symbol">€</span>
           </div>
 
-          <select name="category" id="category" defaultValue="category">
+          <select
+            name="category"
+            id={`category-${index}`}
+            defaultValue={category}
+            onChange={(e) => handleCategoryChange(index, e)}
+          >
             <option value="category" disabled hidden>
               Select a category
             </option>
-            <option value="footwear">Footwear</option>
-            <option value="apparel">Apparel</option>
-            <option value="groceries">Groceries</option>
-            <option value="household">Household</option>
-            <option value="technique">Technique</option>
-            <option value="other">Other</option>
+            <option value="Footwear">Footwear</option>
+            <option value="Apparel">Apparel</option>
+            <option value="Groceries">Groceries</option>
+            <option value="Household">Household</option>
+            <option value="Technique">Technique</option>
+            <option value="Other">Other</option>
           </select>
           <div className="items-change-wrapper">
             <button onClick={() => handleAddItem()} type="button">
