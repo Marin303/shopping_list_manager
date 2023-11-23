@@ -146,6 +146,13 @@
         "price": "109,00",
         "img": "images/Levis-Mens-Jeans.jpg",
         "date": "02/22/2023"
+      },
+      {
+        "name": "some",
+        "amount": 1,
+        "price": "20",
+        "date": "11/23/2023",
+        "category": "Apparel"
       }
     ],
     "Technique": [
@@ -220,15 +227,6 @@
         "price": "8,99",
         "img": "images/Photo-Album.jpg",
         "date": "11/22/2023"
-      }
-    ],
-    "qwe": [
-      {
-        "name": "some",
-        "amount": 1,
-        "price": "2",
-        "img": "images/default.jpg",
-        "date": "\n        11/23/2023 \n        6:09:04 PM\n      "
       }
     ]
   }

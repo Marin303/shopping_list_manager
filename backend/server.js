@@ -11,32 +11,47 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use("/images", express.static(__dirname + "/images"));
 
-// Read initial data
 let data = require("./data/products.json");
 
-// Endpoints
 app.get("/api/products", (req, res) => {
   res.json(data.products);
 });
 
 app.post("/api/products", (req, res) => {
-  const { listName, items, dateTime } = req.body;
+  const { items, dateTime } = req.body;
 
   try {
-    const newItems = items.map((item) => ({
-      name: item.name,
-      amount: item.quantity,
-      price: item.price,
-      /* img: "images/default.jpg", */
-      date: dateTime,
-    }));
-
-   
-    if (data.products[listName]) { // if the category already exists    
-      data.products[listName] = data.products[listName].concat(newItems); // Append new items to the existing category
-    } else {     
-      data.products[listName] = newItems;// Create a new category with the items
+    // Ensure data.products is an object
+    if (!data.products || typeof data.products !== "object") {
+      data.products = {};
     }
+
+    // Group items by category
+    const itemsByCategory = items.reduce((acc, item) => {
+      const category = item.category;
+      if (!acc[category]) {
+        acc[category] = [];
+      }
+      acc[category].push({
+        name: item.name,
+        amount: item.quantity,
+        price: item.price,
+        date: dateTime,
+        category: item.category,
+      });
+      return acc;
+    }, {});
+
+    // Merge items into data.products
+    Object.keys(itemsByCategory).forEach((category) => {
+      if (data.products[category]) {
+        data.products[category] = data.products[category].concat(
+          itemsByCategory[category]
+        );
+      } else {
+        data.products[category] = itemsByCategory[category];
+      }
+    });
 
     // Save updated data
     fs.writeFileSync(
@@ -52,36 +67,8 @@ app.post("/api/products", (req, res) => {
   }
 });
 
+
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
-/* 
-const uri = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@cluster-shopping.6zrs9li.mongodb.net/?retryWrites=true&w=majority`;
-
-
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
-});
-
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);
- */
