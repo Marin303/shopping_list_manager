@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ShoppingList from "../../Components/ShoppingList/ShoppingList";
 import Analytics from "../../Components/Analytics/Analytics";
 import "./layout.scss";
@@ -19,12 +19,12 @@ const Layout = () => {
   const [newName, setNewName] = useState("");
 
   const navigate = useNavigate();
-  // fetch localStorage array -- keeping track of new created list
-  window.onload = () => {
+  
+ useEffect(() => {
     const storedShoppingList =
       JSON.parse(localStorage.getItem("shoppingListName")) || [];
     setShoppingListName(storedShoppingList);
-  };
+  },[])
 
   const toggleCreateMenu = () => {
     setCreateMenuVisible((prev) => !prev);
@@ -59,14 +59,15 @@ const Layout = () => {
   };
 
   const handleDeleteShoppingList = (index) => {
+    navigate("/")
     setShoppingListName((prevNames) => {
       const updatedNames = [...prevNames];
       updatedNames.splice(index, 1);
       localStorage.setItem("shoppingListName", JSON.stringify(updatedNames));
-      navigate("/");
       return updatedNames;
     });
   };
+
   return (
     <div className="layout_container">
       <header className="layout_container_header">
@@ -142,7 +143,7 @@ const Layout = () => {
         ))}
         <Route path="/shopping-list//*" element={<ShoppingList />} />
         <Route path="/analytics" element={<Analytics />} />
-        {/* <Route path="/new-shopping-list//*" element={<NewShoppingList />} /> -- No routes matched location "new-shopping-lits-NAME"*/}
+        {/* <Route path="/new-shopping-list//*" element={<NewShoppingList />} /> -- No routes matched location "new-shopping-list-NAME"*/}
       </Routes>
     </div>
   );
