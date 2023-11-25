@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./newshoppinglist.scss";
 import axios from "axios";
 
@@ -6,18 +6,32 @@ const NewShoppingList = ({ listName }) => {
   const [dateTime, setDateTime] = useState(null);
   const [items, setItems] = useState([]);
   const [errorMsg, setErrorMsg] = useState(false);
-  const [category] = useState("")
+  const [category, setCategory] = useState("");
+
+  useEffect(() => {
+    const savedData =
+      JSON.parse(localStorage.getItem(`shoppingListData_${listName}`)) || {};
+    const savedItems = savedData.items || [];
+    setItems(savedItems.length > 0 ? savedItems : [createNewItem()]);
+  }, [listName]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      `shoppingListData_${listName}`,
+      JSON.stringify({ items })
+    );
+  }, [items, listName]);
+
+  const createNewItem = () => ({
+    name: "",
+    checked: false,
+    quantity: "",
+    price: "",
+    category: "",
+  });
+
   const handleAddItem = () => {
-    setItems([
-      ...items,
-      {
-        name: "",
-        checked: false,
-        quantity: "",
-        price: "",
-        category: "",
-      },
-    ]);
+    setItems([...items, createNewItem()]);
   };
 
   // generating oncreate/onload at least 1
@@ -33,17 +47,18 @@ const NewShoppingList = ({ listName }) => {
     }
   };
 
-  //Lock input fields
   const handleToggleCheckbox = (index) => {
     const updatedItems = [...items];
-    updatedItems[index].checked = !updatedItems[index].checked;
+    updatedItems[index] = {
+      ...updatedItems[index],
+      checked: !updatedItems[index].checked,
+    };
     setItems(updatedItems);
   };
 
-  //Handle changes in the product name input
-  const handleInputChange = (index, e) => {
+  const handleProductName = (index, field, value) => {
     const updatedItems = [...items];
-    updatedItems[index].name = e.target.value;
+    updatedItems[index] = { ...updatedItems[index], [field]: value };
     setItems(updatedItems);
   };
 
@@ -94,6 +109,7 @@ const NewShoppingList = ({ listName }) => {
         dateTime: formattedDateTime,
       };
 
+      console.log("Data to send:", dataToSend);
       try {
         const response = await axios.post(
           "http://localhost:3001/api/products",
@@ -115,8 +131,10 @@ const NewShoppingList = ({ listName }) => {
   const handleCategoryChange = (index, e) => {
     const updatedItems = [...items];
     updatedItems[index].category = e.target.value;
+    setCategory(e.target.value);
     setItems(updatedItems);
   };
+
   return (
     <div className="new_list_container">
       <h4 className="header_title">Create shopping list - {listName}</h4>
@@ -129,12 +147,12 @@ const NewShoppingList = ({ listName }) => {
         >
           <input
             type="text"
-            name={`list-item-${index}`}
-            id={`list-item-${index}`}
+            name={`list-item`}
+            id={`list-item`}
             className="list-item-input"
             placeholder="enter product name"
             value={item.name}
-            onChange={(e) => handleInputChange(index, e)}
+            onChange={(e) => handleProductName(index, "name", e.target.value)}
             disabled={item.checked}
           />
           <input
@@ -145,7 +163,7 @@ const NewShoppingList = ({ listName }) => {
           />
           <input
             type="number"
-            name={`quantity-${index}`}
+            name={`quantity`}
             className="inputNum"
             placeholder="amount"
             value={item.quantity}
@@ -155,7 +173,7 @@ const NewShoppingList = ({ listName }) => {
           <div className="input-with-euro">
             <input
               type="text"
-              name={`price-${index}`}
+              name={`price`}
               className="inputMoneyCount"
               placeholder="price"
               value={item.price}

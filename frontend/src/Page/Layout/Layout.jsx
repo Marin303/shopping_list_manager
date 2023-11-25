@@ -2,13 +2,7 @@ import React, { useEffect, useState } from "react";
 import ShoppingList from "../../Components/ShoppingList/ShoppingList";
 import Analytics from "../../Components/Analytics/Analytics";
 import "./layout.scss";
-import {
-  Route,
-  Routes,
-  Navigate,
-  NavLink,
-  useNavigate,
-} from "react-router-dom";
+import {Route,Routes,Navigate,NavLink,useNavigate,} from "react-router-dom";
 import CreateMenu from "../../Components/CreateMenu/CreateMenu";
 import NewShoppingList from "../../Components/NewShoppingList/NewShoppingList";
 
@@ -19,12 +13,12 @@ const Layout = () => {
   const [newName, setNewName] = useState("");
 
   const navigate = useNavigate();
-  
- useEffect(() => {
+
+  useEffect(() => {
     const storedShoppingList =
       JSON.parse(localStorage.getItem("shoppingListName")) || [];
     setShoppingListName(storedShoppingList);
-  },[])
+  }, []);
 
   const toggleCreateMenu = () => {
     setCreateMenuVisible((prev) => !prev);
@@ -36,6 +30,7 @@ const Layout = () => {
       localStorage.setItem("shoppingListName", JSON.stringify(updatedNames));
       return updatedNames;
     });
+    navigate(`/new-shopping-list-${name}`);
   };
 
   const handleEditShoppingList = (index) => {
@@ -59,7 +54,7 @@ const Layout = () => {
   };
 
   const handleDeleteShoppingList = (index) => {
-    navigate("/")
+    navigate("/");
     setShoppingListName((prevNames) => {
       const updatedNames = [...prevNames];
       updatedNames.splice(index, 1);
@@ -142,8 +137,8 @@ const Layout = () => {
           />
         ))}
         <Route path="/shopping-list//*" element={<ShoppingList />} />
+        <Route path="/new-shopping-list//*" element={<ShoppingList />} />
         <Route path="/analytics" element={<Analytics />} />
-        {/* <Route path="/new-shopping-list//*" element={<NewShoppingList />} /> -- No routes matched location "new-shopping-list-NAME"*/}
       </Routes>
     </div>
   );
