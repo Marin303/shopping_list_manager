@@ -16,6 +16,7 @@ const NewShoppingList = ({ listName }) => {
   }, [listName]);
 
   useEffect(() => {
+    // Update localStorage whenever items change
     localStorage.setItem(
       `shoppingListData_${listName}`,
       JSON.stringify({ items })
@@ -43,6 +44,7 @@ const NewShoppingList = ({ listName }) => {
     if (items.length >= 1) {
       const updatedItems = [...items];
       updatedItems.splice(index, 1);
+      //localStorage.removeItem(`shoppingListData_${listName}`) // it should remove specific data
       setItems(updatedItems);
     }
   };
@@ -126,6 +128,7 @@ const NewShoppingList = ({ listName }) => {
     } else {
       setErrorMsg(true);
     }
+    //localStorage.removeItem(`shoppingListData_${listName}`) // i need to clear storage after that button trigger
   };
 
   const handleCategoryChange = (index, e) => {

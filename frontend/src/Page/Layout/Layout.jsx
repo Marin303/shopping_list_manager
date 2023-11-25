@@ -8,10 +8,10 @@ import NewShoppingList from "../../Components/NewShoppingList/NewShoppingList";
 
 const Layout = () => {
   const [createMenuVisible, setCreateMenuVisible] = useState(false);
-  const [shoppingListName, setShoppingListName] = useState([]);
   const [editingIndex, setEditingIndex] = useState(null);
   const [newName, setNewName] = useState("");
-
+  const [shoppingListName, setShoppingListName] = useState(JSON.parse(localStorage.getItem("shoppingListName")) || []);
+  
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const Layout = () => {
       localStorage.setItem("shoppingListName", JSON.stringify(updatedNames));
       return updatedNames;
     });
-    navigate(`/new-shopping-list-${name}`);
+    navigate(`/new-shopping-list/${name}`);
   };
 
   const handleEditShoppingList = (index) => {
@@ -54,15 +54,14 @@ const Layout = () => {
   };
 
   const handleDeleteShoppingList = (index) => {
-    navigate("/");
     setShoppingListName((prevNames) => {
       const updatedNames = [...prevNames];
       updatedNames.splice(index, 1);
       localStorage.setItem("shoppingListName", JSON.stringify(updatedNames));
       return updatedNames;
     });
+    navigate("/");
   };
-
   return (
     <div className="layout_container">
       <header className="layout_container_header">
