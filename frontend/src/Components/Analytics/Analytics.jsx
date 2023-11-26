@@ -8,7 +8,7 @@ Chart.register(ArcElement);
 
 const Analytics = () => {
   const [products, setProducts] = useState([]);
-  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("January");
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [hoveredPercentage, setHoveredPercentage] = useState(null);
 
@@ -55,22 +55,22 @@ const Analytics = () => {
     if (!selectedMonth) return null;
 
     const categorySums = {};
-    Object.keys(products).forEach((category) => {   // Object, product.json mistake - should be array
+    Object.keys(products).forEach((category) => {
       const categoryProducts = products[category];
       const categorySum = categoryProducts
-        .filter((product) => 
-              convertDateToMonth(product.date) === selectedMonth
-               )
+        .filter((product) => convertDateToMonth(product.date) === selectedMonth)
         .reduce(
           (sum, product) =>
-            sum +
-            parseFloat(product.price.replace("€", "").replace(",", ".")), // json file replace characters
+            sum + parseFloat(product.price.replace("€", "").replace(",", ".")),
           0
         );
       categorySums[category] = categorySum;
     });
 
-    const total = Object.values(categorySums).reduce((sum, value) => sum + value, 0); 
+    const total = Object.values(categorySums).reduce(
+      (sum, value) => sum + value,
+      0
+    );
 
     const chartData = {
       labels: Object.keys(categorySums),
@@ -86,7 +86,7 @@ const Analytics = () => {
             "rgb(153, 102, 255)",
             "rgb(255, 159, 64)",
           ],
-          hoverOffset: 4, // distance of the slice on hover
+          hoverOffset: 4,
         },
       ],
     };
@@ -97,15 +97,15 @@ const Analytics = () => {
           position: "right",
         },
         tooltip: {
-          enabled: false, // disable default tooltip
+          enabled: false,
         },
       },
       onHover: (event, chartElement) => {
         if (chartElement.length > 0) {
-          const hoveredIndex = chartElement[0].index; 
-          const hoveredCategory = chartData.labels[hoveredIndex]; 
-          const hoveredValue = chartData.datasets[0].data[hoveredIndex]; // value corresponding to the hovered element
-          const hoveredPercentage = ((hoveredValue / total) * 100).toFixed(2); 
+          const hoveredIndex = chartElement[0].index;
+          const hoveredCategory = chartData.labels[hoveredIndex];
+          const hoveredValue = chartData.datasets[0].data[hoveredIndex];
+          const hoveredPercentage = ((hoveredValue / total) * 100).toFixed(2);
           setHoveredCategory(hoveredCategory);
           setHoveredPercentage(hoveredPercentage);
         } else {
@@ -115,7 +115,7 @@ const Analytics = () => {
       },
     };
 
-    return { chartData, chartOptions };
+    return { chartData, chartOptions, total };
   };
 
   return (
@@ -129,20 +129,20 @@ const Analytics = () => {
             </option>
           ))}
         </select>
-
         <div className="chart">
           {selectedMonth && (
-            <>
+            <div>
               <Pie
                 data={getChartData().chartData}
                 options={getChartData().chartOptions}
               />
-              {hoveredCategory && (
-                <p>
-                  Category: {hoveredCategory} - {hoveredPercentage}%
-                </p>
-              )}
-            </>
+              <p>
+                Category: {hoveredCategory} - {hoveredPercentage}%
+              </p>
+              <p>
+                Total Spent in {selectedMonth}: €{getChartData().total}
+              </p>
+            </div>
           )}
         </div>
       </div>
