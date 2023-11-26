@@ -19,9 +19,10 @@ const ShoppingList = () => {
     clearTimeout(clickTimeoutRef.current);
     setMenuOpen((prev) => !prev);
   };
-
   const handleClickOutside = (e) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+    const isClickOutside =
+      dropdownRef.current && !dropdownRef.current.contains(e.target);
+    if (isClickOutside) {
       // Small delay to allow for a second click close dropdown
       clickTimeoutRef.current = setTimeout(() => {
         setMenuOpen(false);
@@ -44,7 +45,10 @@ const ShoppingList = () => {
 
       <ShoppingNavbar />
 
-      <div className={`dropdown-menu ${menuOpen ? "" : "hidden"}`} ref={dropdownRef}>
+      <div
+        className={`dropdown-menu ${menuOpen ? "" : "hidden"}`}
+        ref={dropdownRef}
+      >
         <ShoppingNavDropdown />
       </div>
 

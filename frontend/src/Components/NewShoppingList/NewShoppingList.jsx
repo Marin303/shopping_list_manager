@@ -151,16 +151,27 @@ const NewShoppingList = ({ listName }) => {
             <option value="Other">Other</option>
           </select>
           <div className="items-change-wrapper">
-            <button onClick={() => handleAddItem()} type="button">
+            <button 
+                onClick={
+                  () => handleAddItem()}
+                type="button"
+            >
               ADD
             </button>
-            <button onClick={() => handleDeleteItem(index)} type="button">
+            <button 
+                onClick={
+                  () => handleDeleteItem(index)} 
+                type="button"
+            >
               DELETE
             </button>
           </div>
         </form>
       ))}
-      {errorMsg && <p>Please fill required fields or delete items</p>}
+      {
+        errorMsg && 
+         <p>Please fill required fields or delete items</p>
+      }
       <div className="sum">
         <p>ITEMS IN CHART: {calculateSum()}</p>
         <p>SUM {calculateSumMoney()}€</p>
