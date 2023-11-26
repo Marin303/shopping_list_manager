@@ -15,7 +15,7 @@ const NewShoppingList = ({ listName }) => {
     const dataFromLocalStorage =
       JSON.parse(localStorage.getItem(`shoppingListData_${listName}`)) || {};
     const savedItems = dataFromLocalStorage.items || {};
-    setItems(savedItems.length > 0 ? savedItems : [createNewItem()]);  
+    setItems(savedItems.length > 0 ? savedItems : [createNewItem()]);
   }, [listName]);
 
   useEffect(() => {
@@ -92,9 +92,15 @@ const NewShoppingList = ({ listName }) => {
   };
 
   const handleDateTime = async () => {
-    const allChecked = items.every((item) => item.checked);
-
-    if (allChecked) {
+    const allValid = items.every(
+      (item) =>
+        item.name &&
+        item.quantity &&
+        item.price &&
+        item.category &&
+        item.checked
+    );
+    if (allValid) {
       const currentDateTime = new Date();
       const formattedDateTime = `${currentDateTime.toLocaleDateString()}`;
       setDateTime(formattedDateTime);
@@ -136,7 +142,7 @@ const NewShoppingList = ({ listName }) => {
   return (
     <div className="new_list_container">
       <h4 className="header_title">Create shopping list - {listName}</h4>
-      {items.map((item, index) => (
+      {items?.map((item, index) => (
         <form
           id={`list-item-${index}`}
           key={index}
@@ -187,10 +193,9 @@ const NewShoppingList = ({ listName }) => {
             id={`category-${index}`}
             defaultValue={category}
             onChange={(e) => handleCategoryChange(index, e)}
+            required
           >
-            <option value="category" disabled hidden>
-              Select a category
-            </option>
+            <option value="category">Select a category</option>
             <option value="Footwear">Footwear</option>
             <option value="Apparel">Apparel</option>
             <option value="Groceries">Groceries</option>
@@ -208,7 +213,7 @@ const NewShoppingList = ({ listName }) => {
           </div>
         </form>
       ))}
-      {errorMsg && <p>Please mark checked or delete items</p>}
+      {errorMsg && <p>Please fill required fields or delete items</p>}
       <div className="sum">
         <p>ITEMS IN CHART: {calculateSum()}</p>
         <p>SUM {calculateSumMoney()}€</p>
