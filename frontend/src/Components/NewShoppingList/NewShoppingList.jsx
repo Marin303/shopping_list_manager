@@ -1,87 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./newshoppinglist.scss";
 import axios from "axios";
+import { useShoppingListFunction } from "../../Helpers/Handlers";
 
 const NewShoppingList = ({ listName }) => {
-  const [dateTime, setDateTime] = useState(null);
-  const [items, setItems] = useState([]);
   const [errorMsg, setErrorMsg] = useState(false);
-  const [category] = useState("")
+  const {
+    items,
+    setItems,
+    dateTime,
+    setDateTime,
+    handleDeleteItem,
+    handleToggleCheckbox,
+    handleProductName,
+    handleQuantityChange,
+    handlePriceChange,
+    handleCategoryChange,
+    calculateSum,
+    calculateSumMoney,
+  } = useShoppingListFunction({ listName });
+
+  useEffect(() => {
+    const dataFromLocalStorage =
+      JSON.parse(localStorage.getItem(`shoppingListData_${listName}`)) || {};
+    const savedItems = dataFromLocalStorage.items || {};
+    setItems(savedItems.length > 0 ? savedItems : [createNewItem()]);
+  }, [listName, setItems]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      `shoppingListData_${listName}`,
+      JSON.stringify({ items })
+    );
+  }, [items, listName]);
+
+  const createNewItem = () => ({
+    name: "",
+    checked: false,
+    quantity: "",
+    price: "",
+    category: "",
+  });
+
   const handleAddItem = () => {
-    setItems([
-      ...items,
-      {
-        name: "",
-        checked: false,
-        quantity: "",
-        price: "",
-        category: "",
-      },
-    ]);
+    setItems([...items, createNewItem()]);
   };
 
-  // generating oncreate/onload at least 1
-  if (items.length === 0) {
-    handleAddItem();
-  }
-
-  const handleDeleteItem = (index) => {
-    if (items.length >= 1) {
-      const updatedItems = [...items];
-      updatedItems.splice(index, 1);
-      setItems(updatedItems);
-    }
-  };
-
-  //Lock input fields
-  const handleToggleCheckbox = (index) => {
-    const updatedItems = [...items];
-    updatedItems[index].checked = !updatedItems[index].checked;
-    setItems(updatedItems);
-  };
-
-  //Handle changes in the product name input
-  const handleInputChange = (index, e) => {
-    const updatedItems = [...items];
-    updatedItems[index].name = e.target.value;
-    setItems(updatedItems);
-  };
-
-  //Handle changes in the quantity input
-  const handleQuantityChange = (index, e) => {
-    const updatedItems = [...items];
-    updatedItems[index].quantity = parseInt(e.target.value) || 1;
-    setItems(updatedItems);
-  };
-
-  //Handle changes in the price input
-  const handlePriceChange = (index, e) => {
-    const updatedItems = [...items];
-    const newValue = e.target.value.replace(/[^0-9.]/g, "");
-    updatedItems[index].price = newValue;
-    setItems(updatedItems);
-  };
-
-  //Calculate the total number of items in the chart
-  const calculateSum = () => {
-    return items?.reduce(
-      (sum, item) => (item.checked ? sum + item.quantity : sum),
-      0
+  const handleDoneButton = async () => {
+    const allValid = items.every(
+      (item) =>
+        item.checked &&
+        item.name &&
+        item.quantity &&
+        item.price &&
+        item.category
     );
-  };
 
-  // Calculate the total cost of items in the chart
-  const calculateSumMoney = () => {
-    return items?.reduce(
-      (sum, item) => (item.checked ? sum + item.price * item.quantity : sum),
-      0
-    );
-  };
-
-  const handleDateTime = async () => {
-    const allChecked = items.every((item) => item.checked);
-
-    if (allChecked) {
+    if (allValid) {
       const currentDateTime = new Date();
       const formattedDateTime = `${currentDateTime.toLocaleDateString()}`;
       setDateTime(formattedDateTime);
@@ -89,7 +64,6 @@ const NewShoppingList = ({ listName }) => {
 
       // send to the backend
       const dataToSend = {
-        category,
         items,
         dateTime: formattedDateTime,
       };
@@ -112,15 +86,10 @@ const NewShoppingList = ({ listName }) => {
     }
   };
 
-  const handleCategoryChange = (index, e) => {
-    const updatedItems = [...items];
-    updatedItems[index].category = e.target.value;
-    setItems(updatedItems);
-  };
   return (
     <div className="new_list_container">
       <h4 className="header_title">Create shopping list - {listName}</h4>
-      {items.map((item, index) => (
+      {items?.map((item, index) => (
         <form
           id={`list-item-${index}`}
           key={index}
@@ -129,12 +98,12 @@ const NewShoppingList = ({ listName }) => {
         >
           <input
             type="text"
-            name={`list-item-${index}`}
-            id={`list-item-${index}`}
+            name="list-item"
+            id="list-item"
             className="list-item-input"
             placeholder="enter product name"
             value={item.name}
-            onChange={(e) => handleInputChange(index, e)}
+            onChange={(e) => handleProductName(index, "name", e.target.value)}
             disabled={item.checked}
           />
           <input
@@ -145,7 +114,7 @@ const NewShoppingList = ({ listName }) => {
           />
           <input
             type="number"
-            name={`quantity-${index}`}
+            name="quantity"
             className="inputNum"
             placeholder="amount"
             value={item.quantity}
@@ -155,7 +124,7 @@ const NewShoppingList = ({ listName }) => {
           <div className="input-with-euro">
             <input
               type="text"
-              name={`price-${index}`}
+              name="price"
               className="inputMoneyCount"
               placeholder="price"
               value={item.price}
@@ -169,12 +138,11 @@ const NewShoppingList = ({ listName }) => {
           <select
             name="category"
             id={`category-${index}`}
-            defaultValue={category}
+            value={item.category}
             onChange={(e) => handleCategoryChange(index, e)}
+            required
           >
-            <option value="category" disabled hidden>
-              Select a category
-            </option>
+            <option value="">Select a category</option>
             <option value="Footwear">Footwear</option>
             <option value="Apparel">Apparel</option>
             <option value="Groceries">Groceries</option>
@@ -183,21 +151,32 @@ const NewShoppingList = ({ listName }) => {
             <option value="Other">Other</option>
           </select>
           <div className="items-change-wrapper">
-            <button onClick={() => handleAddItem()} type="button">
+            <button 
+                onClick={
+                  () => handleAddItem()}
+                type="button"
+            >
               ADD
             </button>
-            <button onClick={() => handleDeleteItem(index)} type="button">
+            <button 
+                onClick={
+                  () => handleDeleteItem(index)} 
+                type="button"
+            >
               DELETE
             </button>
           </div>
         </form>
       ))}
-      {errorMsg && <p>Please mark checked or delete items</p>}
+      {
+        errorMsg && 
+         <p>Please fill required fields or delete items</p>
+      }
       <div className="sum">
         <p>ITEMS IN CHART: {calculateSum()}</p>
         <p>SUM {calculateSumMoney()}€</p>
         <p>DATE: {dateTime} </p>
-        <button type="submit" onClick={handleDateTime}>
+        <button type="submit" onClick={handleDoneButton}>
           DONE
         </button>
       </div>
