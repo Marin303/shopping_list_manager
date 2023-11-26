@@ -9,7 +9,6 @@ const NewShoppingList = ({ listName }) => {
   const [dateTime, setDateTime] = useState(null);
   const [items, setItems] = useState(savedData.items);
   const [errorMsg, setErrorMsg] = useState(false);
-  const [category, setCategory] = useState("");
 
   useEffect(() => {
     const dataFromLocalStorage =
@@ -41,6 +40,10 @@ const NewShoppingList = ({ listName }) => {
     if (items.length > 1) {
       const updatedItems = [...items];
       updatedItems.splice(index, 1);
+      setItems(updatedItems);
+    } else {
+      // If it's the last form, clear its values instead of deleting
+      const updatedItems = [createNewItem()];
       setItems(updatedItems);
     }
   };
@@ -75,6 +78,12 @@ const NewShoppingList = ({ listName }) => {
     setItems(updatedItems);
   };
 
+  const handleCategoryChange = (index, e) => {
+    const updatedItems = [...items];
+    updatedItems[index].category = e.target.value;
+    setItems(updatedItems);
+  };
+
   //Calculate the total number of items in the chart
   const calculateSum = () => {
     return items?.reduce(
@@ -91,15 +100,16 @@ const NewShoppingList = ({ listName }) => {
     );
   };
 
-  const handleDateTime = async () => {
+  const handleDoneButton = async () => {
     const allValid = items.every(
       (item) =>
+        item.checked &&
         item.name &&
         item.quantity &&
         item.price &&
-        item.category !== "" ? category : setErrorMsg(true) &&
-        item.checked
+        item.category
     );
+
     if (allValid) {
       const currentDateTime = new Date();
       const formattedDateTime = `${currentDateTime.toLocaleDateString()}`;
@@ -108,11 +118,10 @@ const NewShoppingList = ({ listName }) => {
 
       // send to the backend
       const dataToSend = {
-        category,
         items,
         dateTime: formattedDateTime,
       };
-      
+
       try {
         const response = await axios.post(
           "http://localhost:3001/api/products",
@@ -129,13 +138,6 @@ const NewShoppingList = ({ listName }) => {
     } else {
       setErrorMsg(true);
     }
-  };
-
-  const handleCategoryChange = (index, e) => {
-    const updatedItems = [...items];
-    updatedItems[index].category = e.target.value;
-    setCategory(e.target.value);
-    setItems(updatedItems);
   };
 
   return (
@@ -190,7 +192,7 @@ const NewShoppingList = ({ listName }) => {
           <select
             name="category"
             id={`category-${index}`}
-            defaultValue={category}
+            value={item.category}
             onChange={(e) => handleCategoryChange(index, e)}
             required
           >
@@ -217,7 +219,7 @@ const NewShoppingList = ({ listName }) => {
         <p>ITEMS IN CHART: {calculateSum()}</p>
         <p>SUM {calculateSumMoney()}€</p>
         <p>DATE: {dateTime} </p>
-        <button type="submit" onClick={handleDateTime}>
+        <button type="submit" onClick={handleDoneButton}>
           DONE
         </button>
       </div>
