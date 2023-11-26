@@ -39,30 +39,37 @@ docker run -p 3000:3000 frontend-image
 ```
 
 ## Frontend
-#### custom made product.json - inside backend folder
-#### Connection to API inside src/Assets/Api
+- custom made product.json - inside backend folder
+- Connection to API inside src/Assets/Api
 
 ### Layout
-#### Layout - contains all main logic for web application
-####        - handlers for shoppingList names, routing to main components
+- Layout - contains all main logic for web application
+        - handlers for shoppingList names, routing to main components
 
 ### Components
-#### Analytics - Chart - fetching product.json
-#### Create Menu - Menu to create NewShoppingList component
-#### NewShoppingList - Form for creating custom shopping list content
-####                 - It appears every time when a user creates new shopping list
-#### ShoppingList - header contains all shopping categories
-####              - for mobile version contains a dropdown category menu
-#### ShoppingNavBar - routing to category
+   - Analytics - Chart - fetching product.json
+  
+   - Create Menu - Menu to create NewShoppingList component
+ 
+
+- NewShoppingList - Form for creating custom shopping list content
+                 - It appears every time when a user creates new shopping list
+  
+- ShoppingList - header contains all shopping categories
+               - for mobile version contains a dropdown category menu
+- ShoppingNavBar - routing to category
 
 
 ### Products
-#### contains all categories separated - connection to API component
+- contains all categories separated - connection to API component
 
+## Backend
+- server.js - storing object thought keys into product.json 
 
-
-##### Have to fix:
-##### no routes matched location
-##### forms name
-##### add localstorage to shopping list name
-##### responsive menu mobile - on smaller screen looks big
+## To fix:
+<ol>
+  <li>forms name</li>
+  <li>add localstorage to Api.jsx - update json</li>
+  <li>responsive menu mobile - on smaller screen looks big</li>
+  <li>header minify on mobile</li>
+</ol>
