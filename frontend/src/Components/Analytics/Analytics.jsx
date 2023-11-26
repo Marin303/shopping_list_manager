@@ -140,7 +140,7 @@ const Analytics = () => {
                 Category: {hoveredCategory} - {hoveredPercentage}%
               </p>
               <p>
-                Total Spent in {selectedMonth}: €{getChartData().total}
+                Total Spent in {selectedMonth}: {getChartData().total}€
               </p>
             </div>
           )}

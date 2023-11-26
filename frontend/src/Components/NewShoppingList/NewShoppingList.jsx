@@ -1,21 +1,31 @@
 import React, { useEffect, useState } from "react";
 import "./newshoppinglist.scss";
 import axios from "axios";
+import { useShoppingListFunction } from "../../Helpers/Handlers";
 
 const NewShoppingList = ({ listName }) => {
-  const savedData =
-    JSON.parse(localStorage.getItem(`shoppingListData_${listName}`)) || {};
-
-  const [dateTime, setDateTime] = useState(null);
-  const [items, setItems] = useState(savedData.items);
   const [errorMsg, setErrorMsg] = useState(false);
+  const {
+    items,
+    setItems,
+    dateTime,
+    setDateTime,
+    handleDeleteItem,
+    handleToggleCheckbox,
+    handleProductName,
+    handleQuantityChange,
+    handlePriceChange,
+    handleCategoryChange,
+    calculateSum,
+    calculateSumMoney,
+  } = useShoppingListFunction({ listName });
 
   useEffect(() => {
     const dataFromLocalStorage =
       JSON.parse(localStorage.getItem(`shoppingListData_${listName}`)) || {};
     const savedItems = dataFromLocalStorage.items || {};
     setItems(savedItems.length > 0 ? savedItems : [createNewItem()]);
-  }, [listName]);
+  }, [listName, setItems]);
 
   useEffect(() => {
     localStorage.setItem(
@@ -34,70 +44,6 @@ const NewShoppingList = ({ listName }) => {
 
   const handleAddItem = () => {
     setItems([...items, createNewItem()]);
-  };
-
-  const handleDeleteItem = (index) => {
-    if (items.length > 1) {
-      const updatedItems = [...items];
-      updatedItems.splice(index, 1);
-      setItems(updatedItems);
-    } else {
-      // If it's the last form, clear its values instead of deleting
-      const updatedItems = [createNewItem()];
-      setItems(updatedItems);
-    }
-  };
-
-  const handleToggleCheckbox = (index) => {
-    const updatedItems = [...items];
-    updatedItems[index] = {
-      ...updatedItems[index],
-      checked: !updatedItems[index].checked,
-    };
-    setItems(updatedItems);
-  };
-
-  const handleProductName = (index, field, value) => {
-    const updatedItems = [...items];
-    updatedItems[index] = { ...updatedItems[index], [field]: value };
-    setItems(updatedItems);
-  };
-
-  //Handle changes in the quantity input
-  const handleQuantityChange = (index, e) => {
-    const updatedItems = [...items];
-    updatedItems[index].quantity = parseInt(e.target.value) || 1;
-    setItems(updatedItems);
-  };
-
-  //Handle changes in the price input
-  const handlePriceChange = (index, e) => {
-    const updatedItems = [...items];
-    const newValue = e.target.value.replace(/[^0-9.]/g, "");
-    updatedItems[index].price = newValue;
-    setItems(updatedItems);
-  };
-
-  const handleCategoryChange = (index, e) => {
-    const updatedItems = [...items];
-    updatedItems[index].category = e.target.value;
-    setItems(updatedItems);
-  };
-
-  //Calculate the total number of items in the chart
-  const calculateSum = () => {
-    return items?.reduce(
-      (sum, item) => (item.checked ? sum + item.quantity : sum),
-      0
-    );
-  };
-
-  // Calculate the total cost of items in the chart
-  const calculateSumMoney = () => {
-    return items?.reduce(
-      (sum, item) => (item.checked ? sum + item.price * item.quantity : sum),
-      0
-    );
   };
 
   const handleDoneButton = async () => {
@@ -152,8 +98,8 @@ const NewShoppingList = ({ listName }) => {
         >
           <input
             type="text"
-            name={`list-item`}
-            id={`list-item`}
+            name="list-item"
+            id="list-item"
             className="list-item-input"
             placeholder="enter product name"
             value={item.name}
@@ -168,7 +114,7 @@ const NewShoppingList = ({ listName }) => {
           />
           <input
             type="number"
-            name={`quantity`}
+            name="quantity"
             className="inputNum"
             placeholder="amount"
             value={item.quantity}
@@ -178,7 +124,7 @@ const NewShoppingList = ({ listName }) => {
           <div className="input-with-euro">
             <input
               type="text"
-              name={`price`}
+              name="price"
               className="inputMoneyCount"
               placeholder="price"
               value={item.price}
