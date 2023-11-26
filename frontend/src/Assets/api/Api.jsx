@@ -31,8 +31,8 @@ const Api = ({ category }) => {
 
   return (
     <ul className="products_container">
-      {products.map((product) => (
-        <li key={product.name}>
+      {products.map((product, index) => (
+        <li key={`${product.name}-${index}`}>
           <img
             src={`http://localhost:3001/${product.img}`}
             alt={product.name}
