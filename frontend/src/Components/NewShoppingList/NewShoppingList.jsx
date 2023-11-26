@@ -3,20 +3,22 @@ import "./newshoppinglist.scss";
 import axios from "axios";
 
 const NewShoppingList = ({ listName }) => {
+  const savedData =
+    JSON.parse(localStorage.getItem(`shoppingListData_${listName}`)) || {};
+
   const [dateTime, setDateTime] = useState(null);
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(savedData.items);
   const [errorMsg, setErrorMsg] = useState(false);
   const [category, setCategory] = useState("");
 
   useEffect(() => {
-    const savedData =
+    const dataFromLocalStorage =
       JSON.parse(localStorage.getItem(`shoppingListData_${listName}`)) || {};
-    const savedItems = savedData.items || [];
-    setItems(savedItems.length > 0 ? savedItems : [createNewItem()]);
+    const savedItems = dataFromLocalStorage.items || {};
+    setItems(savedItems.length > 0 ? savedItems : [createNewItem()]);  
   }, [listName]);
 
   useEffect(() => {
-    // Update localStorage whenever items change
     localStorage.setItem(
       `shoppingListData_${listName}`,
       JSON.stringify({ items })
@@ -35,16 +37,10 @@ const NewShoppingList = ({ listName }) => {
     setItems([...items, createNewItem()]);
   };
 
-  // generating oncreate/onload at least 1
-  if (items.length === 0) {
-    handleAddItem();
-  }
-
   const handleDeleteItem = (index) => {
-    if (items.length >= 1) {
+    if (items.length > 1) {
       const updatedItems = [...items];
       updatedItems.splice(index, 1);
-      //localStorage.removeItem(`shoppingListData_${listName}`) // it should remove specific data
       setItems(updatedItems);
     }
   };
@@ -128,7 +124,6 @@ const NewShoppingList = ({ listName }) => {
     } else {
       setErrorMsg(true);
     }
-    //localStorage.removeItem(`shoppingListData_${listName}`) // i need to clear storage after that button trigger
   };
 
   const handleCategoryChange = (index, e) => {

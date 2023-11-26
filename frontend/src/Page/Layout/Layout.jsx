@@ -6,17 +6,23 @@ import {Route,Routes,Navigate,NavLink,useNavigate,} from "react-router-dom";
 import CreateMenu from "../../Components/CreateMenu/CreateMenu";
 import NewShoppingList from "../../Components/NewShoppingList/NewShoppingList";
 
+// declared outside - I need it only once when component loads
+const storedShoppingList =
+JSON.parse(localStorage.getItem("shoppingListName")) || []; 
+
+const updateLocalStorage = (updatedNames) => {
+      localStorage.setItem("shoppingListName", JSON.stringify(updatedNames));
+    };
+
 const Layout = () => {
   const [createMenuVisible, setCreateMenuVisible] = useState(false);
   const [editingIndex, setEditingIndex] = useState(null);
   const [newName, setNewName] = useState("");
-  const [shoppingListName, setShoppingListName] = useState(JSON.parse(localStorage.getItem("shoppingListName")) || []);
-  
+  const [shoppingListName, setShoppingListName] = useState(storedShoppingList);
   const navigate = useNavigate();
 
+  
   useEffect(() => {
-    const storedShoppingList =
-      JSON.parse(localStorage.getItem("shoppingListName")) || [];
     setShoppingListName(storedShoppingList);
   }, []);
 
@@ -27,7 +33,7 @@ const Layout = () => {
   const handleCreateShoppingList = (name) => {
     setShoppingListName((prevNames) => {
       const updatedNames = [...prevNames, name];
-      localStorage.setItem("shoppingListName", JSON.stringify(updatedNames));
+      updateLocalStorage(updatedNames)
       return updatedNames;
     });
     navigate(`/new-shopping-list/${name}`);
@@ -47,7 +53,7 @@ const Layout = () => {
     setShoppingListName((prevNames) => {
       const updatedNames = [...prevNames];
       updatedNames[index] = newName;
-      localStorage.setItem("shoppingListName", JSON.stringify(updatedNames));
+      updateLocalStorage(updatedNames)
       return updatedNames;
     });
     setEditingIndex(null);
@@ -57,7 +63,7 @@ const Layout = () => {
     setShoppingListName((prevNames) => {
       const updatedNames = [...prevNames];
       updatedNames.splice(index, 1);
-      localStorage.setItem("shoppingListName", JSON.stringify(updatedNames));
+      updateLocalStorage(updatedNames)
       return updatedNames;
     });
     navigate("/");
