@@ -97,7 +97,7 @@ const NewShoppingList = ({ listName }) => {
         item.name &&
         item.quantity &&
         item.price &&
-        item.category &&
+        item.category !== "" ? category : setErrorMsg(true) &&
         item.checked
     );
     if (allValid) {
@@ -112,8 +112,7 @@ const NewShoppingList = ({ listName }) => {
         items,
         dateTime: formattedDateTime,
       };
-
-      console.log("Data to send:", dataToSend);
+      
       try {
         const response = await axios.post(
           "http://localhost:3001/api/products",
@@ -195,7 +194,7 @@ const NewShoppingList = ({ listName }) => {
             onChange={(e) => handleCategoryChange(index, e)}
             required
           >
-            <option value="category">Select a category</option>
+            <option value="">Select a category</option>
             <option value="Footwear">Footwear</option>
             <option value="Apparel">Apparel</option>
             <option value="Groceries">Groceries</option>
