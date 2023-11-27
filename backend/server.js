@@ -1,17 +1,24 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const fs = require("fs");
-const cors = require("cors");
-require("dotenv").config();
+import express from "express";
+import bodyParser from "body-parser";
+import fs from "fs";
+import cors from "cors";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 app.use(cors());
 app.use(bodyParser.json());
-app.use("/images", express.static(__dirname + "/images"));
+app.use("/images", express.static(`${__dirname}/images`));
 
-let data = require("./data/products.json");
+let data = loadProductsFromFile();
 
 app.get("/api/products", (req, res) => {
   res.json(data.products);
@@ -37,7 +44,6 @@ app.post("/api/products", (req, res) => {
         amount: item.quantity,
         price: item.price,
         date: dateTime,
-        /* category: item.category, */
         img: "images/image-not-available.png",
       });
       return acc;
@@ -55,11 +61,7 @@ app.post("/api/products", (req, res) => {
     });
 
     // Save updated data
-    fs.writeFileSync(
-      "./data/products.json",
-      JSON.stringify(data, null, 2),
-      "utf8"
-    );
+    saveDataToFile();
 
     res.status(201).json({ success: true });
   } catch (error) {
@@ -71,3 +73,25 @@ app.post("/api/products", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+function loadProductsFromFile() {
+  try {
+    const rawData = fs.readFileSync(`${__dirname}/data/products.json`);
+    return JSON.parse(rawData);
+  } catch (error) {
+    console.error("Error loading data from file:", error);
+    return { products: {} };
+  }
+}
+
+function saveDataToFile() {
+  try {
+    fs.writeFileSync(
+      `${__dirname}/data/products.json`,
+      JSON.stringify(data, null, 2),
+      "utf8"
+    );
+  } catch (error) {
+    console.error("Error saving data to file:", error);
+  }
+}
