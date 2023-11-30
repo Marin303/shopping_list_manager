@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 import { getData } from './Helpers/get/get.js';
 import { saveData } from './Helpers/post/post.js';
 import { loadData } from './Helpers/load-save/operate.js';
+import { updateProduct } from './Helpers/put/put.js';
 
 dotenv.config();
 
@@ -32,6 +33,10 @@ await initializeData();
 
 app.get('/api/products', getData(data));
 app.post('/api/products', saveData(data, dataFilePath));
+app.put('/api/products', (req, res) => {
+  const updateResult = updateProduct(data, dataFilePath, req.body);
+  res.status(updateResult.success ? 200 : 500).json(updateResult);
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
