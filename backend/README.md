@@ -3,5 +3,8 @@
 
 #### run
 ```
+npm start
+```
+```
 nodemon start
 ```

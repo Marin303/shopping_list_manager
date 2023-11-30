@@ -1,16 +1,9 @@
-import fs from "fs/promises";
-
+import { saveDataToFile } from "../load-save/operate.js";
 function saveData(data, currentDir) {
-  return async(req, res) => {
+  return async (req, res) => {
     const { items, dateTime } = req.body;
 
     try {
-      
-      /* 
-      if (!data.products || typeof data.products !== "object") {
-        data.products = {};
-      } */
-
       // Group items by category
       const itemsByCategory = items.reduce((acc, item) => {
         const category = item.category;
@@ -39,26 +32,13 @@ function saveData(data, currentDir) {
       });
 
       // Save updated data
-      saveDataToFile();
+      saveDataToFile(data, currentDir);
 
       res.status(201).json({ success: true });
     } catch (error) {
       console.error("Error processing the request:", error);
       res.status(500).json({ success: false, error: "Internal Server Error" });
     }
-
-    function saveDataToFile() {
-      try {
-        fs.writeFile(
-          `${currentDir}/data/products.json`,
-          JSON.stringify(data, null, 2),
-          "utf8"
-        );
-      } catch (error) {
-        console.error("Error saving data to file:", error);
-      }
-    }
   };
 }
-
 export { saveData };
