@@ -73,3 +73,10 @@ docker run -p 3000:3000 frontend-image
   <li>responsive menu mobile - on smaller screen looks big</li>
   <li>header minify on mobile</li>
 </ol>
+
+## Project look initial phase
+
+  <img width="40%" alt="Project Look Initial 01" src="https://github.com/Marin303/shopping_list_manager/assets/117216819/87014e21-04c8-4881-9696-68cb87f80ac3" /></br>
+  <img width="40%" alt="Project Look Initial 02" src="https://github.com/Marin303/shopping_list_manager/assets/117216819/95f8e8d9-b75a-412a-bd0d-245b0daa44cd" />
+
+
