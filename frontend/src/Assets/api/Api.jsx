@@ -53,8 +53,18 @@ const Api = ({ category }) => {
     updatedProducts[productIndex].price = newPrice;
     setProducts(updatedProducts);
 
-    // Implement logic to update the product data in the backend or wherever needed
-    console.log("Save product:", updatedProducts[productIndex]);
+    try {
+      axios.put("http://localhost:3001/api/products", {
+        category: category,
+        index: productIndex,
+        newName: newName,
+        newAmount: newAmount,
+        newPrice: newPrice,
+      });
+      console.log("Product data updated successfully");
+    } catch (error) {
+      console.error("Error updating product data:", error);
+    }
   };
 
   const handleDelete = (productIndex) => {
@@ -81,15 +91,16 @@ const Api = ({ category }) => {
   };
 
   const handleEditChange = (e, field) => {
+    const value = e.target.value;
     switch (field) {
       case "name":
-        setNewName(e.target.value);
+        setNewName(value);
         break;
       case "amount":
-        setNewAmount(e.target.value);
+        setNewAmount(value);
         break;
       case "price":
-        setNewPrice(e.target.value);
+        setNewPrice(value);
         break;
       default:
         break;
