@@ -20,7 +20,7 @@ const Api = ({ category }) => {
     handleDelete,
     handleConfirmDelete,
     handleCancelDelete,
-  } = useProductEditing();
+  } = useProductEditing(category);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -82,7 +82,7 @@ const Api = ({ category }) => {
           <p className="product-price">
             {editModes[index] ? (
               <input
-                type="number"
+                type="text"
                 value={newPrice}
                 onChange={(e) => handleEditChange(e, "price")}
               />

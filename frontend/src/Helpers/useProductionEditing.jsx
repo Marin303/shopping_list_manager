@@ -72,6 +72,8 @@ const useProductEditing = (category) => {
 
   const handleEditChange = (e, field) => {
     const value = e.target.value;
+    const numberAndCommaPattern = /^[0-9,]*$/;
+
     switch (field) {
       case "name":
         setNewName(value);
@@ -80,7 +82,9 @@ const useProductEditing = (category) => {
         setNewAmount(value);
         break;
       case "price":
-        setNewPrice(value);
+        if (numberAndCommaPattern.test(value) || value === "") {
+          setNewPrice(value);
+        }
         break;
       default:
         break;
