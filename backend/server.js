@@ -1,71 +1,41 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const fs = require("fs");
-const cors = require("cors");
-require("dotenv").config();
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import dotenv from 'dotenv';
+import { getData } from './Helpers/get/get.js';
+import { saveData } from './Helpers/post/post.js';
+import { loadData } from './Helpers/load-save/operate.js';
+import { updateProduct } from './Helpers/put/put.js';
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+const filename = fileURLToPath(import.meta.url);
+const currentDir = dirname(filename);
+const dataFilePath = `${currentDir}/data/products.json`;
+
 app.use(cors());
 app.use(bodyParser.json());
-app.use("/images", express.static(__dirname + "/images"));
+app.use('/images', express.static(`${currentDir}/images`));
 
-let data = require("./data/products.json");
+let data;
 
-app.get("/api/products", (req, res) => {
-  res.json(data.products);
-});
+async function initializeData() {
+  data = await loadData(dataFilePath);
+}
 
-app.post("/api/products", (req, res) => {
-  const { items, dateTime } = req.body;
+// Load initial data
+await initializeData();
 
-  try {
-    // Ensure data.products is an object
-    if (!data.products || typeof data.products !== "object") {
-      data.products = {};
-    }
-
-    // Group items by category
-    const itemsByCategory = items.reduce((acc, item) => {
-      const category = item.category;
-      if (!acc[category]) {
-        acc[category] = [];
-      }
-      acc[category].push({
-        name: item.name,
-        amount: item.quantity,
-        price: item.price,
-        date: dateTime,
-        /* category: item.category, */
-        img: "images/image-not-available.png",
-      });
-      return acc;
-    }, {});
-
-    // Merge items into products.json
-    Object.keys(itemsByCategory).forEach((category) => {
-      if (data.products[category]) {
-        data.products[category] = data.products[category].concat(
-          itemsByCategory[category]
-        );
-      } else {
-        data.products[category] = itemsByCategory[category];
-      }
-    });
-
-    // Save updated data
-    fs.writeFileSync(
-      "./data/products.json",
-      JSON.stringify(data, null, 2),
-      "utf8"
-    );
-
-    res.status(201).json({ success: true });
-  } catch (error) {
-    console.error("Error processing the request:", error);
-    res.status(500).json({ success: false, error: "Internal Server Error" });
-  }
+app.get('/api/products', getData(data));
+app.post('/api/products', saveData(data, dataFilePath));
+app.put('/api/products', (req, res) => {
+  const updateResult = updateProduct(data, dataFilePath, req.body);
+  res.status(updateResult.success ? 200 : 500).json(updateResult);
 });
 
 app.listen(PORT, () => {
