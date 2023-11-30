@@ -3,5 +3,5 @@
 
 #### run
 ```
-nodemon server.js
+nodemon start
 ```
