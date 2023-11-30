@@ -1,13 +1,14 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-import dotenv from 'dotenv';
-import { getData } from './Helpers/get/get.js';
-import { saveData } from './Helpers/post/post.js';
-import { loadData } from './Helpers/load-save/operate.js';
-import { updateProduct } from './Helpers/put/put.js';
+import express from "express";
+import bodyParser from "body-parser";
+import cors from "cors";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+import dotenv from "dotenv";
+import { getData } from "./Helpers/get/get.js";
+import { saveData } from "./Helpers/post/post.js";
+import { loadData } from "./Helpers/load-save/operate.js";
+import { deleteData } from "./Helpers/delete/delete.js";
+import { updateProduct } from "./Helpers/put/put.js";
 
 dotenv.config();
 
@@ -20,7 +21,7 @@ const dataFilePath = `${currentDir}/data/products.json`;
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use('/images', express.static(`${currentDir}/images`));
+app.use("/images", express.static(`${currentDir}/images`));
 
 let data;
 
@@ -31,12 +32,13 @@ async function initializeData() {
 // Load initial data
 await initializeData();
 
-app.get('/api/products', getData(data));
-app.post('/api/products', saveData(data, dataFilePath));
-app.put('/api/products', (req, res) => {
+app.get("/api/products", getData(data));
+app.post("/api/products", saveData(data, dataFilePath));
+app.put("/api/products", (req, res) => {
   const updateResult = updateProduct(data, dataFilePath, req.body);
   res.status(updateResult.success ? 200 : 500).json(updateResult);
 });
+app.delete("/api/products/:index", deleteData(data, dataFilePath));
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
