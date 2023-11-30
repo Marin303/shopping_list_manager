@@ -1,10 +1,9 @@
+import axios from "axios";
 import { useState } from "react";
 
-const useProductEditing = (initialProducts) => {
-  const [products, setProducts] = useState(initialProducts);
-  const [editModes, setEditModes] = useState(
-    Array(initialProducts.length).fill(false)
-  );
+const useProductEditing = (category) => {
+  const [products, setProducts] = useState([]);
+  const [editModes, setEditModes] = useState([]);
   const [newName, setNewName] = useState("");
   const [newAmount, setNewAmount] = useState(0);
   const [newPrice, setNewPrice] = useState(0);
@@ -12,8 +11,9 @@ const useProductEditing = (initialProducts) => {
     index: null,
     confirmed: false,
   });
+  const [handleVisible, setHandleVisible] = useState(true);
 
-  const startEditing = (productIndex) => {
+  const handleEdit = (productIndex) => {
     setNewName(products[productIndex].name);
     setNewAmount(products[productIndex].amount);
     setNewPrice(products[productIndex].price);
@@ -22,37 +22,51 @@ const useProductEditing = (initialProducts) => {
     );
   };
 
-  const saveEditing = (productIndex) => {
-    setEditModes((prevModes) =>
-      prevModes.map((mode, index) => (index === productIndex ? !mode : mode))
+  const handleSave = (productIndex) => {
+    setEditModes(
+      (prevModes) =>
+        prevModes.map((mode, index) => (index === productIndex ? !mode : mode)) //switch between edit mode
     );
-
     const updatedProducts = [...products];
     updatedProducts[productIndex].name = newName;
     updatedProducts[productIndex].amount = newAmount;
     updatedProducts[productIndex].price = newPrice;
     setProducts(updatedProducts);
 
-    // You can pass this function to your backend API call
-    // saveProduct(updatedProducts[productIndex]);
+    try {
+      axios.put("http://localhost:3001/api/products", {
+        category: category,
+        index: productIndex,
+        newName: newName,
+        newAmount: newAmount,
+        newPrice: newPrice,
+      });
+      console.log("Product data updated successfully");
+    } catch (error) {
+      console.error("Error updating product data:", error);
+    }
   };
 
-  const startDelete = (productIndex) => {
-    setDeleteConfirmation({ index: productIndex, confirmed: false });
+  const handleDelete = (productIndex) => {
+    setHandleVisible(false);
+    setDeleteConfirmation({
+      index: productIndex,
+      confirmed: false,
+    });
   };
 
-  const confirmDelete = () => {
+  const handleConfirmDelete = () => {
+    setHandleVisible(true);
     const indexToDelete = deleteConfirmation.index;
     const updatedProducts = [...products];
     updatedProducts.splice(indexToDelete, 1);
     setProducts(updatedProducts);
-    setDeleteConfirmation({ index: null, confirmed: false });
 
-    // You can pass this function to your backend API call
-    // deleteProduct(indexToDelete);
+    setDeleteConfirmation({ index: null, confirmed: false });
   };
 
-  const cancelDelete = () => {
+  const handleCancelDelete = () => {
+    setHandleVisible(true);
     setDeleteConfirmation({ index: null, confirmed: false });
   };
 
@@ -75,16 +89,20 @@ const useProductEditing = (initialProducts) => {
 
   return {
     products,
+    category,
     editModes,
     newName,
     newAmount,
     newPrice,
+    handleVisible,
     deleteConfirmation,
-    startEditing,
-    saveEditing,
-    startDelete,
-    confirmDelete,
-    cancelDelete,
+    setProducts,
+    setEditModes,
+    handleSave,
+    handleEdit,
+    handleDelete,
+    handleConfirmDelete,
+    handleCancelDelete,
     handleEditChange,
   };
 };
