@@ -3,7 +3,7 @@ import axios from "axios";
 import "./analytics.scss";
 import { Pie } from "react-chartjs-2";
 import { Chart, ArcElement } from "chart.js";
-
+import { months } from "../../Helpers/Months";
 Chart.register(ArcElement);
 
 const Analytics = () => {
@@ -28,21 +28,6 @@ const Analytics = () => {
   const handleMonthChange = (e) => {
     setSelectedMonth(e.target.value);
   };
-
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
 
   const convertDateToMonth = (dateString) => {
     const dateParts = dateString.split("/");

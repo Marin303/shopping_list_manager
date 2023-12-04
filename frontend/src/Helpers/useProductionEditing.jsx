@@ -7,11 +7,13 @@ const useProductEditing = (category) => {
   const [newName, setNewName] = useState("");
   const [newAmount, setNewAmount] = useState(0);
   const [newPrice, setNewPrice] = useState(0);
-  const [deleteConfirmation, setDeleteConfirmation] = useState({
+  const [handleVisible, setHandleVisible] = useState(true);
+  const initialDeleteValues = {
     index: null,
     confirmed: false,
-  });
-  const [handleVisible, setHandleVisible] = useState(true);
+  };
+  const [deleteConfirmation, setDeleteConfirmation] =
+    useState(initialDeleteValues);
 
   const handleEdit = (productIndex) => {
     setNewName(products[productIndex].name);
@@ -55,19 +57,36 @@ const useProductEditing = (category) => {
     });
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     setHandleVisible(true);
     const indexToDelete = deleteConfirmation.index;
-    const updatedProducts = [...products];
-    updatedProducts.splice(indexToDelete, 1);
-    setProducts(updatedProducts);
-
-    setDeleteConfirmation({ index: null, confirmed: false });
+    console.log("Deleting product. Category:", category, "Index:", indexToDelete);
+    try {
+      const response = await axios.delete(
+        `http://localhost:3001/api/products/${indexToDelete}`,
+        {
+          data: { category: category }, 
+        }
+      );
+      console.log("Delete response:", response.data);
+      if (response.data.success) {
+        const updatedProducts = [...products];
+        updatedProducts.splice(indexToDelete, 1);
+        setProducts(updatedProducts);
+      } else {
+        console.error("Error deleting product:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  
+    setDeleteConfirmation(initialDeleteValues);
   };
+  
 
   const handleCancelDelete = () => {
     setHandleVisible(true);
-    setDeleteConfirmation({ index: null, confirmed: false });
+    setDeleteConfirmation(initialDeleteValues);
   };
 
   const handleEditChange = (e, field) => {
