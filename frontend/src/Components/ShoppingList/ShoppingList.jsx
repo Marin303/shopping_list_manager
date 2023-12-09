@@ -8,7 +8,6 @@ import Apparel from "../../Products/Apparel/Apparel";
 import Footwear from "../../Products/Footwear/Footwear";
 import Other from "../../Products/Other/Other";
 import ShoppingNavbar from "../ShoppingNavbar/ShoppingNavbar";
-import ShoppingNavDropdown from "../ShoppingNavDropdown/ShoppingNavDropdown";
 
 const ShoppingList = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -42,16 +41,13 @@ const ShoppingList = () => {
       <button className="menu_button" onClick={toggleMenu}>
         Menu
       </button>
-
-      <ShoppingNavbar />
-
+      <ShoppingNavbar isLargeScreen={!menuOpen} /> {/* LargeScreen */}
       <div
         className={`dropdown-menu ${menuOpen ? "" : "hidden"}`}
         ref={dropdownRef}
       >
-        <ShoppingNavDropdown />
+        <ShoppingNavbar isLargeScreen={false} />
       </div>
-
       <Routes>
         <Route path="groceries" element={<Groceries />} />
         <Route path="household-items" element={<HouseholdItems />} />
