@@ -1,10 +1,14 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import "./shopping.scss"
+import "./shopping.scss";
 
-const ShoppingNavbar = () => {
+const ShoppingNavbar = ({ isLargeScreen }) => {
+  const navbarClassScreen = isLargeScreen
+    ? "shopping_navbar"
+    : "shopping_navbar_dropdown";
+
   return (
-    <nav className="shopping_navbar">
+    <nav className={navbarClassScreen}>
       <ul>
         <li>
           <NavLink to="/shopping-list/groceries" activeclassname="active">
