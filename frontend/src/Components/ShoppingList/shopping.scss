@@ -1,7 +1,7 @@
 @import "../../Assets/colors/colors.scss";
-
+@import "../../Assets/fixed-properties/properties.scss";
 .shopping_list_container {
-    width: 70%;
+    width: $navbar-width;
 
     .active {
         background-color: darken($header, 20%);

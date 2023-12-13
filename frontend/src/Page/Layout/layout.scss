@@ -1,10 +1,10 @@
 @import "../../Assets/colors/colors.scss";
+@import "../../Assets/fixed-properties/properties.scss";
 
 .layout_container {
     width: 100%;
     min-height: 100vh;
     display: flex;
-
     .create-shopping-list {
         margin-bottom: 10px;
     }
@@ -18,7 +18,7 @@
         display: flex;
         flex-wrap: wrap;
 
-        // flex-wrap won't trigger without inline-block 
+        // flex-wrap won't trigger without inline-block
         li {
             //display: inline-block;
             align-items: center;
@@ -28,7 +28,6 @@
         }
 
         .save-edit-wrapper {
-
             display: flex;
             flex-wrap: wrap;
             gap: 5px;
@@ -37,62 +36,90 @@
         }
     }
 
-    &_header {
-        background-color: $header;
+    .open_header {
+        position: fixed;
+        z-index: 1;
+        top: 60px;
+        left: 200px;
+    }
+    .open_header2 {
+        position: fixed;
+        z-index: 1;
+        top: 190px;
+        left: 200px;
+    }
+    .header_display_none {
         width: 30%;
-        //height: 100%;
+        margin-left: -30%;
+        transition: margin-left 0.5s ease-in-out;
+    }
 
-        nav {
-            ul {
-                padding: 20px 0;
-                list-style: none;
-                display: flex;
-                flex-direction: column;
-                background-color: $header;
-            }
+    .layout_container_header {
+        background-color: $header;
+        width: $left-header-width;
+        margin-left: 0;
+        transition: margin-left 0.5s ease-in-out;
+    }
+    
+    .left-nav {
+        height: 100%;
+        min-width: $left-header-width;
+        background-color: $header;
 
-            .analytics {
-                margin-top: 100px;
-            }
+        ul {
+            padding: 20px 0;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            background-color: $header;
+            
+        }
 
-            li {
-                display: flex;
-                align-items: center;
-                gap: 5px;
+        .analytics {
+            margin-top: 100px;
+        }
 
-                a {
-                    width: 100%;
-                    text-decoration: none;
-                    color: $text-color;
-                    padding: 10px;
-                    margin-right: 5px;
+        li {
+            display: flex;
+            align-items: center;
+            gap: 5px;
 
-                    &:hover {
-                        background-color: $hover;
-                    }
+            a {
+                width: 100%;
+                text-decoration: none;
+                color: $text-color;
+                padding: 10px;
+                margin-right: 5px;
 
-                    &.active {
-                        background-color: $active;
-                    }
+                &:hover {
+                    background-color: $hover;
+                }
+
+                &.active {
+                    background-color: $active;
                 }
             }
         }
     }
 }
+
 @media screen and (max-width: 540px) {
-    .layout_container .delete-btn{
+    .layout_container .delete-btn {
         margin-left: 0;
     }
 }
+
 @media screen and (max-width: 400px) {
-    .menu_button{
-        position: relative;
+    .menu_button {
+        //position: relative;
         left: 100%;
     }
-    .layout_container_header{
+
+    .layout_container_header {
         width: 50%;
-        
+
     }
+
     .layout_container_header nav li a {
         padding: 5px;
         font-size: smaller;
