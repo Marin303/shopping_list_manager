@@ -39,7 +39,7 @@ const ShoppingList = () => {
   return (
     <div className="shopping_list_container">
       <button className="menu_button" onClick={toggleMenu}>
-        Menu
+        <i className="fa-solid fa-bars"></i>
       </button>
       <ShoppingNavbar isLargeScreen={!menuOpen} /> {/* LargeScreen */}
       <div

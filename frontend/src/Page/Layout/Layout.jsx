@@ -25,7 +25,9 @@ const Layout = () => {
   const [editingIndex, setEditingIndex] = useState(null);
   const [newName, setNewName] = useState("");
   const [shoppingListName, setShoppingListName] = useState(storedShoppingList);
-  
+  const [closeHeader, setCloseHeader] = useState(true);
+  const [openHeader, setOpenHeader] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -74,34 +76,31 @@ const Layout = () => {
     });
     navigate("/");
   };
-  const [closeHeader, setCloseHeader] = useState(false); 
-  const [openHeader, setOpenHeader] = useState(true); 
 
-  const toggleHeader = () => {
+  const toggleCloseHeader = () => {
     setOpenHeader((prev) => !prev);
     setCloseHeader((prev) => !prev);
-    
   };
-  const toggleHeaderClose = () => {
+  const toggleOpenHeader = () => {
     setCloseHeader((prev) => !prev);
     setOpenHeader((prev) => !prev);
   };
 
   return (
     <div className="layout_container">
-      {closeHeader && (
-        <button className="open_header2" onClick={toggleHeaderClose}>
-          Open
+      {openHeader && (
+        <button className="open_header" onClick={toggleOpenHeader}>
+          <i className="fa-regular fa-eye"></i>
         </button>
       )}
       <header
         className={
-          openHeader ? "layout_container_header" : "header_display_none"
+          closeHeader ? "layout_container_header" : "header_display_none"
         }
       >
         <nav className="left-nav">
-          <button className="close_header" onClick={toggleHeader}>
-            Close
+          <button className="close_header" onClick={toggleCloseHeader}>
+            <i className="fa-regular fa-eye-slash"></i>
           </button>
           <ul>
             <li>
