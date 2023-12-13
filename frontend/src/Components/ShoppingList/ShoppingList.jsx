@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./shopping.scss";
+import "./shoppingList.scss";
 import { Routes, Route } from "react-router-dom";
 import Groceries from "../../Products/Groceries/Groceries";
 import HouseholdItems from "../../Products/Household/Household";
@@ -41,13 +41,11 @@ const ShoppingList = () => {
       <button className="menu_button" onClick={toggleMenu}>
         <i className="fa-solid fa-bars"></i>
       </button>
-      <ShoppingNavbar isLargeScreen={!menuOpen} /> {/* LargeScreen */}
+      <ShoppingNavbar isLargeScreen={!menuOpen} />
       <div
         className={`dropdown-menu ${menuOpen ? "" : "hidden"}`}
         ref={dropdownRef}
-      >
-        <ShoppingNavbar isLargeScreen={false} />
-      </div>
+      ></div>
       <Routes>
         <Route path="groceries" element={<Groceries />} />
         <Route path="household-items" element={<HouseholdItems />} />

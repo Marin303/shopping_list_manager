@@ -85,7 +85,21 @@ const Layout = () => {
     setCloseHeader((prev) => !prev);
     setOpenHeader((prev) => !prev);
   };
-
+  /* useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 764) {
+        setCloseHeader(true);
+      } else {
+        setOpenHeader(true);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); */
+  
   return (
     <div className="layout_container">
       {openHeader && (

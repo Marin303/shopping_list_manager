@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import "./shopping.scss";
+import "./shoppingNavBar.scss";
 
 const ShoppingNavbar = ({ isLargeScreen }) => {
   const navbarClassScreen = isLargeScreen
