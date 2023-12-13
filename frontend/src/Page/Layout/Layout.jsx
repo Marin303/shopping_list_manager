@@ -2,26 +2,34 @@ import React, { useEffect, useState } from "react";
 import ShoppingList from "../../Components/ShoppingList/ShoppingList";
 import Analytics from "../../Components/Analytics/Analytics";
 import "./layout.scss";
-import {Route,Routes,Navigate,NavLink,useNavigate,} from "react-router-dom";
+import {
+  Route,
+  Routes,
+  Navigate,
+  NavLink,
+  useNavigate,
+} from "react-router-dom";
 import CreateMenu from "../../Components/CreateMenu/CreateMenu";
 import NewShoppingList from "../../Components/NewShoppingList/NewShoppingList";
 
 // declared outside - I need it only once when component loads
 const storedShoppingList =
-JSON.parse(localStorage.getItem("shoppingListName")) || []; 
+  JSON.parse(localStorage.getItem("shoppingListName")) || [];
 
 const updateLocalStorage = (updatedNames) => {
-      localStorage.setItem("shoppingListName", JSON.stringify(updatedNames));
-    };
+  localStorage.setItem("shoppingListName", JSON.stringify(updatedNames));
+};
 
 const Layout = () => {
   const [createMenuVisible, setCreateMenuVisible] = useState(false);
   const [editingIndex, setEditingIndex] = useState(null);
   const [newName, setNewName] = useState("");
   const [shoppingListName, setShoppingListName] = useState(storedShoppingList);
+  const [closeHeader, setCloseHeader] = useState(true);
+  const [openHeader, setOpenHeader] = useState(false);
+
   const navigate = useNavigate();
 
-  
   useEffect(() => {
     setShoppingListName(storedShoppingList);
   }, []);
@@ -33,7 +41,7 @@ const Layout = () => {
   const handleCreateShoppingList = (name) => {
     setShoppingListName((prevNames) => {
       const updatedNames = [...prevNames, name];
-      updateLocalStorage(updatedNames)
+      updateLocalStorage(updatedNames);
       return updatedNames;
     });
     navigate(`/new-shopping-list/${name}`);
@@ -53,7 +61,7 @@ const Layout = () => {
     setShoppingListName((prevNames) => {
       const updatedNames = [...prevNames];
       updatedNames[index] = newName;
-      updateLocalStorage(updatedNames)
+      updateLocalStorage(updatedNames);
       return updatedNames;
     });
     setEditingIndex(null);
@@ -63,15 +71,51 @@ const Layout = () => {
     setShoppingListName((prevNames) => {
       const updatedNames = [...prevNames];
       updatedNames.splice(index, 1);
-      updateLocalStorage(updatedNames)
+      updateLocalStorage(updatedNames);
       return updatedNames;
     });
     navigate("/");
   };
+
+  const toggleCloseHeader = () => {
+    setOpenHeader((prev) => !prev);
+    setCloseHeader((prev) => !prev);
+  };
+  const toggleOpenHeader = () => {
+    setCloseHeader((prev) => !prev);
+    setOpenHeader((prev) => !prev);
+  };
+  /* useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 764) {
+        setCloseHeader(true);
+      } else {
+        setOpenHeader(true);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); */
+  
   return (
     <div className="layout_container">
-      <header className="layout_container_header">
-        <nav>
+      {openHeader && (
+        <button className="open_header" onClick={toggleOpenHeader}>
+          <i className="fa-regular fa-eye"></i>
+        </button>
+      )}
+      <header
+        className={
+          closeHeader ? "layout_container_header" : "header_display_none"
+        }
+      >
+        <nav className="left-nav">
+          <button className="close_header" onClick={toggleCloseHeader}>
+            <i className="fa-regular fa-eye-slash"></i>
+          </button>
           <ul>
             <li>
               <NavLink to="/shopping-list/groceries" activeclassname="active">

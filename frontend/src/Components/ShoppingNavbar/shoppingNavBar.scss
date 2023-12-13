@@ -1,7 +1,6 @@
 @import "../../Assets/colors/colors.scss";
 
 .shopping_navbar {
-
     ul {
         width: 100%;
         color: white;
@@ -24,14 +23,18 @@
         }
     }
 }
-
+.hidden{
+    display: none;
+}
 .shopping_navbar_dropdown {
-    position: absolute;
-    right: 0;
-    top: 50px;
+    display: flex;
     z-index: 10;
+    justify-content: center;
+    text-align: center;
     ul {
-        border-radius: 10px;
+        width: 100%;
+        
+        border-radius: 0 0 10px 10px;
         color: white;   
         padding: 50px;
         list-style: none;
