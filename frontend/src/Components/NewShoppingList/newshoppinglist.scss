@@ -57,3 +57,9 @@
     padding-left: 10px;
   }
 }
+
+@media screen and (max-width:275px) {
+  .list-item-input {
+    max-width: 120px;
+  }
+}
