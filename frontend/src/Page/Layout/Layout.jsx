@@ -86,7 +86,8 @@ const Layout = () => {
   const handleResize = useCallback(() => {
     const screenWidth = window.innerWidth;
     if (screenWidth >= 764 ) {
-      setCloseHeader(true); 
+      setCloseHeader(true);
+      setOpenHeader(false) 
     }
   }, []);
 
