@@ -10,18 +10,13 @@
         margin-bottom: 10px;
     }
 
-    .delete-btn {
-        margin-left: 5px;
-    }
 
     .shopping-list {
-        //padding: 5px;
         display: flex;
         flex-wrap: wrap;
 
         // flex-wrap won't trigger without inline-block
         li {
-            //display: inline-block;
             align-items: center;
             display: flex;
             flex-direction: column;
@@ -47,24 +42,33 @@
 
     .close_header {
         display: none;
-    }//764px - display block
+    }
+
+    //764px - display block
 
     .header_display_none {
         min-width: 220px;
         margin-left: -220px;
         transition: margin-left 0.5s ease-in-out;
+
+        
     }
 
-    .layout_container_header {
+    header {
         background-color: $header;
-       // width: 220px;
         margin-left: 0;
         transition: margin-left 0.5s ease-in-out;
+        //width: $left-header-width;
+        min-width: 200px;
+    }
+
+    .main_components {
+       width: 100%;      
     }
 
     .left-nav {
-        height: 100%;
-        min-width: $left-header-width;
+        position: fixed;  
+        //min-width: $left-header-width;
         background-color: $header;
 
         ul {
@@ -73,7 +77,6 @@
             display: flex;
             flex-direction: column;
             background-color: $header;
-
         }
 
         .analytics {
@@ -108,7 +111,8 @@
     .layout_container .close_header {
         display: block;
     }
-    .layout_container .open_header{
+
+    .layout_container .open_header {
         display: block;
     }
 }
@@ -117,15 +121,11 @@
     .layout_container .delete-btn {
         margin-left: 0;
     }
-   /*  .layout_container .left-nav{
-        position: absolute;
-    } */
-
 }
 
 @media screen and (max-width: 400px) {
     .layout_container_header nav li a {
         padding: 5px;
         font-size: smaller;
-    } 
+    }
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ShoppingList from "../../Components/ShoppingList/ShoppingList";
 import Analytics from "../../Components/Analytics/Analytics";
 import "./layout.scss";
@@ -26,6 +26,7 @@ const Layout = () => {
   const [newName, setNewName] = useState("");
   const [shoppingListName, setShoppingListName] = useState(storedShoppingList);
   const [closeHeader, setCloseHeader] = useState(true);
+
   const [openHeader, setOpenHeader] = useState(false);
 
   const navigate = useNavigate();
@@ -77,29 +78,25 @@ const Layout = () => {
     navigate("/");
   };
 
-  const toggleCloseHeader = () => {
-    setOpenHeader((prev) => !prev);
-    setCloseHeader((prev) => !prev);
-  };
   const toggleOpenHeader = () => {
     setCloseHeader((prev) => !prev);
     setOpenHeader((prev) => !prev);
   };
-  /* useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 764) {
-        setCloseHeader(true);
-      } else {
-        setOpenHeader(true);
-      }
-    };
-    handleResize();
+ 
+  const handleResize = useCallback(() => {
+    const screenWidth = window.innerWidth;
+    if (screenWidth >= 764 ) {
+      setCloseHeader(true); 
+    }
+  }, []);
+
+  useEffect(() => {
+    handleResize(); 
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []); */
-  
+  }, [handleResize]);
   return (
     <div className="layout_container">
       {openHeader && (
@@ -113,7 +110,7 @@ const Layout = () => {
         }
       >
         <nav className="left-nav">
-          <button className="close_header" onClick={toggleCloseHeader}>
+          <button className="close_header" onClick={toggleOpenHeader}>
             <i className="fa-regular fa-eye-slash"></i>
           </button>
           <ul>
@@ -169,26 +166,31 @@ const Layout = () => {
           </ul>
         </nav>
       </header>
-      {createMenuVisible && (
-        <CreateMenu
-          shoppingListName={shoppingListName}
-          onCreateShoppingList={handleCreateShoppingList}
-          toggleCreateMenu={toggleCreateMenu}
-        />
-      )}
-      <Routes>
-        <Route path="/" element={<Navigate to="/shopping-list/groceries" />} />
-        {shoppingListName.map((name, index) => (
-          <Route
-            key={index}
-            path={`/new-shopping-list-${name}`}
-            element={<NewShoppingList listName={name} />}
+      <div className="main_components">
+        {createMenuVisible && (
+          <CreateMenu
+            shoppingListName={shoppingListName}
+            onCreateShoppingList={handleCreateShoppingList}
+            toggleCreateMenu={toggleCreateMenu}
           />
-        ))}
-        <Route path="/shopping-list//*" element={<ShoppingList />} />
-        <Route path="/new-shopping-list//*" element={<ShoppingList />} />
-        <Route path="/analytics" element={<Analytics />} />
-      </Routes>
+        )}
+        <Routes>
+          <Route
+            path="/"
+            element={<Navigate to="/shopping-list/groceries" />}
+          />
+          {shoppingListName.map((name, index) => (
+            <Route
+              key={index}
+              path={`/new-shopping-list-${name}`}
+              element={<NewShoppingList listName={name} />}
+            />
+          ))}
+          <Route path="/shopping-list//*" element={<ShoppingList />} />
+          <Route path="/new-shopping-list//*" element={<ShoppingList />} />
+          <Route path="/analytics" element={<Analytics />} />
+        </Routes>
+      </div>
     </div>
   );
 };
