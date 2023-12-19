@@ -96,6 +96,7 @@ const Api = ({ category }) => {
             <button
               onClick={() => handleEdit(index)}
               className={handleVisible ? "" : "hidden"}
+              title="edit-button"
             >
               Edit
             </button>
@@ -105,18 +106,20 @@ const Api = ({ category }) => {
                 <button
                   onClick={() => handleDelete(index)}
                   className={handleVisible ? "" : "hidden"}
+                  title="delete-button"
                 >
                   Delete
                 </button>
                 {deleteConfirmation.index === index && (
                   <>
-                    <button onClick={handleConfirmDelete}>Yes</button>
-                    <button onClick={handleCancelDelete}>No</button>
+                    <button onClick={handleConfirmDelete} title="confirm">Yes</button>
+                    <button onClick={handleCancelDelete} title="decline">No</button>
                   </>
                 )}
                 <button
                   onClick={() => handleSave(index)}
                   className={handleVisible ? "" : "hidden"}
+                  title="save-button"
                 >
                   Save
                 </button>
