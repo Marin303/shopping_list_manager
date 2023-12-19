@@ -121,7 +121,7 @@ const Layout = () => {
               </NavLink>
             </li>
           </ul>
-          <button onClick={toggleCreateMenu} className="create-shopping-list" aria-label="open create menu">
+          <button onClick={toggleCreateMenu} className="create-shopping-list" aria-label="create new shopping list">
             Create New Shopping List
           </button>
 

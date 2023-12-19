@@ -174,7 +174,7 @@ const NewShoppingList = ({ listName }) => {
         <p>ITEMS IN CHART: {calculateSum()}</p>
         <p>SUM {calculateSumMoney()}€</p>
         <p>DATE: {dateTime} </p>
-        <button type="submit" onClick={handleDoneButton} aria-label="confirm">
+        <button type="submit" onClick={handleDoneButton} aria-label="done button">
           DONE
         </button>
       </div>
