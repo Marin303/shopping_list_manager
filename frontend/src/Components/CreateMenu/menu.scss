@@ -5,8 +5,10 @@
     left: 60%;
     transform: translate(-50%,-50%);
     z-index: 100;
-
+    
     form {
+        transition: height 1s ease-in-out;
+        border: 1px solid white;
         border-radius: 5px;
         background-color: $header;
         //width: 100%;
@@ -16,7 +18,6 @@
         flex-direction: column;
         gap: 5px;
 
-
         input:focus-visible{
             border: 2px solid $button-background;
             border-radius: 2px;
@@ -24,6 +25,7 @@
         }
     }
     .title{
+        color: white;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -35,5 +37,16 @@
         padding: 5px;
         margin-bottom: 5px;
         border-radius: 5px;
+    }
+}
+
+@media screen and (max-width:400px) {
+    .create_menu_container form{
+        height: 20vh;
+        width:70%;
+    }
+    .create_menu_container {
+        left: 70%;
+        
     }
 }

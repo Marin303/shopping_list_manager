@@ -1,7 +1,7 @@
 @import "../../Assets/fixed-properties/properties.scss";
 @import "../../Assets/colors/colors.scss";
 
-.analytics_container{
+.analytics_container{ 
     width: $navbar-width;
    .analytics_wrapper{
     padding: $padding-elements;
@@ -12,5 +12,7 @@
     }
     .chart{
         max-width: 400px;
+        margin: 0 auto;
+        text-align: center;
     }
 }

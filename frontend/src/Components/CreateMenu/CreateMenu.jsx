@@ -12,7 +12,7 @@ const CreateMenu = ({ onCreateShoppingList, toggleCreateMenu }) => {
       return;
     }
     onCreateShoppingList(shoppingListName);
-    toggleCreateMenu()
+    toggleCreateMenu();
   };
 
   // when user start typing error message disappear
@@ -27,7 +27,7 @@ const CreateMenu = ({ onCreateShoppingList, toggleCreateMenu }) => {
           <p>Name cannot be empty</p>
         </div>
       )}
-      <form action="" onSubmit={handleSubmit} id="createMenuForm">
+      <form action="" onSubmit={handleSubmit} id="createMenuForm" name="name">
         <div className="title">
           <label htmlFor="nameInput">Enter name:</label>
           <button onClick={toggleCreateMenu} type="button">
