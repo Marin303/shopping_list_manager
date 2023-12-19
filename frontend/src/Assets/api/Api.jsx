@@ -96,7 +96,7 @@ const Api = ({ category }) => {
             <button
               onClick={() => handleEdit(index)}
               className={handleVisible ? "" : "hidden"}
-              title="edit-button"
+              aria-label="edit-button"
             >
               Edit
             </button>
@@ -106,20 +106,20 @@ const Api = ({ category }) => {
                 <button
                   onClick={() => handleDelete(index)}
                   className={handleVisible ? "" : "hidden"}
-                  title="delete-button"
+                  aria-label="delete-button"
                 >
                   Delete
                 </button>
                 {deleteConfirmation.index === index && (
                   <>
-                    <button onClick={handleConfirmDelete} title="confirm">Yes</button>
-                    <button onClick={handleCancelDelete} title="decline">No</button>
+                    <button onClick={handleConfirmDelete} aria-label="confirm">Yes</button>
+                    <button onClick={handleCancelDelete} aria-label="decline">No</button>
                   </>
                 )}
                 <button
                   onClick={() => handleSave(index)}
                   className={handleVisible ? "" : "hidden"}
-                  title="save-button"
+                  aria-label="save-button"
                 >
                   Save
                 </button>

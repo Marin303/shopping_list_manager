@@ -155,14 +155,14 @@ const NewShoppingList = ({ listName }) => {
             <button
               onClick={() => handleAddItem()}
               type="button"
-              title="add-button"
+              aria-label="add-button"
             >
               ADD
             </button>
             <button
               onClick={() => handleDeleteItem(index)}
               type="button"
-              title="delete-button"
+              aria-label="delete-button"
             >
               DELETE
             </button>
@@ -174,7 +174,7 @@ const NewShoppingList = ({ listName }) => {
         <p>ITEMS IN CHART: {calculateSum()}</p>
         <p>SUM {calculateSumMoney()}€</p>
         <p>DATE: {dateTime} </p>
-        <button type="submit" onClick={handleDoneButton} title="confirm">
+        <button type="submit" onClick={handleDoneButton} aria-label="confirm">
           DONE
         </button>
       </div>

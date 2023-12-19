@@ -30,7 +30,7 @@ const CreateMenu = ({ onCreateShoppingList, toggleCreateMenu }) => {
       <form action="" onSubmit={handleSubmit} id="createMenuForm" name="name">
         <div className="title">
           <label htmlFor="nameInput">Enter name:</label>
-          <button onClick={toggleCreateMenu} type="button" title="create-menu-button">
+          <button onClick={toggleCreateMenu} type="button" aria-label="create-menu-button">
             X
           </button>
         </div>
@@ -41,7 +41,7 @@ const CreateMenu = ({ onCreateShoppingList, toggleCreateMenu }) => {
           onChange={handleValueChange}
           autoComplete="off"
         />
-        <button type="submit" title="confirm">Submit</button>
+        <button type="submit" aria-label="confirm">Submit</button>
       </form>
     </div>
   );

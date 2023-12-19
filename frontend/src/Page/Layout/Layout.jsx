@@ -101,7 +101,7 @@ const Layout = () => {
   return (
     <div className="layout_container">
       {openHeader && (
-        <button className="open_header" onClick={toggleOpenHeader} title="open sidebar">
+        <button className="open_header" onClick={toggleOpenHeader} aria-label="open sidebar">
           <i className="fa-regular fa-eye"></i>
         </button>
       )}
@@ -111,7 +111,7 @@ const Layout = () => {
         }
       >
         <nav className="left-nav">
-          <button className="close_header" onClick={toggleOpenHeader} title="close sidebar">
+          <button className="close_header" onClick={toggleOpenHeader} aria-label="close sidebar">
             <i className="fa-regular fa-eye-slash"></i>
           </button>
           <ul>
@@ -121,7 +121,7 @@ const Layout = () => {
               </NavLink>
             </li>
           </ul>
-          <button onClick={toggleCreateMenu} className="create-shopping-list" title="open create menu">
+          <button onClick={toggleCreateMenu} className="create-shopping-list" aria-label="open create menu">
             Create New Shopping List
           </button>
 
@@ -136,20 +136,20 @@ const Layout = () => {
                       onChange={(e) => setNewName(e.target.value)}
                     />
 
-                    <button onClick={() => handleSaveEdit(index)} title="save button">Save</button>
-                    <button onClick={handleCancelEdit} title="cancel button">Cancel</button>
+                    <button onClick={() => handleSaveEdit(index)} aria-label="save button">Save</button>
+                    <button onClick={handleCancelEdit} aria-label="cancel button">Cancel</button>
                   </>
                 ) : (
                   <>
                     <NavLink to={`/new-shopping-list-${name}`}>{name}</NavLink>
                     <div className="save-edit-wrapper">
-                      <button onClick={() => handleEditShoppingList(index)} title="edit button">
+                      <button onClick={() => handleEditShoppingList(index)} aria-label="edit button">
                         Edit
                       </button>
                       <button
                         className="delete-btn"
                         onClick={() => handleDeleteShoppingList(index)}
-                        title="delete button"
+                        aria-label="delete button"
                       >
                         Delete
                       </button>
