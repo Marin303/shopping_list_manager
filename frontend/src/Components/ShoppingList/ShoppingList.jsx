@@ -38,7 +38,7 @@ const ShoppingList = () => {
 
   return (
     <div className="shopping_list_container">
-      <button className="menu_button" onClick={toggleMenu}>
+      <button className="menu_button" onClick={toggleMenu} aria-label="toggle menu">
         <i className="fa-solid fa-bars"></i>
       </button>
       <ShoppingNavbar isLargeScreen={!menuOpen} />

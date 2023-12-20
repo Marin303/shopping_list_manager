@@ -94,7 +94,7 @@ const NewShoppingList = ({ listName }) => {
           id={`list-item-${index}`}
           key={index}
           className="form-items"
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={(e) => e.preventDefault()}        
         >
           <input
             type="text"
@@ -107,6 +107,7 @@ const NewShoppingList = ({ listName }) => {
             disabled={item.checked}
           />
           <input
+            name="checkbox" //violating node rule
             type="checkbox"
             className="list-item-checkbox"
             checked={item.checked}
@@ -151,32 +152,29 @@ const NewShoppingList = ({ listName }) => {
             <option value="Other">Other</option>
           </select>
           <div className="items-change-wrapper">
-            <button 
-                onClick={
-                  () => handleAddItem()}
-                type="button"
+            <button
+              onClick={() => handleAddItem()}
+              type="button"
+              aria-label="add-button"
             >
               ADD
             </button>
-            <button 
-                onClick={
-                  () => handleDeleteItem(index)} 
-                type="button"
+            <button
+              onClick={() => handleDeleteItem(index)}
+              type="button"
+              aria-label="delete-button"
             >
               DELETE
             </button>
           </div>
         </form>
       ))}
-      {
-        errorMsg && 
-         <p>Please fill required fields or delete items</p>
-      }
+      {errorMsg && <p>Please fill required fields or delete items</p>}
       <div className="sum">
         <p>ITEMS IN CHART: {calculateSum()}</p>
         <p>SUM {calculateSumMoney()}€</p>
         <p>DATE: {dateTime} </p>
-        <button type="submit" onClick={handleDoneButton}>
+        <button type="submit" onClick={handleDoneButton} aria-label="done button">
           DONE
         </button>
       </div>
