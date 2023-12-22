@@ -52,11 +52,20 @@ const Api = ({ category }) => {
     <ul className="products_container">
       {products.map((product, index) => (
         <li key={`${product.name}-${index}`}>
-          <img
-            src={`http://localhost:3001/${product.img}`}
-            alt={product.name}
-            className="products"
-          />
+          <div className="image_wrapper">
+            {product.img === "images/image-not-available.png" && (
+              <div className="image_input_wrapper">
+                <input type="file" name="new-image" id="new-image" />
+                <label htmlFor="new-image">Choose Image</label>
+              </div>
+            )}
+
+            <img
+              src={`http://localhost:3001/${product.img}`}
+              alt={product.name}
+              className="products"
+            />
+          </div>
           <p className="product-name">
             {editModes[index] ? (
               <input
@@ -112,8 +121,12 @@ const Api = ({ category }) => {
                 </button>
                 {deleteConfirmation.index === index && (
                   <>
-                    <button onClick={handleConfirmDelete} aria-label="confirm">Yes</button>
-                    <button onClick={handleCancelDelete} aria-label="decline">No</button>
+                    <button onClick={handleConfirmDelete} aria-label="confirm">
+                      Yes
+                    </button>
+                    <button onClick={handleCancelDelete} aria-label="decline">
+                      No
+                    </button>
                   </>
                 )}
                 <button
