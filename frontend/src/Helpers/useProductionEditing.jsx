@@ -8,13 +8,19 @@ const useProductEditing = (category) => {
   const [newAmount, setNewAmount] = useState(0);
   const [newPrice, setNewPrice] = useState(0);
   const [handleVisible, setHandleVisible] = useState(true);
+  const [newImage, setNewImage] = useState("");
+
   const initialDeleteValues = {
     index: null,
     confirmed: false,
   };
   const [deleteConfirmation, setDeleteConfirmation] =
     useState(initialDeleteValues);
-
+    
+  const handleImageChange = (e) => {
+      const newImageValue = e.target.files[0];
+      setNewImage(newImageValue);
+    };
   const handleEdit = (productIndex) => {
     setNewName(products[productIndex].name);
     setNewAmount(products[productIndex].amount);
@@ -127,6 +133,7 @@ const useProductEditing = (category) => {
     handleConfirmDelete,
     handleCancelDelete,
     handleEditChange,
+    handleImageChange
   };
 };
 
