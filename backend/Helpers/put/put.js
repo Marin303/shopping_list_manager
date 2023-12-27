@@ -7,6 +7,7 @@ function updateProduct(data, dataFilePath, updatedProduct) {
       data.products[category][index].name = newName;
       data.products[category][index].amount = newAmount;
       data.products[category][index].price = newPrice;
+      data.products[category][index].img = imagePath;
 
       // Save updated data
       saveDataToFile(data, dataFilePath);

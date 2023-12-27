@@ -32,12 +32,16 @@ async function initializeData() {
 // Load initial data
 await initializeData();
 
+//app.use(fileUpload());
+
 app.get("/api/products", getData(data));
 app.post("/api/products", saveData(data, dataFilePath));
+
 app.put("/api/products", (req, res) => {
   const updateResult = updateProduct(data, dataFilePath, req.body);
   res.status(updateResult.success ? 200 : 500).json(updateResult);
 });
+
 app.delete("/api/products/:index", deleteData(data, dataFilePath));
 
 app.listen(PORT, () => {
