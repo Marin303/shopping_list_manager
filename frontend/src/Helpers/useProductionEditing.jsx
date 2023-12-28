@@ -17,37 +17,33 @@ const useProductEditing = (category) => {
   const [deleteConfirmation, setDeleteConfirmation] =
     useState(initialDeleteValues);
     
-  // useProductEditing.jsx
-const handleImageChange = async (e, productIndex) => {
-  console.log("File input changed");
-  const newImage = e.target.files[0];
-  console.log("New Image", newImage);
-
-  // Upload the image and get the imageUrl
-  const formData = new FormData();
-  formData.append("newImage", newImage);
-  formData.append("index", productIndex);
-
-  try {
-    const response = await axios.put("http://localhost:3001/api/products", {
-      category: category,
-      index: productIndex,
-      newImage: newImage, // Pass the new image
-    });
-    const imageUrl = response.data.imageUrl;
-
-    setProducts((prevProducts) => {
-      const updatedProducts = [...prevProducts];
-      updatedProducts[productIndex].img = imageUrl;
-      console.log("Updated Products State:", updatedProducts);
-      return updatedProducts;
-    });
-
-    setNewImage(imageUrl);
-  } catch (error) {
-    console.error("Error updating image:", error);
-  }
-};
+    const handleImageChange = async (e, productIndex) => {
+      console.log("File input changed");
+      const newImage = e.target.files[0];
+      console.log("New Image", newImage);
+    
+      // Upload the image and get the imageUrl
+      const formData = new FormData();
+      formData.append("newImage", newImage);
+      formData.append("index", productIndex); // Pass productIndex as part of formData
+    
+      try {
+        const response = await axios.post("http://localhost:3001/api/upload", formData);
+        const imageUrl = response.data.imageUrl;
+    
+        setProducts((prevProducts) => {
+          const updatedProducts = [...prevProducts];
+          updatedProducts[productIndex].img = imageUrl; // Update the img property
+          console.log("Updated Products State:", updatedProducts);
+          return updatedProducts;
+        });
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
+    };
+    
+    
+    
 
     
   const handleEdit = (productIndex) => {

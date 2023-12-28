@@ -2,7 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import { fileURLToPath } from "url";
-import { dirname } from "path";
+import path, { dirname } from "path";
 import dotenv from "dotenv";
 import { getData } from "./Helpers/get/get.js";
 import { saveData } from "./Helpers/post/post.js";
@@ -36,23 +36,32 @@ await initializeData();
 //app.use(fileUpload());
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./images/newImages"); 
+    cb(null, "./images/newImages");
   },
   filename: function (req, file, cb) {
-    cb(null, `product_${req.body.index}`);/*  ${path.extname(file.originalname)} */
+    cb(null, `product_${req.body.index}${path.extname(file.originalname)}`);
   },
 });
+
 
 const upload = multer({ storage: storage });
 
 app.post("/api/upload", upload.single("newImage"), (req, res) => {
+  console.log("Received image upload request");
+  console.log("Request body:", req.body);
+  console.log("Request file:", req.file);
   const imageUrl = `/images/newImages/${req.file.filename}`;
+  console.log("Received index:", req.body.index); // Add this line to log the received index
   res.json({ success: true, imageUrl });
 });
+
+
 app.get("/api/products", getData(data));
 app.post("/api/products", saveData(data, dataFilePath));
 
 app.put("/api/products", (req, res) => {
+  console.log("Received update request");
+  console.log("Request body:", req.body);
   const updateResult = updateProduct(data, dataFilePath, req.body);
   res.status(updateResult.success ? 200 : 500).json(updateResult);
 });
