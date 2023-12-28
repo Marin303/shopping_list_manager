@@ -44,7 +44,7 @@ const storage = multer.diskStorage({
 
     cb(
       null,
-      `product_${req.body.category}_${req.body.index}${file.originalname}`
+      `product_${req.body.category}_${req.body.index}_${file.originalname}`
     );
   },
 });
@@ -69,3 +69,4 @@ app.delete("/api/products/:index", deleteData(data, dataFilePath));
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+

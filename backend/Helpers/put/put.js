@@ -1,13 +1,15 @@
 import { saveDataToFile } from "../load-save/operate.js";
+
 function updateProduct(data, dataFilePath, updatedProduct) {
   try {
     const { category, index, newName, newAmount, newPrice, newImage } = updatedProduct;
 
     if (data.products[category] && data.products[category][index]) {
-      data.products[category][index].name = newName;
-      data.products[category][index].amount = newAmount;
-      data.products[category][index].price = newPrice;
-      data.products[category][index].img = newImage;
+      const updatedProduct = data.products[category][index];
+      updatedProduct.name = newName;
+      updatedProduct.amount = newAmount;
+      updatedProduct.price = newPrice;
+      updatedProduct.img = newImage;
 
       // Save updated data
       saveDataToFile(data, dataFilePath);

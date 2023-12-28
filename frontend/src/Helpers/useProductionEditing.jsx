@@ -16,32 +16,47 @@ const useProductEditing = (category) => {
   };
   const [deleteConfirmation, setDeleteConfirmation] =
     useState(initialDeleteValues);
-    
     const handleImageChange = async (e, productIndex) => {
-      console.log("File input changed");
       const newImage = e.target.files[0];
       console.log("New Image", newImage);
     
       // Upload the image and get the imageUrl
       const formData = new FormData();
-      formData.append("category", category)
-      formData.append("index", productIndex); 
+      formData.append("category", category);
+      formData.append("index", productIndex);
       formData.append("newImage", newImage);
     
       try {
-        const response = await axios.post("http://localhost:3001/api/upload", formData);
+        const response = await axios.post(
+          "http://localhost:3001/api/upload",
+          formData
+        );
         const imageUrl = response.data.imageUrl;
     
         setProducts((prevProducts) => {
           const updatedProducts = [...prevProducts];
-          updatedProducts[productIndex].img = imageUrl; 
-          console.log("Updated Products State:", updatedProducts);
+          updatedProducts[productIndex].img = imageUrl;
           return updatedProducts;
         });
+    
+        // product details with the new image URL
+        try {
+          await axios.put("http://localhost:3001/api/products", {
+            category: category,
+            index: productIndex,
+            newName: products[productIndex].name,
+            newAmount: products[productIndex].amount,
+            newPrice: products[productIndex].price,
+            newImage: imageUrl,
+          });
+          console.log("Product image updated successfully");
+        } catch (error) {
+          console.error("Error updating product image:", error);
+        }
       } catch (error) {
         console.error("Error uploading image:", error);
       }
-    }
+    }; 
 
   const handleEdit = (productIndex) => {
     setNewName(products[productIndex].name);
@@ -53,8 +68,6 @@ const useProductEditing = (category) => {
   };
 
   const handleSave = (productIndex) => {
-    console.log("Saving Product Index inside handleSave:", productIndex);
-    console.log("New Image State inside handleSave:", newImage);
     setEditModes(
       (prevModes) =>
         prevModes.map((mode, index) => (index === productIndex ? !mode : mode)) //switch between edit mode
@@ -63,6 +76,7 @@ const useProductEditing = (category) => {
     updatedProducts[productIndex].name = newName;
     updatedProducts[productIndex].amount = newAmount;
     updatedProducts[productIndex].price = newPrice;
+    updatedProducts[productIndex].image = newImage
     setProducts(updatedProducts);
 
     try {
@@ -72,7 +86,6 @@ const useProductEditing = (category) => {
         newName: newName,
         newAmount: newAmount,
         newPrice: newPrice,
-        newImage: newImage,
       });
       console.log("Product data updated successfully");
     } catch (error) {
@@ -141,7 +154,7 @@ const useProductEditing = (category) => {
         }
         break;
       case "img":
-        setNewImage(value)
+        setNewImage(value);
         break;
       default:
         break;
