@@ -9,6 +9,7 @@ import { saveData } from "./Helpers/post/post.js";
 import { loadData } from "./Helpers/load-save/operate.js";
 import { deleteData } from "./Helpers/delete/delete.js";
 import { updateProduct } from "./Helpers/put/put.js";
+import multer from "multer";
 
 dotenv.config();
 
@@ -33,7 +34,21 @@ async function initializeData() {
 await initializeData();
 
 //app.use(fileUpload());
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./images/newImages"); 
+  },
+  filename: function (req, file, cb) {
+    cb(null, `product_${req.body.index}`);/*  ${path.extname(file.originalname)} */
+  },
+});
 
+const upload = multer({ storage: storage });
+
+app.post("/api/upload", upload.single("newImage"), (req, res) => {
+  const imageUrl = `/images/newImages/${req.file.filename}`;
+  res.json({ success: true, imageUrl });
+});
 app.get("/api/products", getData(data));
 app.post("/api/products", saveData(data, dataFilePath));
 

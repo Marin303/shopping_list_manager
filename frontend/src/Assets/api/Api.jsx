@@ -21,7 +21,7 @@ const Api = ({ category }) => {
     handleConfirmDelete,
     handleCancelDelete,
     handleImageChange,
-    uploadImage
+  
   } = useProductEditing(category);
   const [loading, setLoading] = useState(true);
 
@@ -50,22 +50,20 @@ const Api = ({ category }) => {
     return <p>No products available for this category.</p>;
   }
   const emptyImage = "images/image-not-available.png";
- 
+
   return (
     <ul className="products_container">
       {products.map((product, index) => (
         <li key={`${product.name}-${index}`}>
           <div className="image_wrapper">
             {product.img === emptyImage && (
-              <div className="image_input_wrapper">
-                <input
-                  type="file"
-                  name="new-image"
-                  id="new-image"
-                  onChange={(e) => handleImageChange(e, index)}
-                />
+              <form
+                className="image_input_wrapper"
+                onChange={(e) => handleImageChange(e, index)}
+              >
+                <input type="file" name="new-image" id="new-image" />
                 <label htmlFor="new-image">Choose Image</label>
-              </div>
+              </form>
             )}
 
             <img
