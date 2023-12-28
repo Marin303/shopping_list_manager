@@ -39,29 +39,27 @@ const storage = multer.diskStorage({
     cb(null, "./images/newImages");
   },
   filename: function (req, file, cb) {
-    cb(null, `product_${req.body.index}${path.extname(file.originalname)}`);
+    console.log("Category:", req.body.category);
+    console.log("Index:", req.body.index);
+
+    cb(
+      null,
+      `product_${req.body.category}_${req.body.index}${file.originalname}`
+    );
   },
 });
-
 
 const upload = multer({ storage: storage });
 
 app.post("/api/upload", upload.single("newImage"), (req, res) => {
-  console.log("Received image upload request");
-  console.log("Request body:", req.body);
-  console.log("Request file:", req.file);
-  const imageUrl = `/images/newImages/${req.file.filename}`;
-  console.log("Received index:", req.body.index); // Add this line to log the received index
+  const imageUrl = `images/newImages/${req.file.filename}`;
   res.json({ success: true, imageUrl });
 });
-
 
 app.get("/api/products", getData(data));
 app.post("/api/products", saveData(data, dataFilePath));
 
 app.put("/api/products", (req, res) => {
-  console.log("Received update request");
-  console.log("Request body:", req.body);
   const updateResult = updateProduct(data, dataFilePath, req.body);
   res.status(updateResult.success ? 200 : 500).json(updateResult);
 });

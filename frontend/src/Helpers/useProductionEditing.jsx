@@ -24,8 +24,9 @@ const useProductEditing = (category) => {
     
       // Upload the image and get the imageUrl
       const formData = new FormData();
+      formData.append("category", category)
+      formData.append("index", productIndex); 
       formData.append("newImage", newImage);
-      formData.append("index", productIndex); // Pass productIndex as part of formData
     
       try {
         const response = await axios.post("http://localhost:3001/api/upload", formData);
@@ -33,19 +34,15 @@ const useProductEditing = (category) => {
     
         setProducts((prevProducts) => {
           const updatedProducts = [...prevProducts];
-          updatedProducts[productIndex].img = imageUrl; // Update the img property
+          updatedProducts[productIndex].img = imageUrl; 
           console.log("Updated Products State:", updatedProducts);
           return updatedProducts;
         });
       } catch (error) {
         console.error("Error uploading image:", error);
       }
-    };
-    
-    
-    
+    }
 
-    
   const handleEdit = (productIndex) => {
     setNewName(products[productIndex].name);
     setNewAmount(products[productIndex].amount);
