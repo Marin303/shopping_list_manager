@@ -10,7 +10,8 @@ function updateProduct(data, dataFilePath, updatedProduct) {
       updatedProduct.amount = newAmount;
       updatedProduct.price = newPrice;
       updatedProduct.img = newImage;
-
+      
+      console.log(newImage);
       // Save updated data
       saveDataToFile(data, dataFilePath);
 

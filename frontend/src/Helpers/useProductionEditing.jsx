@@ -16,47 +16,47 @@ const useProductEditing = (category) => {
   };
   const [deleteConfirmation, setDeleteConfirmation] =
     useState(initialDeleteValues);
-    const handleImageChange = async (e, productIndex) => {
-      const newImage = e.target.files[0];
-      console.log("New Image", newImage);
-    
-      // Upload the image and get the imageUrl
-      const formData = new FormData();
-      formData.append("category", category);
-      formData.append("index", productIndex);
-      formData.append("newImage", newImage);
-    
+  const handleImageChange = async (e, productIndex) => {
+    const newImage = e.target.files[0];
+    console.log("New Image", newImage);
+
+    // Upload the image and get the imageUrl
+    const formData = new FormData();
+    formData.append("category", category);
+    formData.append("index", productIndex);
+    formData.append("newImage", newImage);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/upload",
+        formData
+      );
+      const imageUrl = response.data.imageUrl;
+
+      setProducts((prevProducts) => {
+        const updatedProducts = [...prevProducts];
+        updatedProducts[productIndex].img = imageUrl;
+        return updatedProducts;
+      });
+
+      // product details with the new image URL
       try {
-        const response = await axios.post(
-          "http://localhost:3001/api/upload",
-          formData
-        );
-        const imageUrl = response.data.imageUrl;
-    
-        setProducts((prevProducts) => {
-          const updatedProducts = [...prevProducts];
-          updatedProducts[productIndex].img = imageUrl;
-          return updatedProducts;
+        await axios.put("http://localhost:3001/api/products", {
+          category: category,
+          index: productIndex,
+          newName: products[productIndex].name,
+          newAmount: products[productIndex].amount,
+          newPrice: products[productIndex].price,
+          newImage: imageUrl,
         });
-    
-        // product details with the new image URL
-        try {
-          await axios.put("http://localhost:3001/api/products", {
-            category: category,
-            index: productIndex,
-            newName: products[productIndex].name,
-            newAmount: products[productIndex].amount,
-            newPrice: products[productIndex].price,
-            newImage: imageUrl,
-          });
-          console.log("Product image updated successfully");
-        } catch (error) {
-          console.error("Error updating product image:", error);
-        }
+        console.log("Product image updated successfully");
       } catch (error) {
-        console.error("Error uploading image:", error);
+        console.error("Error updating product image:", error);
       }
-    }; 
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
 
   const handleEdit = (productIndex) => {
     setNewName(products[productIndex].name);
@@ -67,26 +67,30 @@ const useProductEditing = (category) => {
     );
   };
 
-  const handleSave = (productIndex) => {
-    setEditModes(
-      (prevModes) =>
-        prevModes.map((mode, index) => (index === productIndex ? !mode : mode)) //switch between edit mode
+  const handleSave = async (productIndex) => {
+    setEditModes((prevModes) =>
+      prevModes.map((mode, index) => (index === productIndex ? !mode : mode))
     );
+
     const updatedProducts = [...products];
     updatedProducts[productIndex].name = newName;
     updatedProducts[productIndex].amount = newAmount;
     updatedProducts[productIndex].price = newPrice;
-    updatedProducts[productIndex].image = newImage
+    updatedProducts[productIndex].img = newImage;
+
+    console.log("newImage", newImage);
     setProducts(updatedProducts);
 
     try {
-      axios.put("http://localhost:3001/api/products", {
+      await axios.put("http://localhost:3001/api/products", {
         category: category,
         index: productIndex,
         newName: newName,
         newAmount: newAmount,
         newPrice: newPrice,
+        newImage: newImage,
       });
+
       console.log("Product data updated successfully");
     } catch (error) {
       console.error("Error updating product data:", error);

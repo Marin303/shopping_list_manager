@@ -2,7 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import { fileURLToPath } from "url";
-import path, { dirname } from "path";
+import { dirname } from "path";
 import dotenv from "dotenv";
 import { getData } from "./Helpers/get/get.js";
 import { saveData } from "./Helpers/post/post.js";
@@ -23,6 +23,7 @@ const dataFilePath = `${currentDir}/data/products.json`;
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/images", express.static(`${currentDir}/images`));
+
 
 let data;
 
