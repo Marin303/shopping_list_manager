@@ -17,21 +17,19 @@ const useProductEditing = (category) => {
   const [deleteConfirmation, setDeleteConfirmation] =
     useState(initialDeleteValues);
 
+  const postURL = process.env.REACT_APP_POST_URL;
+  const productsKEY = process.env.REACT_APP_PRODUCTS_KEY;
+
   const handleImageChange = async (e, productIndex) => {
     const newImage = e.target.files[0];
-    console.log("New Image", newImage);
 
-    // Upload the image and get the imageUrl
     const formData = new FormData();
     formData.append("category", category);
     formData.append("index", productIndex);
     formData.append("newImage", newImage);
 
     try {
-      const response = await axios.post(
-        "http://localhost:3001/api/upload",
-        formData
-      );
+      const response = await axios.post(`${postURL}`, formData);
       const imageUrl = response.data.imageUrl;
 
       setProducts((prevProducts) => {
@@ -42,7 +40,7 @@ const useProductEditing = (category) => {
 
       // product details with the new image URL
       try {
-        await axios.put("http://localhost:3001/api/products", {
+        await axios.put(`${productsKEY}`, {
           category: category,
           index: productIndex,
           newName: products[productIndex].name,
@@ -62,7 +60,7 @@ const useProductEditing = (category) => {
   };
 
   const handleEdit = (productIndex) => {
-    const product = products[productIndex]
+    const product = products[productIndex];
     setNewName(product.name);
     setNewAmount(product.amount);
     setNewPrice(product.price);
@@ -82,12 +80,11 @@ const useProductEditing = (category) => {
     updatedProducts[productIndex].amount = newAmount;
     updatedProducts[productIndex].price = newPrice;
     updatedProducts[productIndex].img = newImage;
-
-    console.log("newImage", newImage);
+    
     setProducts(updatedProducts);
 
     try {
-      await axios.put("http://localhost:3001/api/products", {
+      await axios.put(`${productsKEY}`, {
         category: category,
         index: productIndex,
         newName: newName,
@@ -121,7 +118,7 @@ const useProductEditing = (category) => {
     );
     try {
       const response = await axios.delete(
-        `http://localhost:3001/api/products/${indexToDelete}`,
+        `${productsKEY}/${indexToDelete}`,
         {
           data: { category: category },
         }

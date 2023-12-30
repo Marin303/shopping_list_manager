@@ -28,7 +28,7 @@ const Api = ({ category }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/api/products");
+        const response = await axios.get(process.env.REACT_APP_PRODUCTS_KEY);
         const initialProducts = response.data[category] || [];
         const initialEditModes = Array(initialProducts.length).fill(false);
         setProducts(initialProducts);
@@ -50,7 +50,7 @@ const Api = ({ category }) => {
     return <p>No products available for this category.</p>;
   }
   const emptyImage = "images/image-not-available.png";
-
+  const baseUrl = process.env.REACT_APP_BASE_URL
   return (
     <ul className="products_container">
       {products.map((product, index) => (
@@ -67,7 +67,7 @@ const Api = ({ category }) => {
             )}
 
             <img
-              src={`http://localhost:3001/${
+              src={`${baseUrl}${
                 product.img === emptyImage ? emptyImage : product.img
               }`}
               alt={product.name}
