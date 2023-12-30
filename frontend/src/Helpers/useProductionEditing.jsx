@@ -8,41 +8,93 @@ const useProductEditing = (category) => {
   const [newAmount, setNewAmount] = useState(0);
   const [newPrice, setNewPrice] = useState(0);
   const [handleVisible, setHandleVisible] = useState(true);
+  const [newImage, setNewImage] = useState("");
+
   const initialDeleteValues = {
     index: null,
     confirmed: false,
   };
   const [deleteConfirmation, setDeleteConfirmation] =
     useState(initialDeleteValues);
+  const handleImageChange = async (e, productIndex) => {
+    const newImage = e.target.files[0];
+    console.log("New Image", newImage);
+
+    // Upload the image and get the imageUrl
+    const formData = new FormData();
+    formData.append("category", category);
+    formData.append("index", productIndex);
+    formData.append("newImage", newImage);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/upload",
+        formData
+      );
+      const imageUrl = response.data.imageUrl;
+
+      setProducts((prevProducts) => {
+        const updatedProducts = [...prevProducts];
+        updatedProducts[productIndex].img = imageUrl;
+        return updatedProducts;
+      });
+
+      // product details with the new image URL
+      try {
+        await axios.put("http://localhost:3001/api/products", {
+          category: category,
+          index: productIndex,
+          newName: products[productIndex].name,
+          newAmount: products[productIndex].amount,
+          newPrice: products[productIndex].price,
+          newImage: imageUrl,
+        });
+        setNewImage(imageUrl);
+
+        console.log("Product image updated successfully");
+      } catch (error) {
+        console.error("Error updating product image:", error);
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
 
   const handleEdit = (productIndex) => {
-    setNewName(products[productIndex].name);
-    setNewAmount(products[productIndex].amount);
-    setNewPrice(products[productIndex].price);
+    const product = products[productIndex]
+    setNewName(product.name);
+    setNewAmount(product.amount);
+    setNewPrice(product.price);
+    setNewImage(product.img);
     setEditModes((prevModes) =>
       prevModes.map((mode, index) => (index === productIndex ? !mode : mode))
     );
   };
 
-  const handleSave = (productIndex) => {
-    setEditModes(
-      (prevModes) =>
-        prevModes.map((mode, index) => (index === productIndex ? !mode : mode)) //switch between edit mode
+  const handleSave = async (productIndex) => {
+    setEditModes((prevModes) =>
+      prevModes.map((mode, index) => (index === productIndex ? !mode : mode))
     );
+
     const updatedProducts = [...products];
     updatedProducts[productIndex].name = newName;
     updatedProducts[productIndex].amount = newAmount;
     updatedProducts[productIndex].price = newPrice;
+    updatedProducts[productIndex].img = newImage;
+
+    console.log("newImage", newImage);
     setProducts(updatedProducts);
 
     try {
-      axios.put("http://localhost:3001/api/products", {
+      await axios.put("http://localhost:3001/api/products", {
         category: category,
         index: productIndex,
         newName: newName,
         newAmount: newAmount,
         newPrice: newPrice,
+        newImage: newImage,
       });
+
       console.log("Product data updated successfully");
     } catch (error) {
       console.error("Error updating product data:", error);
@@ -60,12 +112,17 @@ const useProductEditing = (category) => {
   const handleConfirmDelete = async () => {
     setHandleVisible(true);
     const indexToDelete = deleteConfirmation.index;
-    console.log("Deleting product. Category:", category, "Index:", indexToDelete);
+    console.log(
+      "Deleting product. Category:",
+      category,
+      "Index:",
+      indexToDelete
+    );
     try {
       const response = await axios.delete(
         `http://localhost:3001/api/products/${indexToDelete}`,
         {
-          data: { category: category }, 
+          data: { category: category },
         }
       );
       console.log("Delete response:", response.data);
@@ -79,10 +136,9 @@ const useProductEditing = (category) => {
     } catch (error) {
       console.error("Error deleting product:", error);
     }
-  
+
     setDeleteConfirmation(initialDeleteValues);
   };
-  
 
   const handleCancelDelete = () => {
     setHandleVisible(true);
@@ -104,6 +160,9 @@ const useProductEditing = (category) => {
         if (numberAndCommaPattern.test(value) || value === "") {
           setNewPrice(value);
         }
+        break;
+      case "img":
+        setNewImage(value);
         break;
       default:
         break;
@@ -127,6 +186,7 @@ const useProductEditing = (category) => {
     handleConfirmDelete,
     handleCancelDelete,
     handleEditChange,
+    handleImageChange,
   };
 };
 
