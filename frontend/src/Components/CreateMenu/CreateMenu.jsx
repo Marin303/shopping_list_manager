@@ -21,7 +21,7 @@ const CreateMenu = ({ onCreateShoppingList, toggleCreateMenu }) => {
   };
 
   return (
-    <div className="create_menu_container">
+    <div className={`create_menu_container`}>
       {showError && (
         <div className="errorMsg">
           <p>Name cannot be empty</p>

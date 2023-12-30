@@ -169,7 +169,7 @@ const Layout = () => {
           </ul>
         </nav>
       </header>
-      <div className="main_components">
+      <div className={`main_components ${createMenuVisible ? 'blur-background' : ''}`}>
         {createMenuVisible && (
           <CreateMenu
             shoppingListName={shoppingListName}
