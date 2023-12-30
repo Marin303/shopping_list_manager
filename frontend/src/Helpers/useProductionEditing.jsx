@@ -16,6 +16,7 @@ const useProductEditing = (category) => {
   };
   const [deleteConfirmation, setDeleteConfirmation] =
     useState(initialDeleteValues);
+
   const handleImageChange = async (e, productIndex) => {
     const newImage = e.target.files[0];
     console.log("New Image", newImage);

@@ -65,6 +65,7 @@ const Layout = () => {
       updateLocalStorage(updatedNames);
       return updatedNames;
     });
+    navigate(`/new-shopping-list-${newName}`);
     setEditingIndex(null);
   };
 
