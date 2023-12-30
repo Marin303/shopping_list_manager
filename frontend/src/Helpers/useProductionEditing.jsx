@@ -49,6 +49,8 @@ const useProductEditing = (category) => {
           newPrice: products[productIndex].price,
           newImage: imageUrl,
         });
+        setNewImage(imageUrl);
+
         console.log("Product image updated successfully");
       } catch (error) {
         console.error("Error updating product image:", error);
@@ -59,9 +61,11 @@ const useProductEditing = (category) => {
   };
 
   const handleEdit = (productIndex) => {
-    setNewName(products[productIndex].name);
-    setNewAmount(products[productIndex].amount);
-    setNewPrice(products[productIndex].price);
+    const product = products[productIndex]
+    setNewName(product.name);
+    setNewAmount(product.amount);
+    setNewPrice(product.price);
+    setNewImage(product.img);
     setEditModes((prevModes) =>
       prevModes.map((mode, index) => (index === productIndex ? !mode : mode))
     );
