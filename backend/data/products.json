@@ -30,18 +30,11 @@
         "date": "10/22/2023"
       },
       {
-        "name": "Eggss1a",
+        "name": "Eggs",
         "amount": 1,
         "price": "2,10",
         "img": "images/eggs.jpg",
         "date": "11/22/2023"
-      },
-      {
-        "name": "someea",
-        "amount": "202",
-        "price": "1",
-        "date": "12/28/2023",
-        "img": "images/newImages/product_Groceries_5_emoji.jpg"
       }
     ],
     "Footwear": [

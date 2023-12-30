@@ -59,6 +59,7 @@ const Api = ({ category }) => {
             {product.img === emptyImage && (
               <form
                 className="image_input_wrapper"
+                name="new-image"
                 onChange={(e) => handleImageChange(e, index)}
               >
                 <input type="file" name="new-image" id="new-image" />
@@ -78,6 +79,8 @@ const Api = ({ category }) => {
             {editModes[index] ? (
               <input
                 type="text"
+                name="name"
+                autoComplete="off"
                 value={newName}
                 onChange={(e) => handleEditChange(e, "name")}
               />
@@ -89,6 +92,7 @@ const Api = ({ category }) => {
             {editModes[index] ? (
               <input
                 type="number"
+                name="amount"
                 value={newAmount}
                 onChange={(e) => handleEditChange(e, "amount")}
               />
@@ -100,6 +104,7 @@ const Api = ({ category }) => {
             {editModes[index] ? (
               <input
                 type="text"
+                name="price"
                 value={newPrice}
                 onChange={(e) => handleEditChange(e, "price")}
               />
