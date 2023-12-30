@@ -22,14 +22,19 @@ const useProductEditing = (category) => {
 
   const handleImageChange = async (e, productIndex) => {
     const newImage = e.target.files[0];
+    console.log("New Image", newImage);
 
+    // Upload the image and get the imageUrl
     const formData = new FormData();
     formData.append("category", category);
     formData.append("index", productIndex);
     formData.append("newImage", newImage);
 
     try {
-      const response = await axios.post(`${postURL}`, formData);
+      const response = await axios.post(
+        `${postURL}`,
+        formData
+      );
       const imageUrl = response.data.imageUrl;
 
       setProducts((prevProducts) => {
@@ -37,7 +42,6 @@ const useProductEditing = (category) => {
         updatedProducts[productIndex].img = imageUrl;
         return updatedProducts;
       });
-
       // product details with the new image URL
       try {
         await axios.put(`${productsKEY}`, {
@@ -60,7 +64,7 @@ const useProductEditing = (category) => {
   };
 
   const handleEdit = (productIndex) => {
-    const product = products[productIndex];
+    const product = products[productIndex]
     setNewName(product.name);
     setNewAmount(product.amount);
     setNewPrice(product.price);
@@ -80,7 +84,8 @@ const useProductEditing = (category) => {
     updatedProducts[productIndex].amount = newAmount;
     updatedProducts[productIndex].price = newPrice;
     updatedProducts[productIndex].img = newImage;
-    
+
+    console.log("newImage", newImage);
     setProducts(updatedProducts);
 
     try {
