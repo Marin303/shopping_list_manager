@@ -36,7 +36,7 @@ export function deleteData(data, dataFilePath) {
     // Save the updated data to the file
     await saveDataToFile(data, dataFilePath);
 
-    console.log(`Deleted product at index ${indexToDelete}:`, deletedProduct);
+    //console.log(`Deleted product at index ${indexToDelete}:`, deletedProduct);
     res.json({ success: true, deletedProduct });
   };
 }

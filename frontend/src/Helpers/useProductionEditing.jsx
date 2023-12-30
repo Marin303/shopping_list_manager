@@ -22,7 +22,6 @@ const useProductEditing = (category) => {
 
   const handleImageChange = async (e, productIndex) => {
     const newImage = e.target.files[0];
-    console.log("New Image", newImage);
 
     // Upload the image and get the imageUrl
     const formData = new FormData();
@@ -84,8 +83,6 @@ const useProductEditing = (category) => {
     updatedProducts[productIndex].amount = newAmount;
     updatedProducts[productIndex].price = newPrice;
     updatedProducts[productIndex].img = newImage;
-
-    console.log("newImage", newImage);
     setProducts(updatedProducts);
 
     try {
@@ -115,12 +112,6 @@ const useProductEditing = (category) => {
   const handleConfirmDelete = async () => {
     setHandleVisible(true);
     const indexToDelete = deleteConfirmation.index;
-    console.log(
-      "Deleting product. Category:",
-      category,
-      "Index:",
-      indexToDelete
-    );
     try {
       const response = await axios.delete(
         `${productsKEY}/${indexToDelete}`,
@@ -128,7 +119,7 @@ const useProductEditing = (category) => {
           data: { category: category },
         }
       );
-      console.log("Delete response:", response.data);
+      //console.log("Delete response:", response.data);
       if (response.data.success) {
         const updatedProducts = [...products];
         updatedProducts.splice(indexToDelete, 1);
