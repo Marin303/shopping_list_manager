@@ -2,131 +2,134 @@
 @import "../../Assets/fixed-properties/properties.scss";
 
 .layout_container {
-    width: 100%;
-    min-height: 100vh;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+
+  .create-shopping-list {
+    margin-bottom: 10px;
+  }
+
+  .shopping-list {
     display: flex;
+    flex-wrap: wrap;
 
-    .create-shopping-list {
-        margin-bottom: 10px;
+    // flex-wrap won't trigger without inline-block
+    li {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
     }
 
+    .save-edit-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+  }
 
-    .shopping-list {
-        display: flex;
-        flex-wrap: wrap;
+  .open_header {
+    position: fixed;
+    display: none;
+    z-index: 1;
+    top: 0px;
+    left: 1px;
+    border: 1px solid white;
+    background-color: $header;
+  }
 
-        // flex-wrap won't trigger without inline-block
-        li {
-            align-items: center;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
+  .close_header {
+    display: none;
+  }
+
+  //764px - display block
+
+  .header_display_none {
+    min-width: 220px;
+    margin-left: -220px;
+    transition: margin-left 0.5s ease-in-out;
+  }
+
+  header {
+    border-right: 1px solid $button-background;
+    background-color: $header;
+    margin-left: 0;
+    transition: margin-left 0.5s ease-in-out;
+    //width: $left-header-width;
+    min-width: 200px;
+  }
+
+  .main_components {
+    width: 100%;
+    //overflow-x: scroll
+
+    &.blur-background > *:not(.create_menu_container) {
+      filter: blur(3px);
+      //pointer-events: none;
+    }
+  }
+
+  .left-nav {
+    //border: 1px solid red;
+    position: fixed;
+    background-color: $header;
+
+    ul {
+      padding: 20px 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      background-color: $header;
+    }
+
+    .analytics {
+      margin-top: 100px;
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      a {
+        width: 100%;
+        text-decoration: none;
+        color: $text-color;
+        padding: 10px;
+        margin-right: 5px;
+
+        &:hover {
+          background-color: $hover;
         }
 
-        .save-edit-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
+        &.active {
+          background-color: $active;
         }
+      }
     }
-
-    .open_header {
-        position: fixed;
-        display: none;
-        z-index: 1;
-        top: 0px;
-        left: 1px;
-        border: 1px solid white;
-        background-color: $header;
-    }
-
-    .close_header {
-        display: none;
-    }
-
-    //764px - display block
-
-    .header_display_none {
-        min-width: 220px;
-        margin-left: -220px;
-        transition: margin-left 0.5s ease-in-out;
-
-    }
-
-    header {
-        border-right: 1px solid $button-background;
-        background-color: $header;
-        margin-left: 0;
-        transition: margin-left 0.5s ease-in-out;
-        //width: $left-header-width;
-        min-width: 200px;
-    }
-
-    .main_components {
-       width: 100%; 
-       //overflow-x: scroll;     
-    }
-
-    .left-nav {
-        //border: 1px solid red;
-        position: fixed;  
-        background-color: $header;
-
-        ul {
-            padding: 20px 0;
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            background-color: $header;
-        }
-
-        .analytics {
-            margin-top: 100px;
-        }
-
-        li {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-
-            a {
-                width: 100%;
-                text-decoration: none;
-                color: $text-color;
-                padding: 10px;
-                margin-right: 5px;
-
-                &:hover {
-                    background-color: $hover;
-                }
-
-                &.active {
-                    background-color: $active;
-                }
-            }
-        }
-    }
+  }
 }
 
 @media screen and (max-width: 764px) {
-    .layout_container .close_header {
-        display: block;
-    }
+  .layout_container .close_header {
+    display: block;
+  }
 
-    .layout_container .open_header {
-        display: block;
-    }
+  .layout_container .open_header {
+    display: block;
+  }
 }
 
 @media screen and (max-width: 540px) {
-    .layout_container .delete-btn {
-        margin-left: 0;
-    }
+  .layout_container .delete-btn {
+    margin-left: 0;
+  }
 }
 
 @media screen and (max-width: 400px) {
-    .layout_container_header nav li a {
-        padding: 5px;
-        font-size: smaller;
-    }
+  .layout_container_header nav li a {
+    padding: 5px;
+    font-size: smaller;
+  }
 }

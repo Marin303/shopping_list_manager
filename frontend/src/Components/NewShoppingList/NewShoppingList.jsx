@@ -70,7 +70,7 @@ const NewShoppingList = ({ listName }) => {
 
       try {
         const response = await axios.post(
-          "http://localhost:3001/api/products",
+          process.env.REACT_APP_PRODUCTS_KEY,
           dataToSend
         );
         if (response.status === 201) {
@@ -94,7 +94,7 @@ const NewShoppingList = ({ listName }) => {
           id={`list-item-${index}`}
           key={index}
           className="form-items"
-          onSubmit={(e) => e.preventDefault()}        
+          onSubmit={(e) => e.preventDefault()}
         >
           <input
             type="text"
@@ -174,7 +174,11 @@ const NewShoppingList = ({ listName }) => {
         <p>ITEMS IN CHART: {calculateSum()}</p>
         <p>SUM {calculateSumMoney()}€</p>
         <p>DATE: {dateTime} </p>
-        <button type="submit" onClick={handleDoneButton} aria-label="done button">
+        <button
+          type="submit"
+          onClick={handleDoneButton}
+          aria-label="done button"
+        >
           DONE
         </button>
       </div>

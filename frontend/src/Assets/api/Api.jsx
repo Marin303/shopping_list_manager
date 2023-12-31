@@ -28,7 +28,7 @@ const Api = ({ category }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/api/products");
+        const response = await axios.get(process.env.REACT_APP_PRODUCTS_KEY);
         const initialProducts = response.data[category] || [];
         const initialEditModes = Array(initialProducts.length).fill(false);
         setProducts(initialProducts);
@@ -50,7 +50,7 @@ const Api = ({ category }) => {
     return <p>No products available for this category.</p>;
   }
   const emptyImage = "images/image-not-available.png";
-
+  const baseUrl = process.env.REACT_APP_BASE_URL
   return (
     <ul className="products_container">
       {products.map((product, index) => (
@@ -59,6 +59,7 @@ const Api = ({ category }) => {
             {product.img === emptyImage && (
               <form
                 className="image_input_wrapper"
+                name="new-image"
                 onChange={(e) => handleImageChange(e, index)}
               >
                 <input type="file" name="new-image" id="new-image" />
@@ -67,7 +68,7 @@ const Api = ({ category }) => {
             )}
 
             <img
-              src={`http://localhost:3001/${
+              src={`${baseUrl}${
                 product.img === emptyImage ? emptyImage : product.img
               }`}
               alt={product.name}
@@ -78,6 +79,8 @@ const Api = ({ category }) => {
             {editModes[index] ? (
               <input
                 type="text"
+                name="name"
+                autoComplete="off"
                 value={newName}
                 onChange={(e) => handleEditChange(e, "name")}
               />
@@ -89,6 +92,7 @@ const Api = ({ category }) => {
             {editModes[index] ? (
               <input
                 type="number"
+                name="amount"
                 value={newAmount}
                 onChange={(e) => handleEditChange(e, "amount")}
               />
@@ -100,6 +104,7 @@ const Api = ({ category }) => {
             {editModes[index] ? (
               <input
                 type="text"
+                name="price"
                 value={newPrice}
                 onChange={(e) => handleEditChange(e, "price")}
               />

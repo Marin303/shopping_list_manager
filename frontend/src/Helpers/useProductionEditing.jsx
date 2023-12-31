@@ -16,9 +16,12 @@ const useProductEditing = (category) => {
   };
   const [deleteConfirmation, setDeleteConfirmation] =
     useState(initialDeleteValues);
+
+  const postURL = process.env.REACT_APP_POST_URL;
+  const productsKEY = process.env.REACT_APP_PRODUCTS_KEY;
+
   const handleImageChange = async (e, productIndex) => {
     const newImage = e.target.files[0];
-    console.log("New Image", newImage);
 
     // Upload the image and get the imageUrl
     const formData = new FormData();
@@ -28,7 +31,7 @@ const useProductEditing = (category) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/upload",
+        `${postURL}`,
         formData
       );
       const imageUrl = response.data.imageUrl;
@@ -38,10 +41,9 @@ const useProductEditing = (category) => {
         updatedProducts[productIndex].img = imageUrl;
         return updatedProducts;
       });
-
       // product details with the new image URL
       try {
-        await axios.put("http://localhost:3001/api/products", {
+        await axios.put(`${productsKEY}`, {
           category: category,
           index: productIndex,
           newName: products[productIndex].name,
@@ -81,12 +83,10 @@ const useProductEditing = (category) => {
     updatedProducts[productIndex].amount = newAmount;
     updatedProducts[productIndex].price = newPrice;
     updatedProducts[productIndex].img = newImage;
-
-    console.log("newImage", newImage);
     setProducts(updatedProducts);
 
     try {
-      await axios.put("http://localhost:3001/api/products", {
+      await axios.put(`${productsKEY}`, {
         category: category,
         index: productIndex,
         newName: newName,
@@ -112,20 +112,14 @@ const useProductEditing = (category) => {
   const handleConfirmDelete = async () => {
     setHandleVisible(true);
     const indexToDelete = deleteConfirmation.index;
-    console.log(
-      "Deleting product. Category:",
-      category,
-      "Index:",
-      indexToDelete
-    );
     try {
       const response = await axios.delete(
-        `http://localhost:3001/api/products/${indexToDelete}`,
+        `${productsKEY}/${indexToDelete}`,
         {
           data: { category: category },
         }
       );
-      console.log("Delete response:", response.data);
+      //console.log("Delete response:", response.data);
       if (response.data.success) {
         const updatedProducts = [...products];
         updatedProducts.splice(indexToDelete, 1);

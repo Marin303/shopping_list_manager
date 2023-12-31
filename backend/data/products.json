@@ -35,13 +35,6 @@
         "price": "2,10",
         "img": "images/eggs.jpg",
         "date": "11/22/2023"
-      },
-      {
-        "name": "some",
-        "amount": 20,
-        "price": "1",
-        "date": "12/28/2023",
-        "img": "images/image-not-available.png"
       }
     ],
     "Footwear": [

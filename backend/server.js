@@ -40,9 +40,6 @@ const storage = multer.diskStorage({
     cb(null, "./images/newImages");
   },
   filename: function (req, file, cb) {
-    console.log("Category:", req.body.category);
-    console.log("Index:", req.body.index);
-
     cb(
       null,
       `product_${req.body.category}_${req.body.index}_${file.originalname}`
